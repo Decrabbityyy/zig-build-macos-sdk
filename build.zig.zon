@@ -1,5 +1,6 @@
 .{
     .name = .macos_sdk,
+    .fingerprint = 0xb4c27c1efbfc8499, // changing this has trust and security implications
     .version = "0.0.0",
     .paths = .{"."},
     .dependencies = .{},
