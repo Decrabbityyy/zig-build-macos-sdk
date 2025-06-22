@@ -235,7 +235,7 @@ public:
  * capacity.
  */
 	static OSPtr<IOBufferMemoryDescriptor> withCapacity(
-		vm_size_t    capacity __xnu_data_size,
+		vm_size_t    capacity,
 		IODirection  withDirection,
 		bool         withContiguousMemory = false);
 #ifndef __LP64__
@@ -253,7 +253,7 @@ public:
  */
 	static OSPtr<IOBufferMemoryDescriptor> withBytes(
 		const void * bytes,
-		vm_size_t    withLength __xnu_data_size,
+		vm_size_t    withLength,
 		IODirection  withDirection,
 		bool         withContiguousMemory = false);
 
@@ -290,7 +290,6 @@ public:
  *
  * Return the virtual address of the beginning of the buffer
  */
-	__xnu_returns_data_pointer
 	virtual void *getBytesNoCopy();
 
 /*
@@ -298,7 +297,6 @@ public:
  *
  * Return the virtual address of an offset from the beginning of the buffer
  */
-	__xnu_returns_data_pointer
 	virtual void *getBytesNoCopy(vm_size_t start, vm_size_t withLength);
 
 /*
@@ -308,7 +306,7 @@ public:
  * maintains the memory descriptor buffer length.  Note that appendBytes
  * will not copy past the end of the memory descriptor's current capacity.
  */
-	virtual bool appendBytes(const void *bytes, vm_size_t withLength __xnu_data_size);
+	virtual bool appendBytes(const void *bytes, vm_size_t withLength);
 
 #ifndef __LP64__
 	virtual void * getVirtualSegment(IOByteCount offset,

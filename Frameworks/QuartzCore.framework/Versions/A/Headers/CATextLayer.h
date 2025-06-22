@@ -11,12 +11,12 @@
  * or attributed strings. The first line is aligned to the top of the
  * layer. */
 
-NS_HEADER_AUDIT_BEGIN(nullability, sendability)
+NS_ASSUME_NONNULL_BEGIN
 
-typedef NSString * CATextLayerTruncationMode NS_TYPED_ENUM API_AVAILABLE(macos(10.5), ios(3.2), tvos(9.0)) API_UNAVAILABLE(watchos);
-typedef NSString * CATextLayerAlignmentMode NS_TYPED_ENUM API_AVAILABLE(macos(10.5), ios(3.2), tvos(9.0)) API_UNAVAILABLE(watchos);
+typedef NSString * CATextLayerTruncationMode NS_TYPED_ENUM;
+typedef NSString * CATextLayerAlignmentMode NS_TYPED_ENUM;
 
-API_AVAILABLE(macos(10.5), ios(2.0), tvos(9.0)) API_UNAVAILABLE(watchos)
+API_AVAILABLE(macos(10.5), ios(2.0), watchos(2.0), tvos(9.0))
 @interface CATextLayer : CALayer
 {
 @private
@@ -28,17 +28,10 @@ API_AVAILABLE(macos(10.5), ios(2.0), tvos(9.0)) API_UNAVAILABLE(watchos)
 
 @property(nullable, copy) id string;
 
-
 /* The font to use, currently may be either a CTFontRef (toll-free
  * bridged from NSFont), a CGFontRef, or a string naming the font.
  * Defaults to the Helvetica font. Only used when the `string' property
  * is not an NSAttributedString. */
-
-
-
-
-
-
 
 @property(nullable) CFTypeRef font;
 
@@ -80,27 +73,27 @@ API_AVAILABLE(macos(10.5), ios(2.0), tvos(9.0)) API_UNAVAILABLE(watchos)
 /* Truncation modes. */
 
 CA_EXTERN CATextLayerTruncationMode const kCATruncationNone
-    API_AVAILABLE(macos(10.5), ios(3.2), tvos(9.0)) API_UNAVAILABLE(watchos);
+    API_AVAILABLE(macos(10.5), ios(3.2), watchos(2.0), tvos(9.0));
 CA_EXTERN CATextLayerTruncationMode const kCATruncationStart
-    API_AVAILABLE(macos(10.5), ios(3.2), tvos(9.0)) API_UNAVAILABLE(watchos);
+    API_AVAILABLE(macos(10.5), ios(3.2), watchos(2.0), tvos(9.0));
 CA_EXTERN CATextLayerTruncationMode const kCATruncationEnd
-    API_AVAILABLE(macos(10.5), ios(3.2), tvos(9.0)) API_UNAVAILABLE(watchos);
+    API_AVAILABLE(macos(10.5), ios(3.2), watchos(2.0), tvos(9.0));
 CA_EXTERN CATextLayerTruncationMode const kCATruncationMiddle
-    API_AVAILABLE(macos(10.5), ios(3.2), tvos(9.0)) API_UNAVAILABLE(watchos);
+    API_AVAILABLE(macos(10.5), ios(3.2), watchos(2.0), tvos(9.0));
 
 /* Alignment modes. */
 
 CA_EXTERN CATextLayerAlignmentMode const kCAAlignmentNatural
-    API_AVAILABLE(macos(10.5), ios(3.2), tvos(9.0)) API_UNAVAILABLE(watchos);
+    API_AVAILABLE(macos(10.5), ios(3.2), watchos(2.0), tvos(9.0));
 CA_EXTERN CATextLayerAlignmentMode const kCAAlignmentLeft
-    API_AVAILABLE(macos(10.5), ios(3.2), tvos(9.0)) API_UNAVAILABLE(watchos);
+    API_AVAILABLE(macos(10.5), ios(3.2), watchos(2.0), tvos(9.0));
 CA_EXTERN CATextLayerAlignmentMode const kCAAlignmentRight
-    API_AVAILABLE(macos(10.5), ios(3.2), tvos(9.0)) API_UNAVAILABLE(watchos);
+    API_AVAILABLE(macos(10.5), ios(3.2), watchos(2.0), tvos(9.0));
 CA_EXTERN CATextLayerAlignmentMode const kCAAlignmentCenter
-    API_AVAILABLE(macos(10.5), ios(3.2), tvos(9.0)) API_UNAVAILABLE(watchos);
+    API_AVAILABLE(macos(10.5), ios(3.2), watchos(2.0), tvos(9.0));
 CA_EXTERN CATextLayerAlignmentMode const kCAAlignmentJustified
-    API_AVAILABLE(macos(10.5), ios(3.2), tvos(9.0)) API_UNAVAILABLE(watchos);
+    API_AVAILABLE(macos(10.5), ios(3.2), watchos(2.0), tvos(9.0));
 
-NS_HEADER_AUDIT_END(nullability, sendability)
+NS_ASSUME_NONNULL_END
 
 #endif

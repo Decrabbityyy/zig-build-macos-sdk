@@ -122,8 +122,7 @@ CF_ENUM(SSLCipherSuite)
     TLS_ECDHE_PSK_WITH_AES_256_CBC_SHA     =    0xC036,
 
     /* ChaCha20-Poly1305 Cipher Suites for Transport Layer Security (TLS), RFC 7905 */
-    TLS_PSK_WITH_CHACHA20_POLY1305_SHA256       =    0xCCAB,
-    TLS_ECDHE_PSK_WITH_CHACHA20_POLY1305_SHA256 =    0xCCAC,
+    TLS_PSK_WITH_CHACHA20_POLY1305_SHA256  =    0xCCAB,
 
     /* TLS 1.2 addenda, RFC 5246 */
 

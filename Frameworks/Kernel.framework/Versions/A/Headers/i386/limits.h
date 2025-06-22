@@ -41,8 +41,6 @@
 #include <sys/cdefs.h>
 #include <i386/_limits.h>
 
-#define USE_CLANG_LIMITS 0
-
 #undef  MB_LEN_MAX
 #define MB_LEN_MAX      6               /* Allow 31 bit UTF2 */
 
@@ -58,7 +56,7 @@
 #include_next <limits.h>
 #endif /* __has_include_next */
 
-#elif !USE_CLANG_LIMITS
+#else
 
 #define CHAR_BIT        8               /* number of bits in a char */
 
@@ -101,7 +99,7 @@
 #define LLONG_MAX       0x7fffffffffffffffLL    /* max signed long long */
 #define LLONG_MIN       (-0x7fffffffffffffffLL-1) /* min signed long long */
 
-#endif /* !USE_CLANG_LIMITS */
+#endif /* defined(__has_include) && __has_include(<__xnu_libcxx_sentinel.h>) */
 
 #if !defined(_ANSI_SOURCE)
 #ifdef __LP64__
@@ -121,8 +119,6 @@
 
 #endif /* (!_POSIX_C_SOURCE && !_XOPEN_SOURCE) || _DARWIN_C_SOURCE */
 #endif /* !_ANSI_SOURCE */
-
-#undef USE_CLANG_LIMITS
 
 #endif /* defined (__i386__) || defined (__x86_64__) */
 

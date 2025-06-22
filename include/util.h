@@ -58,7 +58,6 @@
 #ifndef _UTIL_H_
 #define _UTIL_H_
 
-#include <_bounds.h>
 #include <sys/cdefs.h>
 #include <sys/ttycom.h>
 #include <sys/types.h>
@@ -66,8 +65,6 @@
 #include <pwd.h>
 #include <termios.h>
 #include <Availability.h>
-
-_LIBC_SINGLE_BY_DEFAULT()
 
 #define	PIDLOCK_NONBLOCK	1
 #define PIDLOCK_USEHOSTNAME	2
@@ -93,10 +90,10 @@ void	login(struct utmp *)		__OSX_AVAILABLE_BUT_DEPRECATED(__MAC_10_0,__MAC_10_5,
 int	login_tty(int);
 int	logout(const char *)		__OSX_AVAILABLE_BUT_DEPRECATED(__MAC_10_0,__MAC_10_5,__IPHONE_NA,__IPHONE_NA);
 void	logwtmp(const char *, const char *, const char *) __OSX_AVAILABLE_BUT_DEPRECATED(__MAC_10_0,__MAC_10_5,__IPHONE_2_0,__IPHONE_2_0);
-int	opendev(char *, int, int, char *_LIBC_CSTR *);
+int	opendev(char *, int, int, char **);
 int	openpty(int *, int *, char *, struct termios *,
 		     struct winsize *);
-char *_LIBC_CSTR fparseln(FILE *, size_t *, size_t *, const char[3], int);
+char   *fparseln(FILE *, size_t *, size_t *, const char[3], int);
 pid_t	forkpty(int *, char *, struct termios *, struct winsize *);
 int	pidlock(const char *, int, pid_t *, const char *);
 int	ttylock(const char *, int, pid_t *);

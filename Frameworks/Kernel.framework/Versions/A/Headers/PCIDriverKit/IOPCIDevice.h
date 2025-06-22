@@ -1,4 +1,4 @@
-/* iig(DriverKit-427.100.5) generated from IOPCIDevice.iig */
+/* iig(DriverKit-380.120.5) generated from IOPCIDevice.iig */
 
 /* IOPCIDevice.iig:1-83 */
 /*
@@ -84,7 +84,7 @@ enum IOPCILinkSpeed
     kPCILinkSpeed_32_GTs,      // Gen 5
 };
 
-/* source class IOPCIDevice IOPCIDevice.iig:84-564 */
+/* source class IOPCIDevice IOPCIDevice.iig:84-452 */
 
 #if __DOCUMENTATION__
 #define KERNEL IIG_KERNEL
@@ -130,7 +130,7 @@ public:
      */
     kern_return_t
     Open(IOService*   forClient,
-         IOOptionBits options = 0) LOCALONLY;
+         IOOptionBits options) LOCALONLY;
 
 
     /*!
@@ -143,7 +143,7 @@ public:
      */
     void
     Close(IOService*   forClient,
-          IOOptionBits options = 0) LOCALONLY;
+          IOOptionBits options) LOCALONLY;
 
 #pragma mark Memory Accessors
     /*!
@@ -216,20 +216,6 @@ public:
                  uint64_t* readData) LOCALONLY;
 
     /*!
-     * @brief       Reads a 64-bit value from the PCI device's aperture at a given memory index.
-     * @discussion  This method reads a 64-bit register on the device and returns its value. This is a blocking call.
-     * @param       memoryIndex An index into the array of ranges assigned to the device.
-     * @param       offset An offset into the device's memory specified by the index.
-     * @param       readData An out parameter containing the 64-bit value in host byte order. -1 is written to readData on error.
-     * @param       options Optional access options (see enum tIOPCIAccessOptions).
-     */
-    void
-    MemoryRead64(uint8_t   memoryIndex,
-                 uint64_t  offset,
-                 uint64_t* readData,
-                 IOOptionBits options) LOCALONLY;
-
-    /*!
      * @brief       Reads a 32-bit value from the PCI device's aperture at a given memory index.
      * @discussion  This method reads a 32-bit register on the device and returns its value. This is a blocking call.
      * @param       memoryIndex An index into the array of ranges assigned to the device.
@@ -240,20 +226,6 @@ public:
     MemoryRead32(uint8_t   memoryIndex,
                  uint64_t  offset,
                  uint32_t* readData) LOCALONLY;
-
-    /*!
-     * @brief       Reads a 32-bit value from the PCI device's aperture at a given memory index.
-     * @discussion  This method reads a 32-bit register on the device and returns its value. This is a blocking call.
-     * @param       memoryIndex An index into the array of ranges assigned to the device.
-     * @param       offset An offset into the device's memory specified by the index.
-     * @param       readData An out parameter containing the 32-bit value in host byte order. -1 is written to readData on error.
-     * @param       options Optional access options (see enum tIOPCIAccessOptions).
-     */
-    void
-    MemoryRead32(uint8_t   memoryIndex,
-                 uint64_t  offset,
-                 uint32_t* readData,
-                 IOOptionBits options) LOCALONLY;
 
     /*!
      * @brief       Reads a 16-bit value from the PCI device's aperture at a given memory index.
@@ -268,20 +240,6 @@ public:
                  uint16_t* readData) LOCALONLY;
 
     /*!
-     * @brief       Reads a 16-bit value from the PCI device's aperture at a given memory index.
-     * @discussion  This method reads a 16-bit register on the device and returns its value. This is a blocking call.
-     * @param       memoryIndex An index into the array of ranges assigned to the device.
-     * @param       offset An offset into the device's memory specified by the index.
-     * @param       readData An out parameter containing the 16-bit value in host byte order. -1 is written to readData on error.
-     * @param       options Optional access options (see enum tIOPCIAccessOptions).
-     */
-    void
-    MemoryRead16(uint8_t   memoryIndex,
-                 uint64_t  offset,
-                 uint16_t* readData,
-                 IOOptionBits options) LOCALONLY;
-
-    /*!
      * @brief       Reads an 8-bit value from the PCI device's aperture at a given memory index.
      * @discussion  This method reads an 8-bit register on the device and returns its value. This is a blocking call.
      * @param       memoryIndex An index into the array of ranges assigned to the device.
@@ -292,20 +250,6 @@ public:
     MemoryRead8(uint8_t  memoryIndex,
                 uint64_t offset,
                 uint8_t* readData) LOCALONLY;
-
-    /*!
-     * @brief       Reads an 8-bit value from the PCI device's aperture at a given memory index.
-     * @discussion  This method reads an 8-bit register on the device and returns its value. This is a blocking call.
-     * @param       memoryIndex An index into the array of ranges assigned to the device.
-     * @param       offset An offset into the device's memory specified by the index.
-     * @param       readData An out parameter containing the 8-bit. -1 is written to readData on error.
-     * @param       options Optional access options (see enum tIOPCIAccessOptions).
-     */
-    void
-    MemoryRead8(uint8_t  memoryIndex,
-                uint64_t offset,
-                uint8_t* readData,
-                 IOOptionBits options) LOCALONLY;
 
     /*!
      * @brief       Writes a 64-bit value to the PCI device's aperture at a given memory index.
@@ -320,20 +264,6 @@ public:
                   uint64_t data) LOCALONLY;
 
     /*!
-     * @brief       Writes a 64-bit value to the PCI device's aperture at a given memory index.
-     * @discussion  This method writes a 64-bit register on the device and returns its value.
-     * @param       memoryIndex An index into the array of ranges assigned to the device
-     * @param       offset An offset into the device's memory specified by the index.
-     * @param       data A 64-bit value to be written in host byte order.
-     * @param       options Optional access options (see enum tIOPCIAccessOptions).
-     */
-    void
-    MemoryWrite64(uint8_t  memoryIndex,
-                  uint64_t offset,
-                  uint64_t data,
-                  IOOptionBits options) LOCALONLY;
-
-    /*!
      * @brief       Writes a 32-bit value to the PCI device's aperture at a given memory index.
      * @discussion  This method writes a 32-bit register on the device and returns its value.
      * @param       memoryIndex An index into the array of ranges assigned to the device.
@@ -344,20 +274,6 @@ public:
     MemoryWrite32(uint8_t  memoryIndex,
                   uint64_t offset,
                   uint32_t data) LOCALONLY;
-
-    /*!
-     * @brief       Writes a 32-bit value to the PCI device's aperture at a given memory index.
-     * @discussion  This method writes a 32-bit register on the device and returns its value.
-     * @param       memoryIndex An index into the array of ranges assigned to the device.
-     * @param       offset An offset into the device's memory specified by the index.
-     * @param       data A 32-bit value to be written in host byte order.
-     * @param       options Optional access options (see enum tIOPCIAccessOptions).
-     */
-    void
-    MemoryWrite32(uint8_t  memoryIndex,
-                  uint64_t offset,
-                  uint32_t data,
-                  IOOptionBits options) LOCALONLY;
 
     /*!
      * @brief       Writes a 16-bit value to the PCI device's aperture at a given memory index.
@@ -372,20 +288,6 @@ public:
                   uint16_t data) LOCALONLY;
 
     /*!
-     * @brief       Writes a 16-bit value to the PCI device's aperture at a given memory index.
-     * @discussion  This method writes a 16-bit register on the device and returns its value.
-     * @param       memoryIndex An index into the array of ranges assigned to the device.
-     * @param       offset An offset into the device's memory specified by the index.
-     * @param       data A 16-bit value to be written in host byte order.
-     * @param       options Optional access options (see enum tIOPCIAccessOptions).
-     */
-    void
-    MemoryWrite16(uint8_t  memoryIndex,
-                  uint64_t offset,
-                  uint16_t data,
-                  IOOptionBits options) LOCALONLY;
-
-    /*!
      * @brief       Writes an 8-bit value to the PCI device's aperture at a given memory index.
      * @discussion  This method writes an 8-bit register on the device and returns its value.
      * @param       memoryIndex An index into the array of ranges assigned to the device
@@ -396,20 +298,6 @@ public:
     MemoryWrite8(uint8_t  memoryIndex,
                  uint64_t offset,
                  uint8_t  data) LOCALONLY;
-
-    /*!
-     * @brief       Writes an 8-bit value to the PCI device's aperture at a given memory index.
-     * @discussion  This method writes an 8-bit register on the device and returns its value.
-     * @param       memoryIndex An index into the array of ranges assigned to the device
-     * @param       offset An offset into the device's memory specified by the index.
-     * @param       data An 8-bit value.
-     * @param       options Optional access options (see enum tIOPCIAccessOptions).
-     */
-    void
-    MemoryWrite8(uint8_t  memoryIndex,
-                 uint64_t offset,
-                 uint8_t  data,
-                 IOOptionBits options) LOCALONLY;
 
 #pragma mark Configuration Space helpers
 
@@ -575,7 +463,7 @@ public:
 #undef KERNEL
 #else /* __DOCUMENTATION__ */
 
-/* generated class IOPCIDevice IOPCIDevice.iig:84-564 */
+/* generated class IOPCIDevice IOPCIDevice.iig:84-452 */
 
 #define IOPCIDevice__ManageSession_ID            0xd395e45429887c65ULL
 #define IOPCIDevice__CopyDeviceMemoryWithIndex_ID            0x8fbfd4a80b3ed3f1ULL
@@ -703,12 +591,12 @@ public:\
     kern_return_t\
     Open(\
         IOService * forClient,\
-        IOOptionBits options = 0);\
+        IOOptionBits options);\
 \
     void\
     Close(\
         IOService * forClient,\
-        IOOptionBits options = 0);\
+        IOOptionBits options);\
 \
     void\
     ConfigurationRead32(\
@@ -747,24 +635,10 @@ public:\
         uint64_t * readData);\
 \
     void\
-    MemoryRead64(\
-        uint8_t memoryIndex,\
-        uint64_t offset,\
-        uint64_t * readData,\
-        IOOptionBits options);\
-\
-    void\
     MemoryRead32(\
         uint8_t memoryIndex,\
         uint64_t offset,\
         uint32_t * readData);\
-\
-    void\
-    MemoryRead32(\
-        uint8_t memoryIndex,\
-        uint64_t offset,\
-        uint32_t * readData,\
-        IOOptionBits options);\
 \
     void\
     MemoryRead16(\
@@ -773,24 +647,10 @@ public:\
         uint16_t * readData);\
 \
     void\
-    MemoryRead16(\
-        uint8_t memoryIndex,\
-        uint64_t offset,\
-        uint16_t * readData,\
-        IOOptionBits options);\
-\
-    void\
     MemoryRead8(\
         uint8_t memoryIndex,\
         uint64_t offset,\
         uint8_t * readData);\
-\
-    void\
-    MemoryRead8(\
-        uint8_t memoryIndex,\
-        uint64_t offset,\
-        uint8_t * readData,\
-        IOOptionBits options);\
 \
     void\
     MemoryWrite64(\
@@ -799,24 +659,10 @@ public:\
         uint64_t data);\
 \
     void\
-    MemoryWrite64(\
-        uint8_t memoryIndex,\
-        uint64_t offset,\
-        uint64_t data,\
-        IOOptionBits options);\
-\
-    void\
     MemoryWrite32(\
         uint8_t memoryIndex,\
         uint64_t offset,\
         uint32_t data);\
-\
-    void\
-    MemoryWrite32(\
-        uint8_t memoryIndex,\
-        uint64_t offset,\
-        uint32_t data,\
-        IOOptionBits options);\
 \
     void\
     MemoryWrite16(\
@@ -825,24 +671,10 @@ public:\
         uint16_t data);\
 \
     void\
-    MemoryWrite16(\
-        uint8_t memoryIndex,\
-        uint64_t offset,\
-        uint16_t data,\
-        IOOptionBits options);\
-\
-    void\
     MemoryWrite8(\
         uint8_t memoryIndex,\
         uint64_t offset,\
         uint8_t data);\
-\
-    void\
-    MemoryWrite8(\
-        uint8_t memoryIndex,\
-        uint64_t offset,\
-        uint8_t data,\
-        IOOptionBits options);\
 \
     kern_return_t\
     FindPCICapability(\
@@ -1151,9 +983,9 @@ IOPCIDevice_DECLARE_IVARS
 
 #endif /* !__DOCUMENTATION__ */
 
-/* IOPCIDevice.iig:566-567 */
+/* IOPCIDevice.iig:454-455 */
 
 #pragma mark Private Class Extension
-/* IOPCIDevice.iig:590- */
+/* IOPCIDevice.iig:478- */
 
 #endif /* ! _IOKIT_UIOPCIDEVICE_H */

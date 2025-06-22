@@ -26,7 +26,6 @@
 #define _IOKIT_SCSI_TASK_H_
 
 #include <TargetConditionals.h>
-#include <stdint.h>
 
 #if TARGET_OS_DRIVERKIT
 typedef uint8_t     UInt8;

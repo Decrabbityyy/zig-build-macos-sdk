@@ -7,11 +7,11 @@
 
 #import <QuartzCore/CALayer.h>
 
-NS_HEADER_AUDIT_BEGIN(nullability, sendability)
+NS_ASSUME_NONNULL_BEGIN
 
-typedef NSString * CAScrollLayerScrollMode NS_TYPED_ENUM API_AVAILABLE(macos(10.5), ios(2.0), tvos(9.0)) API_UNAVAILABLE(watchos);
+typedef NSString * CAScrollLayerScrollMode NS_TYPED_ENUM;
 
-API_AVAILABLE(macos(10.5), ios(2.0), tvos(9.0)) API_UNAVAILABLE(watchos)
+API_AVAILABLE(macos(10.5), ios(2.0), watchos(2.0), tvos(9.0))
 @interface CAScrollLayer : CALayer
 
 /* Changes the origin of the layer to point 'p'. */
@@ -51,14 +51,14 @@ API_AVAILABLE(macos(10.5), ios(2.0), tvos(9.0)) API_UNAVAILABLE(watchos)
 /* `scrollMode' values. */
 
 CA_EXTERN CAScrollLayerScrollMode const kCAScrollNone
-    API_AVAILABLE(macos(10.5), ios(2.0), tvos(9.0)) API_UNAVAILABLE(watchos);
+    API_AVAILABLE(macos(10.5), ios(2.0), watchos(2.0), tvos(9.0));
 CA_EXTERN CAScrollLayerScrollMode const kCAScrollVertically
-    API_AVAILABLE(macos(10.5), ios(2.0), tvos(9.0)) API_UNAVAILABLE(watchos);
+    API_AVAILABLE(macos(10.5), ios(2.0), watchos(2.0), tvos(9.0));
 CA_EXTERN CAScrollLayerScrollMode const kCAScrollHorizontally
-    API_AVAILABLE(macos(10.5), ios(2.0), tvos(9.0)) API_UNAVAILABLE(watchos);
+    API_AVAILABLE(macos(10.5), ios(2.0), watchos(2.0), tvos(9.0));
 CA_EXTERN CAScrollLayerScrollMode const kCAScrollBoth
-    API_AVAILABLE(macos(10.5), ios(2.0), tvos(9.0)) API_UNAVAILABLE(watchos);
+    API_AVAILABLE(macos(10.5), ios(2.0), watchos(2.0), tvos(9.0));
 
-NS_HEADER_AUDIT_END(nullability, sendability)
+NS_ASSUME_NONNULL_END
 
 #endif

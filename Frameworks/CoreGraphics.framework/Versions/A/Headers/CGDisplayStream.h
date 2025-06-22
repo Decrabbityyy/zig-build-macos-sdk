@@ -93,7 +93,7 @@ typedef void (^CGDisplayStreamFrameAvailableHandler)(CGDisplayStreamFrameStatus 
  @result The CFTypeID of the CGDisplayStreamUpdate class.
 */
 CG_EXTERN CFTypeID CGDisplayStreamUpdateGetTypeID(void)
-    SCREEN_CAPTURE_OBSOLETE(10.8,14.0,15.0);
+    CG_AVAILABLE_BUT_DEPRECATED(10.8, 14.0, "There is no direct replacement for this function. Please use ScreenCaptureKit API's SCStreamOutputType instead");
 
 /*!
  @function CGDisplayStreamUpdateGetRects
@@ -105,7 +105,8 @@ CG_EXTERN CFTypeID CGDisplayStreamUpdateGetTypeID(void)
 */
 CG_EXTERN const CGRect * __nullable CGDisplayStreamUpdateGetRects(CGDisplayStreamUpdateRef __nullable updateRef, 
     CGDisplayStreamUpdateRectType rectType, size_t *  rectCount)
-    SCREEN_CAPTURE_OBSOLETE(10.8,14.0,15.0);
+    CG_AVAILABLE_BUT_DEPRECATED(10.8, 14.0, "Please use ScreenCaptureKit API's SCStreamFrameInfo with SCStreamFrameInfoContentRect instead");
+
 /*!
  @function CGDisplayStreamUpdateCreateMerged
  @abstract Merge two CGDisplayUpdateRefs into a new one.
@@ -121,7 +122,7 @@ CG_EXTERN const CGRect * __nullable CGDisplayStreamUpdateGetRects(CGDisplayStrea
 CG_EXTERN CGDisplayStreamUpdateRef __nullable CGDisplayStreamUpdateCreateMergedUpdate(
     CGDisplayStreamUpdateRef __nullable firstUpdate,
     CGDisplayStreamUpdateRef __nullable secondUpdate)
-    SCREEN_CAPTURE_OBSOLETE(10.8,14.0,15.0);
+    CG_AVAILABLE_BUT_DEPRECATED(10.8, 14.0, "There is no direct replacement for this function. Please use ScreenCaptureKit API's SCStreamFrameInfo to replace CGDisplayStreamUpdate");
 
 /*!
  @function CGDisplayStreamUpdateGetMovedRectsDelta
@@ -133,7 +134,7 @@ CG_EXTERN CGDisplayStreamUpdateRef __nullable CGDisplayStreamUpdateCreateMergedU
 */
 CG_EXTERN void CGDisplayStreamUpdateGetMovedRectsDelta(CGDisplayStreamUpdateRef __nullable updateRef,
     CGFloat *  dx, CGFloat *  dy)
-    SCREEN_CAPTURE_OBSOLETE(10.8,14.0,15.0);
+    CG_AVAILABLE_BUT_DEPRECATED(10.8, 14.0, "Please use ScreenCaptureKit API's SCStreamFrameInfo with SCStreamFrameInfoContentRect instead");
 
 /*!
  @function CGDisplayStreamGetDropCount
@@ -144,7 +145,7 @@ CG_EXTERN void CGDisplayStreamUpdateGetMovedRectsDelta(CGDisplayStreamUpdateRef 
  all WindowServer updates.
 */
 CG_EXTERN size_t CGDisplayStreamUpdateGetDropCount(CGDisplayStreamUpdateRef __nullable updateRef)
-    SCREEN_CAPTURE_OBSOLETE(10.8,14.0,15.0);
+    CG_AVAILABLE_BUT_DEPRECATED(10.8, 14.0, "There is no direct replacement for this function. Please use ScreenCaptureKit API's SCStreamFrameInfo to replace CGDisplayStreamUpdate");
 
 /* Optional CGDisplayStream Properties */
 
@@ -155,7 +156,7 @@ CG_EXTERN size_t CGDisplayStreamUpdateGetDropCount(CGDisplayStreamUpdateRef __nu
  source rectangle is specified in display logical coordinates and not in pixels, in order to match the normal convention on
  HiDPI displays.
 */
-CG_EXTERN const CFStringRef  kCGDisplayStreamSourceRect SCREEN_CAPTURE_OBSOLETE(10.8,14.0,15.0);  /* Source rectangle to capture - defaults to entire display */
+CG_EXTERN const CFStringRef  kCGDisplayStreamSourceRect CG_AVAILABLE_BUT_DEPRECATED(10.8, 14.0, "Please use ScreenCaptureKit API's SCStreamConfiguration sourceRect property instead");  /* Source rectangle to capture - defaults to entire display */
 
 /*!
  @const kCGDisplayStreamDestinationRect
@@ -164,7 +165,7 @@ CG_EXTERN const CFStringRef  kCGDisplayStreamSourceRect SCREEN_CAPTURE_OBSOLETE(
  the destination rectangle is always specified in output pixels to match the fact that the output buffer size is also
  specified in terms of pixels.
  */
-CG_EXTERN const CFStringRef  kCGDisplayStreamDestinationRect SCREEN_CAPTURE_OBSOLETE(10.8,14.0,15.0);     /* Destination rectangle - defaults to entire buffer */
+CG_EXTERN const CFStringRef  kCGDisplayStreamDestinationRect CG_AVAILABLE_BUT_DEPRECATED(10.8, 14.0, "Please use ScreenCaptureKit API's SCStreamConfiguration destinationRect property instead");     /* Destination rectangle - defaults to entire buffer */
 
 /*!
  @const kCGDisplayStreamPreserveAspectRatio
@@ -173,38 +174,38 @@ CG_EXTERN const CFStringRef  kCGDisplayStreamDestinationRect SCREEN_CAPTURE_OBSO
  the display stream destination rect are not the same, black borders will be inserted at the top/bottom or right/left sides of the destination
  in order to preserve the source aspect ratio.
  */
-CG_EXTERN const CFStringRef  kCGDisplayStreamPreserveAspectRatio SCREEN_CAPTURE_OBSOLETE(10.8,14.0,15.0); /* CFBoolean - defaults to true */
+CG_EXTERN const CFStringRef  kCGDisplayStreamPreserveAspectRatio CG_AVAILABLE_BUT_DEPRECATED(10.8, 14.0, "Please use ScreenCaptureKit API's SCStreamConfiguration preserveAspectRatio property instead"); /* CFBoolean - defaults to true */
 
 /*!
  @const kCGDisplayStreamColorSpace
  @discussion Set the desired CGColorSpace of the output frames.  By default the color space will be that of the display.
 */
-CG_EXTERN const CFStringRef  kCGDisplayStreamColorSpace SCREEN_CAPTURE_OBSOLETE(10.8,14.0,15.0); /* Desired output color space (CGColorSpaceRef, macos(10.8,14.0)) - defaults to display color space */
+CG_EXTERN const CFStringRef  kCGDisplayStreamColorSpace CG_AVAILABLE_BUT_DEPRECATED(10.8, 14.0, "Please use ScreenCaptureKit API's SCStreamConfiguration colorSpaceName property instead"); /* Desired output color space (CGColorSpaceRef) - defaults to display color space */
 
 /*!
  @const kCGDisplayStreamMinimumFrameTime
  @discussion Request that the delta between frame updates be at least as much specified by this value.
 */
-CG_EXTERN const CFStringRef  kCGDisplayStreamMinimumFrameTime SCREEN_CAPTURE_OBSOLETE(10.8,14.0,15.0);    /* CFNumber in seconds, defaults to zero. */
+CG_EXTERN const CFStringRef  kCGDisplayStreamMinimumFrameTime CG_AVAILABLE_BUT_DEPRECATED(10.8, 14.0, "Please use ScreenCaptureKit API's SCStreamConfiguration minimumFrameInterval property instead");    /* CFNumber in seconds, defaults to zero. */
 
 /*!
  @const kCGDisplayStreamShowCursor
  @discussion Controls whether the cursor is embedded within the provided buffers or not.
 */
-CG_EXTERN const CFStringRef  kCGDisplayStreamShowCursor SCREEN_CAPTURE_OBSOLETE(10.8,14.0,15.0);  /* CFBoolean - defaults to false */
+CG_EXTERN const CFStringRef  kCGDisplayStreamShowCursor CG_AVAILABLE_BUT_DEPRECATED(10.8, 14.0, "Please use ScreenCaptureKit API's SCStreamConfiguration showsCursor property instead");  /* CFBoolean - defaults to false */
 
 /*!
  @const kCGDisplayStreamQueueDepth
  @discussion Controls how many frames deep the frame queue will be.  Defaults to N.
  */
-CG_EXTERN const CFStringRef  kCGDisplayStreamQueueDepth SCREEN_CAPTURE_OBSOLETE(10.8,14.0,15.0);  /* Queue depth in frames.  Defaults to 3. */
+CG_EXTERN const CFStringRef  kCGDisplayStreamQueueDepth CG_AVAILABLE_BUT_DEPRECATED(10.8, 14.0, "Please use ScreenCaptureKit API's SCStreamConfiguration queueDepth property instead");  /* Queue depth in frames.  Defaults to 3. */
 
 /*!
  @const kCGDisplayStreamYCbCrMatrix
  @discussion When outputting frames in 420v or 420f format, this key may be used to control which YCbCr matrix is used
  The value should be one of the three kCGDisplayStreamYCbCrMatrix values specified below.
 */
-CG_EXTERN const CFStringRef  kCGDisplayStreamYCbCrMatrix SCREEN_CAPTURE_OBSOLETE(10.8,14.0,15.0);
+CG_EXTERN const CFStringRef  kCGDisplayStreamYCbCrMatrix CG_AVAILABLE_BUT_DEPRECATED(10.8, 14.0, "Please use ScreenCaptureKit API's SCStreamConfiguration colorMatrix property");
 
 /* Supported YCbCr matrices. Note that these strings have identical values to the equivalent CoreVideo strings. */
 CG_EXTERN const CFStringRef      kCGDisplayStreamYCbCrMatrix_ITU_R_709_2;
@@ -217,7 +218,7 @@ CG_EXTERN const CFStringRef      kCGDisplayStreamYCbCrMatrix_SMPTE_240M_1995;
  @result The CFTypeID of the CGDisplayStream class.
 */
 CG_EXTERN CFTypeID CGDisplayStreamGetTypeID(void)
-    SCREEN_CAPTURE_OBSOLETE(10.8,14.0,15.0);
+    CG_AVAILABLE_BUT_DEPRECATED(10.8, 14.0, "There is no direct replacement for this function. Please use ScreenCaptureKit API's SCStream to replace CGDisplayStream");
 
 /*!
  @function CGDisplayStreamCreate
@@ -242,7 +243,7 @@ CG_EXTERN CFTypeID CGDisplayStreamGetTypeID(void)
 CG_EXTERN CGDisplayStreamRef __nullable CGDisplayStreamCreate(CGDirectDisplayID display, 
     size_t outputWidth, size_t outputHeight, int32_t pixelFormat, CFDictionaryRef __nullable properties,
     CGDisplayStreamFrameAvailableHandler __nullable handler)
-    SCREEN_CAPTURE_OBSOLETE(10.8,14.0,15.0);
+    CG_AVAILABLE_BUT_DEPRECATED(10.8, 14.0, "Please use ScreenCaptureKit API's initWithFilter:configuration:delegate: instead");
 
 /*!
  @function CGDisplayStreamCreateWithDispatchQueue
@@ -261,7 +262,7 @@ CG_EXTERN CGDisplayStreamRef __nullable CGDisplayStreamCreate(CGDirectDisplayID 
 CG_EXTERN CGDisplayStreamRef __nullable CGDisplayStreamCreateWithDispatchQueue(CGDirectDisplayID display, 
     size_t outputWidth, size_t outputHeight, int32_t pixelFormat, CFDictionaryRef __nullable properties,
     dispatch_queue_t  queue, CGDisplayStreamFrameAvailableHandler __nullable handler)
-    SCREEN_CAPTURE_OBSOLETE(10.8,14.0,15.0);
+    CG_AVAILABLE_BUT_DEPRECATED(10.8, 14.0, "Please use ScreenCaptureKit API's initWithFilter:configuration:delegate: instead");
 
 /*!
  @function CGDisplayStreamStart
@@ -270,7 +271,7 @@ CG_EXTERN CGDisplayStreamRef __nullable CGDisplayStreamCreateWithDispatchQueue(C
  @result kCGErrorSuccess If the display stream was started, otherwise an error.
 */
 CG_EXTERN CGError CGDisplayStreamStart(CGDisplayStreamRef cg_nullable displayStream)
-    SCREEN_CAPTURE_OBSOLETE(10.8,14.0,15.0);
+    CG_AVAILABLE_BUT_DEPRECATED(10.8, 14.0, "Please use ScreenCaptureKit API's startCaptureWithCompletionHandler: to start a stream instead");
 
 /*!
  @function CGDisplayStreamStop
@@ -282,7 +283,7 @@ CG_EXTERN CGError CGDisplayStreamStart(CGDisplayStreamRef cg_nullable displayStr
  It is safe to call this function from within the handler block, but the previous caveat still applies.
 */
 CG_EXTERN CGError CGDisplayStreamStop(CGDisplayStreamRef cg_nullable displayStream)
-    SCREEN_CAPTURE_OBSOLETE(10.8,14.0,15.0);
+    CG_AVAILABLE_BUT_DEPRECATED(10.8, 14.0, "Please use ScreenCaptureKit API's stopCaptureWithCompletionHandler: to stop a stream instead");
 
 /*!
  @function CGDisplayStreamGetRunLoopSource
@@ -292,7 +293,7 @@ CG_EXTERN CGError CGDisplayStreamStop(CGDisplayStreamRef cg_nullable displayStre
  display stream was created via  CGDisplayStreamCreateWithDispatchQueue().
 */
 CG_EXTERN CFRunLoopSourceRef __nullable CGDisplayStreamGetRunLoopSource(CGDisplayStreamRef cg_nullable displayStream)
-    SCREEN_CAPTURE_OBSOLETE(10.8,14.0,15.0);
+    CG_AVAILABLE_BUT_DEPRECATED(10.8, 14.0, "There is no direct replacement for this function. Please use ScreenCaptureKit API's SCStream to replace CGDisplayStream");
 
 #endif /* __BLOCKS__ */
 

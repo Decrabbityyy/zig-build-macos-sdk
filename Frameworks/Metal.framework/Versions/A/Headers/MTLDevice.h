@@ -69,11 +69,7 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol MTLIntersectionFunctionTable;
 @class MTLIntersectionFunctionTableDescriptor;
 @class MTLStitchedLibraryDescriptor;
-@protocol MTLLogState;
-@class MTLLogStateDescriptor;
 @protocol MTLArgumentEncoder;
-@class MTLResidencySetDescriptor;
-@protocol MTLResidencySet;
 
 @protocol MTLIOFileHandle;
 @protocol MTLIOCommandQueue;
@@ -89,6 +85,7 @@ typedef NS_ENUM(NSInteger, MTLIOCompressionMethod) {
 };
 
 
+
 /*!
  @brief Returns a reference to the preferred system default Metal device.
  @discussion On Mac OS X systems that support automatic graphics switching, calling
@@ -100,10 +97,11 @@ MTL_EXTERN id <MTLDevice> __nullable MTLCreateSystemDefaultDevice(void) API_AVAI
 
 /*!
  @brief Returns all Metal devices in the system.
- @discussion On macOS and macCatalyst, this API will not cause the system to switch devices and leaves the decision about which GPU to use up to the application based on whatever criteria it deems appropriate.
- On iOS, tvOS and visionOS, this API returns an array containing the same device that MTLCreateSystemDefaultDevice would have returned, or an empty array if it would have failed.
+ @discussion This API will not cause the system to switch devices and leaves the
+ decision about which GPU to use up to the application based on whatever criteria
+ it deems appropriate.
 */
-MTL_EXTERN NSArray <id<MTLDevice>> *MTLCopyAllDevices(void) API_AVAILABLE(macos(10.11), macCatalyst(13.0), ios(18.0)) NS_RETURNS_RETAINED;
+MTL_EXTERN NSArray <id<MTLDevice>> *MTLCopyAllDevices(void) API_AVAILABLE(macos(10.11), macCatalyst(13.0)) API_UNAVAILABLE(ios) NS_RETURNS_RETAINED;
 
 /*!
  @brief Type for device notifications
@@ -241,8 +239,7 @@ typedef NS_ENUM(NSUInteger, MTLDeviceLocation)
 typedef NS_OPTIONS(NSUInteger, MTLPipelineOption)
 {
     MTLPipelineOptionNone               = 0,
-    MTLPipelineOptionArgumentInfo API_DEPRECATED_WITH_REPLACEMENT("MTLPipelineOptionBindingInfo", macos(10.11, 13.0), ios(8.0, 16.0)) = 1 << 0,
-    MTLPipelineOptionBindingInfo        = 1 << 0,
+    MTLPipelineOptionArgumentInfo       = 1 << 0,
     MTLPipelineOptionBufferTypeInfo     = 1 << 1,
     MTLPipelineOptionFailOnBinaryArchiveMiss API_AVAILABLE(macos(11.0), ios(14.0)) = 1 << 2,
 } API_AVAILABLE(macos(10.11), ios(8.0));
@@ -604,12 +601,6 @@ API_AVAILABLE(macos(10.11), ios(8.0))
 
 
 /*!
- @method newLogStateWithDescriptor
- @abstract This method will create a new MTLLogState.
- */
-- (nullable id <MTLLogState>) newLogStateWithDescriptor:(MTLLogStateDescriptor* _Nonnull) descriptor error:(__autoreleasing NSError* _Nullable *)error API_AVAILABLE(macos(15.0), ios(18.0));
-
-/*!
  @method newCommandQueue
  @brief Create and return a new command queue.   Command Queues created via this method will only allow up to 64 non-completed command buffers.
  @return The new command queue object
@@ -622,12 +613,6 @@ API_AVAILABLE(macos(10.11), ios(8.0))
  @return The new command queue object
  */
 - (nullable id <MTLCommandQueue>)newCommandQueueWithMaxCommandBufferCount:(NSUInteger)maxCommandBufferCount;
-
-/*!
- @method newCommandQueueWithDescriptor:
- @brief Create a MTLCommandQueue according to MTLCommandQueueDescriptor.
- */
-- (nullable id <MTLCommandQueue>)newCommandQueueWithDescriptor:(MTLCommandQueueDescriptor *)descriptor API_AVAILABLE(macos(15.0), ios(18.0));
 
 /*!
  @method heapTextureSizeAndAlignWithDescriptor:
@@ -1290,15 +1275,6 @@ typedef uint64_t MTLTimestamp;
  @discussion The property returns a different value depending on the value of the property `shouldMaximizeConcurrentCompilation`.
  */
 @property (readonly) NSUInteger maximumConcurrentCompilationTaskCount API_AVAILABLE(macos(13.3)) API_UNAVAILABLE(ios);
-
-
-/*!
- @method newResidencySetWithDescriptor
- @abstract Creates a new residency set with a descriptor.
- */
-- (nullable id<MTLResidencySet>) newResidencySetWithDescriptor:(MTLResidencySetDescriptor *)desc
-                                            error:(NSError *__nullable*)error
-                                            API_AVAILABLE(macos(15.0), ios(18.0));
 
 @end
 NS_ASSUME_NONNULL_END

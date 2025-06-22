@@ -389,18 +389,33 @@ typedef int8_t UBool;
 
 #if APPLE_ICU_CHANGES
 // rdar://121241618 (StarlightE: VideosUI-883.40.54#24 has failed to build in install; cannot initialize a variable of type 'const UChar *' (aka 'const char16_t)
-// NOTE: The #if and #else branches are the same except that we changes "#if 1" to "#if 0" on the first line.
 #if 0
-    // #if 1 is normal. UChar defaults to char16_t in C++.
-    // For configuration testing of UChar=uint16_t temporarily change this to #if 0.
+ // #if 1 is normal (Apple uses 0 to force us to still use uint16_t). UChar defaults to char16_t in C++.
+ // For configuration testing of UChar=uint16_t temporarily change this to #if 0.
+ // The intltest Makefile #defines UCHAR_TYPE=char16_t,
+ // so we only #define it to uint16_t if it is undefined so far.
 #elif !defined(UCHAR_TYPE)
 #   define UCHAR_TYPE uint16_t
 #endif
 
-#if defined(U_ALL_IMPLEMENTATION) || !defined(UCHAR_TYPE)
+#if defined(U_COMBINED_IMPLEMENTATION) || defined(U_COMMON_IMPLEMENTATION) || \
+        defined(U_I18N_IMPLEMENTATION) || defined(U_IO_IMPLEMENTATION) || \
+        defined (U_TOOLUTIL_IMPLEMENTATION)
+    // Inside the ICU library code, never configurable.
     typedef char16_t UChar;
-#else
+#elif defined(T_CTEST_IMPLEMENTATION)
+    // internally to ctestfw, we want to use char16_t in C++ and uint_16 in C
+    #if U_CPLUSPLUS_VERSION != 0
+        typedef char16_t UChar;  // C++
+    #else
+        typedef uint16_t UChar;  // C
+    #endif
+#elif defined(UCHAR_TYPE)
     typedef UCHAR_TYPE UChar;
+#elif U_CPLUSPLUS_VERSION != 0
+    typedef char16_t UChar;  // C++
+#else
+    typedef uint16_t UChar;  // C
 #endif
 
 #else
@@ -408,14 +423,22 @@ typedef int8_t UBool;
 #if 1
     // #if 1 is normal. UChar defaults to char16_t in C++.
     // For configuration testing of UChar=uint16_t temporarily change this to #if 0.
-#else
+    // The intltest Makefile #defines UCHAR_TYPE=char16_t,
+    // so we only #define it to uint16_t if it is undefined so far.
+#elif !defined(UCHAR_TYPE)
 #   define UCHAR_TYPE uint16_t
 #endif
 
-#if defined(U_ALL_IMPLEMENTATION) || !defined(UCHAR_TYPE)
+#if defined(U_COMBINED_IMPLEMENTATION) || defined(U_COMMON_IMPLEMENTATION) || \
+        defined(U_I18N_IMPLEMENTATION) || defined(U_IO_IMPLEMENTATION)
+    // Inside the ICU library code, never configurable.
     typedef char16_t UChar;
-#else
+#elif defined(UCHAR_TYPE)
     typedef UCHAR_TYPE UChar;
+#elif U_CPLUSPLUS_VERSION != 0
+    typedef char16_t UChar;  // C++
+#else
+    typedef uint16_t UChar;  // C
 #endif
 
 #endif // APPLE_ICU_CHANGES

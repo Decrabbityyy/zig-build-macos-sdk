@@ -18,15 +18,15 @@
 
 #import <QuartzCore/CALayer.h>
 
-typedef NSString * CAEmitterLayerEmitterShape NS_TYPED_ENUM API_AVAILABLE(macos(10.6), ios(5.0), tvos(9.0)) API_UNAVAILABLE(watchos);
-typedef NSString * CAEmitterLayerEmitterMode NS_TYPED_ENUM API_AVAILABLE(macos(10.6), ios(5.0), tvos(9.0)) API_UNAVAILABLE(watchos);
-typedef NSString * CAEmitterLayerRenderMode NS_TYPED_ENUM API_AVAILABLE(macos(10.6), ios(5.0), tvos(9.0)) API_UNAVAILABLE(watchos);
+typedef NSString * CAEmitterLayerEmitterShape NS_TYPED_ENUM;
+typedef NSString * CAEmitterLayerEmitterMode NS_TYPED_ENUM;
+typedef NSString * CAEmitterLayerRenderMode NS_TYPED_ENUM;
 
 @class CAEmitterCell;
 
-NS_HEADER_AUDIT_BEGIN(nullability, sendability)
+NS_ASSUME_NONNULL_BEGIN
 
-API_AVAILABLE(macos(10.6), ios(5.0), tvos(9.0)) API_UNAVAILABLE(watchos)
+API_AVAILABLE(macos(10.6), ios(5.0), watchos(2.0), tvos(9.0))
 @interface CAEmitterLayer : CALayer
 
 /* The array of emitter cells attached to the layer. Each object must
@@ -110,42 +110,42 @@ API_AVAILABLE(macos(10.6), ios(5.0), tvos(9.0)) API_UNAVAILABLE(watchos)
 /** `emitterShape' values. **/
 
 CA_EXTERN CAEmitterLayerEmitterShape const kCAEmitterLayerPoint
-    API_AVAILABLE(macos(10.6), ios(5.0), tvos(9.0)) API_UNAVAILABLE(watchos);
+    API_AVAILABLE(macos(10.6), ios(5.0), watchos(2.0), tvos(9.0));
 CA_EXTERN CAEmitterLayerEmitterShape const kCAEmitterLayerLine
-    API_AVAILABLE(macos(10.6), ios(5.0), tvos(9.0)) API_UNAVAILABLE(watchos);
+    API_AVAILABLE(macos(10.6), ios(5.0), watchos(2.0), tvos(9.0));
 CA_EXTERN CAEmitterLayerEmitterShape const kCAEmitterLayerRectangle
-    API_AVAILABLE(macos(10.6), ios(5.0), tvos(9.0)) API_UNAVAILABLE(watchos);
+    API_AVAILABLE(macos(10.6), ios(5.0), watchos(2.0), tvos(9.0));
 CA_EXTERN CAEmitterLayerEmitterShape const kCAEmitterLayerCuboid
-    API_AVAILABLE(macos(10.6), ios(5.0), tvos(9.0)) API_UNAVAILABLE(watchos);
+    API_AVAILABLE(macos(10.6), ios(5.0), watchos(2.0), tvos(9.0));
 CA_EXTERN CAEmitterLayerEmitterShape const kCAEmitterLayerCircle
-    API_AVAILABLE(macos(10.6), ios(5.0), tvos(9.0)) API_UNAVAILABLE(watchos);
+    API_AVAILABLE(macos(10.6), ios(5.0), watchos(2.0), tvos(9.0));
 CA_EXTERN CAEmitterLayerEmitterShape const kCAEmitterLayerSphere
-    API_AVAILABLE(macos(10.6), ios(5.0), tvos(9.0)) API_UNAVAILABLE(watchos);
+    API_AVAILABLE(macos(10.6), ios(5.0), watchos(2.0), tvos(9.0));
 
 /** `emitterMode' values. **/
 
 CA_EXTERN CAEmitterLayerEmitterMode const kCAEmitterLayerPoints
-    API_AVAILABLE(macos(10.6), ios(5.0), tvos(9.0)) API_UNAVAILABLE(watchos);
+    API_AVAILABLE(macos(10.6), ios(5.0), watchos(2.0), tvos(9.0));
 CA_EXTERN CAEmitterLayerEmitterMode const kCAEmitterLayerOutline
-    API_AVAILABLE(macos(10.6), ios(5.0), tvos(9.0)) API_UNAVAILABLE(watchos);
+    API_AVAILABLE(macos(10.6), ios(5.0), watchos(2.0), tvos(9.0));
 CA_EXTERN CAEmitterLayerEmitterMode const kCAEmitterLayerSurface
-    API_AVAILABLE(macos(10.6), ios(5.0), tvos(9.0)) API_UNAVAILABLE(watchos);
+    API_AVAILABLE(macos(10.6), ios(5.0), watchos(2.0), tvos(9.0));
 CA_EXTERN CAEmitterLayerEmitterMode const kCAEmitterLayerVolume
-    API_AVAILABLE(macos(10.6), ios(5.0), tvos(9.0)) API_UNAVAILABLE(watchos);
+    API_AVAILABLE(macos(10.6), ios(5.0), watchos(2.0), tvos(9.0));
 
 /** `renderMode' values. **/
 
 CA_EXTERN CAEmitterLayerRenderMode const kCAEmitterLayerUnordered
-    API_AVAILABLE(macos(10.6), ios(5.0), tvos(9.0)) API_UNAVAILABLE(watchos);
+    API_AVAILABLE(macos(10.6), ios(5.0), watchos(2.0), tvos(9.0));
 CA_EXTERN CAEmitterLayerRenderMode const kCAEmitterLayerOldestFirst
-    API_AVAILABLE(macos(10.6), ios(5.0), tvos(9.0)) API_UNAVAILABLE(watchos);
+    API_AVAILABLE(macos(10.6), ios(5.0), watchos(2.0), tvos(9.0));
 CA_EXTERN CAEmitterLayerRenderMode const kCAEmitterLayerOldestLast
-    API_AVAILABLE(macos(10.6), ios(5.0), tvos(9.0)) API_UNAVAILABLE(watchos);
+    API_AVAILABLE(macos(10.6), ios(5.0), watchos(2.0), tvos(9.0));
 CA_EXTERN CAEmitterLayerRenderMode const kCAEmitterLayerBackToFront
-    API_AVAILABLE(macos(10.6), ios(5.0), tvos(9.0)) API_UNAVAILABLE(watchos);
+    API_AVAILABLE(macos(10.6), ios(5.0), watchos(2.0), tvos(9.0));
 CA_EXTERN CAEmitterLayerRenderMode const kCAEmitterLayerAdditive
-    API_AVAILABLE(macos(10.6), ios(5.0), tvos(9.0)) API_UNAVAILABLE(watchos);
+    API_AVAILABLE(macos(10.6), ios(5.0), watchos(2.0), tvos(9.0));
 
-NS_HEADER_AUDIT_END(nullability, sendability)
+NS_ASSUME_NONNULL_END
 
 #endif

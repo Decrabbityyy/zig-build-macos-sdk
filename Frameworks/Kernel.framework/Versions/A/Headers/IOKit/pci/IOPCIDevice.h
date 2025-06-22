@@ -400,7 +400,6 @@ public:
     virtual void free( void ) APPLE_KEXT_OVERRIDE;
     virtual bool attach( IOService * provider ) APPLE_KEXT_OVERRIDE;
     virtual void detach( IOService * provider ) APPLE_KEXT_OVERRIDE;
-    virtual void detachFromChild(IORegistryEntry *child, const IORegistryPlane *plane) APPLE_KEXT_OVERRIDE;
     virtual void detachAbove(const IORegistryPlane *) APPLE_KEXT_OVERRIDE;
 
     virtual IOReturn newUserClient( task_t owningTask, void * securityID,
@@ -451,8 +450,7 @@ private:
     void     updateWakeReason(uint16_t pmeState);
     IOReturn enableLTR(IOPCIDevice * device, bool enable);
     IOReturn enableACS(IOPCIDevice * device, bool enable);
-    IOReturn reprobeThreadCall(thread_call_t threadCall);
-    void launchReprobeThread(void);
+    IOReturn clientCrashedThreadCall(thread_call_t threadCall);
 
 public:
 
@@ -728,39 +726,9 @@ public:
                                           UInt32 numRequested  = 1,
                                           IOOptionBits options = 0 );
 
-    OSMetaClassDeclareReservedUsed(IOPCIDevice,  4);
-	/*!
-	 * @brief       Reads a value from the PCI device's aperture at a given memory index.
-	 * @discussion  This method reads a memory-space location on the device.
-	 * @param       memoryIndex An index into the array of ranges assigned to the device
-	 * @param       offset An offset into the device's memory specified by the index.
-	 * @param       data An out parameter containing the read data in host byte order. -1 is written to data on error.
-	 * @param       size The size of the data to be read. Permitted values are 8, 4, 2, and 1.
-	 * @param       options Optional access options (see enum tIOPCIAccessOptions).
-	 */
-	virtual IOReturn deviceMemoryRead(uint8_t	memoryIndex,
-									  uint64_t	offset,
-									  void*		data,
-									  uint8_t	size,
-									  IOOptionBits options = 0);
-
-    OSMetaClassDeclareReservedUsed(IOPCIDevice,  5);
-	/*!
-	 * @brief       Writes a value to the PCI device's aperture at a given memory index.
-	 * @discussion  This method writes a memory-space location on the device.
-	 * @param       size The size of the data to be written. Permitted values are 8, 4, 2, and 1.
-	 * @param       memoryIndex An index into the array of ranges assigned to the device
-	 * @param       offset An offset into the device's memory specified by the index.
-	 * @param       data A value of 'size' bytes to be written in host byte order.
-	 * @param       options Optional access options (see enum tIOPCIAccessOptions).
-	 */
-	virtual IOReturn deviceMemoryWrite(uint8_t  memoryIndex,
-									   uint64_t offset,
-									   uint64_t data,
-									   uint8_t  size,
-									   IOOptionBits options = 0);
-
     // Unused Padding
+    OSMetaClassDeclareReservedUnused(IOPCIDevice,  4);
+    OSMetaClassDeclareReservedUnused(IOPCIDevice,  5);
     OSMetaClassDeclareReservedUnused(IOPCIDevice,  6);
     OSMetaClassDeclareReservedUnused(IOPCIDevice,  7);
     OSMetaClassDeclareReservedUnused(IOPCIDevice,  8);
@@ -856,7 +824,7 @@ public:
 
 	/*!
 	 * @brief       Reads a 64-bit value from the PCI device's aperture at a given memory index.
-	 * @discussion  This method reads a 64-bit register on the device and returns its value.
+	 * @discussion  This method reads a 64-bit register on the device and returns its value. 
 	 * @param       memoryIndex An index into the array of ranges assigned to the device.
 	 * @param       offset An offset into the device's memory specified by the index.
 	 * @param       readData An out parameter containing the 64-bit value in host byte order. -1 is written to readData on error.
@@ -864,19 +832,6 @@ public:
 	IOReturn deviceMemoryRead64(uint8_t   memoryIndex,
 						  uint64_t  offset,
 						  uint64_t* readData);
-
-	/*!
-	 * @brief       Reads a 64-bit value from the PCI device's aperture at a given memory index.
-	 * @discussion  This method reads a 64-bit register on the device and returns its value.
-	 * @param       memoryIndex An index into the array of ranges assigned to the device.
-	 * @param       offset An offset into the device's memory specified by the index.
-	 * @param       readData An out parameter containing the 64-bit value in host byte order. -1 is written to readData on error.
-	 * @param       options Optional access options (see enum tIOPCIAccessOptions).
-	 */
-	IOReturn deviceMemoryRead64(uint8_t   memoryIndex,
-								uint64_t  offset,
-								uint64_t* readData,
-								IOOptionBits options);
 
 	/*!
 	 * @brief       Reads a 32-bit value from the PCI device's aperture at a given memory index.
@@ -890,19 +845,6 @@ public:
 						  uint32_t* readData);
 
 	/*!
-	 * @brief       Reads a 32-bit value from the PCI device's aperture at a given memory index.
-	 * @discussion  This method reads a 32-bit register on the device and returns its value.
-	 * @param       memoryIndex An index into the array of ranges assigned to the device.
-	 * @param       offset An offset into the device's memory specified by the index.
-	 * @param       readData An out parameter containing the 32-bit value in host byte order. -1 is written to readData on error.
-	 * @param       options Optional access options (see enum tIOPCIAccessOptions).
-	 */
-	IOReturn deviceMemoryRead32(uint8_t   memoryIndex,
-								uint64_t  offset,
-								uint32_t* readData,
-								IOOptionBits options);
-
-	/*!
 	 * @brief       Reads a 16-bit value from the PCI device's aperture at a given memory index.
 	 * @discussion  This method reads a 16-bit register on the device and returns its value.
 	 * @param       memoryIndex An index into the array of ranges assigned to the device.
@@ -912,19 +854,6 @@ public:
 	IOReturn deviceMemoryRead16(uint8_t   memoryIndex,
 						  uint64_t  offset,
 						  uint16_t* readData);
-
-	/*!
-	 * @brief       Reads a 16-bit value from the PCI device's aperture at a given memory index.
-	 * @discussion  This method reads a 16-bit register on the device and returns its value.
-	 * @param       memoryIndex An index into the array of ranges assigned to the device.
-	 * @param       offset An offset into the device's memory specified by the index.
-	 * @param       readData An out parameter containing the 16-bit value in host byte order. -1 is written to readData on error.
-	 * @param       options Optional access options (see enum tIOPCIAccessOptions).
-	 */
-	IOReturn deviceMemoryRead16(uint8_t   memoryIndex,
-								uint64_t  offset,
-								uint16_t* readData,
-								IOOptionBits options);
 
 	/*!
 	 * @brief       Reads an 8-bit value from the PCI device's aperture at a given memory index.
@@ -938,19 +867,6 @@ public:
 						 uint8_t* readData);
 
 	/*!
-	 * @brief       Reads an 8-bit value from the PCI device's aperture at a given memory index.
-	 * @discussion  This method reads an 8-bit register on the device and returns its value.
-	 * @param       memoryIndex An index into the array of ranges assigned to the device.
-	 * @param       offset An offset into the device's memory specified by the index.
-	 * @param       readData An out parameter containing the 8-bit. -1 is written to readData on error.
-	 * @param       options Optional access options (see enum tIOPCIAccessOptions).
-	 */
-	IOReturn deviceMemoryRead8(uint8_t  memoryIndex,
-							   uint64_t offset,
-							   uint8_t* readData,
-							   IOOptionBits options);
-
-	/*!
 	 * @brief       Writes a 64-bit value to the PCI device's aperture at a given memory index.
 	 * @discussion  This method writes a 64-bit register on the device and returns its value.
 	 * @param       memoryIndex An index into the array of ranges assigned to the device
@@ -960,19 +876,6 @@ public:
 	IOReturn deviceMemoryWrite64(uint8_t  memoryIndex,
 						   uint64_t offset,
 						   uint64_t data);
-
-	/*!
-	 * @brief       Writes a 64-bit value to the PCI device's aperture at a given memory index.
-	 * @discussion  This method writes a 64-bit register on the device and returns its value.
-	 * @param       memoryIndex An index into the array of ranges assigned to the device
-	 * @param       offset An offset into the device's memory specified by the index.
-	 * @param       data A 64-bit value to be written in host byte order.
-	 * @param       options Optional access options (see enum tIOPCIAccessOptions).
-	 */
-	IOReturn deviceMemoryWrite64(uint8_t  memoryIndex,
-								 uint64_t offset,
-								 uint64_t data,
-								 IOOptionBits options);
 
 	/*!
 	 * @brief       Writes a 32-bit value to the PCI device's aperture at a given memory index.
@@ -986,19 +889,6 @@ public:
 						   uint32_t data);
 
 	/*!
-	 * @brief       Writes a 32-bit value to the PCI device's aperture at a given memory index.
-	 * @discussion  This method writes a 32-bit register on the device and returns its value.
-	 * @param       memoryIndex An index into the array of ranges assigned to the device.
-	 * @param       offset An offset into the device's memory specified by the index.
-	 * @param       data A 32-bit value to be written in host byte order.
-	 * @param       options Optional access options (see enum tIOPCIAccessOptions).
-	 */
-	IOReturn deviceMemoryWrite32(uint8_t  memoryIndex,
-								 uint64_t offset,
-								 uint32_t data,
-								 IOOptionBits options);
-
-	/*!
 	 * @brief       Writes a 16-bit value to the PCI device's aperture at a given memory index.
 	 * @discussion  This method writes a 16-bit register on the device and returns its value.
 	 * @param       memoryIndex An index into the array of ranges assigned to the device.
@@ -1010,19 +900,6 @@ public:
 						   uint16_t data);
 
 	/*!
-	 * @brief       Writes a 16-bit value to the PCI device's aperture at a given memory index.
-	 * @discussion  This method writes a 16-bit register on the device and returns its value.
-	 * @param       memoryIndex An index into the array of ranges assigned to the device.
-	 * @param       offset An offset into the device's memory specified by the index.
-	 * @param       data A 16-bit value to be written in host byte order.
-	 * @param       options Optional access options (see enum tIOPCIAccessOptions).
-	 */
-	IOReturn deviceMemoryWrite16(uint8_t  memoryIndex,
-								 uint64_t offset,
-								 uint16_t data,
-								 IOOptionBits options);
-
-	/*!
 	 * @brief       Writes an 8-bit value to the PCI device's aperture at a given memory index.
 	 * @discussion  This method writes an 8-bit register on the device and returns its value.
 	 * @param       memoryIndex An index into the array of ranges assigned to the device
@@ -1032,19 +909,6 @@ public:
 	IOReturn deviceMemoryWrite8(uint8_t  memoryIndex,
 						  uint64_t offset,
 						  uint8_t  data);
-
-	/*!
-	 * @brief       Writes an 8-bit value to the PCI device's aperture at a given memory index.
-	 * @discussion  This method writes an 8-bit register on the device and returns its value.
-	 * @param       memoryIndex An index into the array of ranges assigned to the device
-	 * @param       offset An offset into the device's memory specified by the index.
-	 * @param       data An 8-bit value.
-	 * @param       options Optional access options (see enum tIOPCIAccessOptions).
-	 */
-	IOReturn deviceMemoryWrite8(uint8_t  memoryIndex,
-								uint64_t offset,
-								uint8_t  data,
-								IOOptionBits options);
 
 	/*!
 	 * @brief       Register a dext crash notification handler for this PCI device.
@@ -1080,7 +944,7 @@ public:
 	 */
 	IOReturn getLinkSpeed(tIOPCILinkSpeed *linkSpeed);
 
-protected:
+private:
 	static uint16_t getCloseCommandMask(uint32_t vendorDevice);
 
 public:
@@ -1105,6 +969,12 @@ public:
 	IOReturn reset(tIOPCIDeviceResetTypes type,
 				   tIOPCIDeviceResetOptions options = kIOPCIDeviceResetOptionNone);
 
+private:
+	void releasePowerAssertion(void);
+	void powerAssertionTimeout(IOTimerEventSource* timer);
+	bool childPublished(void* refcon __unused, IOService* newService, IONotifier* notifier __unused);
+	bool childMatched(void* refcon __unused, IOService* newService, IONotifier* notifier __unused);
+
 public:
 	virtual bool setProperty(const OSSymbol * aKey, OSObject * anObject);
 	virtual bool setProperty(const OSString * aKey, OSObject * anObject);
@@ -1118,26 +988,6 @@ private:
 	uint32_t configWrite32Filter(IOByteCount offset, uint32_t data);
 	uint16_t configWrite16Filter(IOByteCount offset, uint16_t data);
 	uint8_t configWrite8Filter(IOByteCount offset, uint8_t data);
-
-    virtual IOReturn powerStateWillChangeToGated(IOPMPowerFlags *capabilities,
-                                                 unsigned long  *stateNumber,
-                                                 IOService      *whatDevice);
-	IOReturn setPowerStateGated(unsigned long *_newState,
-								IOService *whatDevice);
-protected:
-	bool supportsFLR(void);
-	void prepareFLR(void);
-	void flr(void);
-	void completeFLR(void);
-
-private:
-	IOReturn resetFunction(tIOPCIDeviceResetOptions options);
-	void resetNubState(void);
-
-protected:
-	bool isDownstreamFacing(void);
-	bool shouldSkipReset(void);
-	static bool hasL1Errata(IOPCIDevice *nub);
 };
 __exported_pop
 

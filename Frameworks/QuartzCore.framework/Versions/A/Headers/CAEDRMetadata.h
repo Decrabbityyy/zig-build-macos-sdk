@@ -7,14 +7,13 @@
 #define CAEDRMetadata_h
 
 
-
 #ifdef __OBJC__
 
 #include <Foundation/NSObject.h>
 
-NS_HEADER_AUDIT_BEGIN(nullability, sendability)
+NS_ASSUME_NONNULL_BEGIN
 
-API_AVAILABLE(macos(10.15), ios(16.0)) API_UNAVAILABLE(watchos)
+API_AVAILABLE(macos(10.15), ios(16.0))
 @interface CAEDRMetadata : NSObject<NSCopying, NSSecureCoding>
 {
 @private
@@ -22,8 +21,6 @@ API_AVAILABLE(macos(10.15), ios(16.0)) API_UNAVAILABLE(watchos)
 }
 
 /* Use one of the class methods to instantiate CAEDRMetadata. */
-
-+ (instancetype)new NS_UNAVAILABLE;
 
 - (instancetype)init NS_UNAVAILABLE;
 
@@ -112,10 +109,9 @@ API_AVAILABLE(macos(10.15), ios(16.0)) API_UNAVAILABLE(watchos)
 
 @end
 
-NS_HEADER_AUDIT_END(nullability, sendability)
+NS_ASSUME_NONNULL_END
 
 #endif /* __OBJC__ */
-
 
 
 #endif /* CAEDRMetadata_h */

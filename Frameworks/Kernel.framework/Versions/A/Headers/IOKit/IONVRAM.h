@@ -89,12 +89,16 @@ private:
 	IODTNVRAMDiags            *_diags;
 	IODTNVRAMFormatHandler    *_format;
 
+	IORWLock               *_variableLock;
+	IOLock                 *_controllerLock;
+
 	IODTNVRAMVariables     *_commonService;
 	IODTNVRAMVariables     *_systemService;
 
+	OSPtr<OSDictionary>    _varDict;
+
 	SInt32                 _lastDeviceSync;
 	bool                   _freshInterval;
-	bool                   x86Device = true;
 
 	void initImageFormat(void);
 
@@ -120,9 +124,8 @@ public:
 
 	virtual IOReturn sync(void);
 	virtual void reload(void);
-	virtual IOReturn getVarDict(OSSharedPtr<OSDictionary> &varDictCopy);
+
 	virtual bool serializeProperties(OSSerialize *s) const APPLE_KEXT_OVERRIDE;
-	virtual OSPtr<OSDictionary> dictionaryWithProperties(void) const APPLE_KEXT_OVERRIDE;
 	virtual OSPtr<OSObject> copyProperty(const OSSymbol *aKey) const APPLE_KEXT_OVERRIDE;
 	virtual OSPtr<OSObject> copyProperty(const char *aKey) const APPLE_KEXT_OVERRIDE;
 	virtual OSObject *getProperty(const OSSymbol *aKey) const APPLE_KEXT_OVERRIDE;

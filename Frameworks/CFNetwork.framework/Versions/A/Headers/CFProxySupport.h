@@ -208,7 +208,7 @@ CFNetworkExecuteProxyAutoConfigurationScript(
   CFStringRef proxyAutoConfigurationScript,
   CFURLRef targetURL,
   CFProxyAutoConfigurationResultCallback cb,
-  CFStreamClientContext * clientContext) CF_AVAILABLE(10_5, 2_0) CF_RETURNS_RETAINED;
+  CFStreamClientContext * clientContext) CF_AVAILABLE(10_5, 2_0);
 
 
 
@@ -229,7 +229,7 @@ CFNetworkExecuteProxyAutoConfigurationURL(
   CFURLRef proxyAutoConfigURL,
   CFURLRef targetURL,
   CFProxyAutoConfigurationResultCallback cb,
-  CFStreamClientContext * clientContext) CF_AVAILABLE(10_5, 2_0) CF_RETURNS_RETAINED;
+  CFStreamClientContext * clientContext) CF_AVAILABLE(10_5, 2_0);
 
 
 /*

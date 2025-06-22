@@ -61,7 +61,6 @@ typedef NS_OPTIONS(NSUInteger, NSCalendarUnit) {
         NSCalendarUnitWeekOfYear         API_AVAILABLE(macos(10.7), ios(5.0), watchos(2.0), tvos(9.0)) = kCFCalendarUnitWeekOfYear,
         NSCalendarUnitYearForWeekOfYear  API_AVAILABLE(macos(10.7), ios(5.0), watchos(2.0), tvos(9.0)) = kCFCalendarUnitYearForWeekOfYear,
         NSCalendarUnitNanosecond         API_AVAILABLE(macos(10.7), ios(5.0), watchos(2.0), tvos(9.0)) = (1 << 15),
-        NSCalendarUnitDayOfYear          API_AVAILABLE(macos(15.0), ios(18.0), watchos(11.0), tvos(18.0)) = kCFCalendarUnitDayOfYear,
         NSCalendarUnitCalendar           API_AVAILABLE(macos(10.7), ios(4.0), watchos(2.0), tvos(9.0)) = (1 << 20),
         NSCalendarUnitTimeZone           API_AVAILABLE(macos(10.7), ios(4.0), watchos(2.0), tvos(9.0)) = (1 << 21),
     #if !0
@@ -113,7 +112,7 @@ enum {
 */
 + (nullable NSCalendar *)calendarWithIdentifier:(NSCalendarIdentifier)calendarIdentifierConstant API_AVAILABLE(macos(10.9), ios(8.0), watchos(2.0), tvos(9.0));
 
-- (instancetype)init NS_UNAVAILABLE;
+- (instancetype)init API_UNAVAILABLE(macos, ios, watchos, tvos);
 
 - (nullable id)initWithCalendarIdentifier:(NSCalendarIdentifier)ident NS_DESIGNATED_INITIALIZER;
 
@@ -433,7 +432,6 @@ NS_ENUM(NSInteger) {
 @property NSInteger weekOfMonth API_AVAILABLE(macos(10.7), ios(5.0), watchos(2.0), tvos(9.0));
 @property NSInteger weekOfYear API_AVAILABLE(macos(10.7), ios(5.0), watchos(2.0), tvos(9.0));
 @property NSInteger yearForWeekOfYear API_AVAILABLE(macos(10.7), ios(5.0), watchos(2.0), tvos(9.0));
-@property NSInteger dayOfYear API_AVAILABLE(macos(15.0), ios(18.0), watchos(11.0), tvos(18.0));
 @property (getter=isLeapMonth) BOOL leapMonth API_AVAILABLE(macos(10.8), ios(6.0), watchos(2.0), tvos(9.0));
 @property (nullable, readonly, copy) NSDate *date API_AVAILABLE(macos(10.7), ios(4.0), watchos(2.0), tvos(9.0));
 
@@ -449,7 +447,7 @@ NS_ENUM(NSInteger) {
 
 /*
 	This API allows one to get the value of a specific component of NSDateComponents, by enum constant value rather than property name.
-	The calendar and timeZone and isLeapMonth property values cannot be retrieved by this method.
+	The calendar and timeZone and isLeapMonth property values cannot be gotten by this method.
 */
 - (NSInteger)valueForComponent:(NSCalendarUnit)unit API_AVAILABLE(macos(10.9), ios(8.0), watchos(2.0), tvos(9.0));
 

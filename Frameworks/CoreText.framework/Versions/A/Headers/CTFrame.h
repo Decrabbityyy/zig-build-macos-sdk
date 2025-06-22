@@ -38,7 +38,6 @@ typedef const struct CF_BRIDGED_TYPE(id) __CTFrame * CTFrameRef;
     @abstract   Returns the CFType of the frame object
 */
 
-CT_EXPORT
 CFTypeID CTFrameGetTypeID( void ) CT_AVAILABLE(macos(10.5), ios(3.2), watchos(2.0), tvos(9.0));
 
 
@@ -179,7 +178,6 @@ CT_EXPORT const CFStringRef kCTFramePathClippingPathAttributeName CT_AVAILABLE(m
                 then an empty range will be returned.
 */
 
-CT_EXPORT
 CFRange CTFrameGetStringRange(
     CTFrameRef frame ) CT_AVAILABLE(macos(10.5), ios(3.2), watchos(2.0), tvos(9.0));
 
@@ -203,7 +201,6 @@ CFRange CTFrameGetStringRange(
                 in the frame, then an empty range will be returned.
 */
 
-CT_EXPORT
 CFRange CTFrameGetVisibleStringRange(
     CTFrameRef frame ) CT_AVAILABLE(macos(10.5), ios(3.2), watchos(2.0), tvos(9.0));
 
@@ -216,7 +213,6 @@ CFRange CTFrameGetVisibleStringRange(
                 The frame that you want to obtain the path from.
 */
 
-CT_EXPORT
 CGPathRef CTFrameGetPath(
     CTFrameRef frame ) CT_AVAILABLE(macos(10.5), ios(3.2), watchos(2.0), tvos(9.0));
 
@@ -239,7 +235,6 @@ CGPathRef CTFrameGetPath(
                 will return NULL.
 */
 
-CT_EXPORT
 CFDictionaryRef _Nullable CTFrameGetFrameAttributes(
     CTFrameRef frame ) CT_AVAILABLE(macos(10.5), ios(3.2), watchos(2.0), tvos(9.0));
 
@@ -262,7 +257,6 @@ CFDictionaryRef _Nullable CTFrameGetFrameAttributes(
                 CTLine objects that make up the frame.
 */
 
-CT_EXPORT
 CFArrayRef CTFrameGetLines(
     CTFrameRef frame ) CT_AVAILABLE(macos(10.5), ios(3.2), watchos(2.0), tvos(9.0));
 
@@ -298,7 +292,6 @@ CFArrayRef CTFrameGetLines(
                 on framesetting in the first place.
 */
 
-CT_EXPORT
 void CTFrameGetLineOrigins(
     CTFrameRef frame,
     CFRange range,
@@ -323,7 +316,6 @@ void CTFrameGetLineOrigins(
                 drawn in the context.
 */
 
-CT_EXPORT
 void CTFrameDraw(
     CTFrameRef frame,
     CGContextRef context ) CT_AVAILABLE(macos(10.5), ios(3.2), watchos(2.0), tvos(9.0));

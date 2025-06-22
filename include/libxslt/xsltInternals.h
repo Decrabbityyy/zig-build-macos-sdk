@@ -29,8 +29,6 @@
 extern "C" {
 #endif
 
-#define CLAMP_TO_INT_MAX(expr) (((expr) > INT_MAX) ? INT_MAX : (int)(expr))
-
 /* #define XSLT_DEBUG_PROFILE_CACHE */
 
 /**

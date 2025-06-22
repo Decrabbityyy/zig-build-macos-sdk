@@ -23,7 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 typedef struct {
     double x, y, z;
-} GCAcceleration API_AVAILABLE(macos(10.10), ios(8.0), tvos(9.0));
+} GCAcceleration;
 
 /**
  A structure containing 3-axis rotation rate data.
@@ -46,7 +46,7 @@ typedef struct {
  */
 typedef struct {
 	double x, y, z;
-} GCRotationRate API_AVAILABLE(macos(10.10), ios(8.0), tvos(9.0));
+} GCRotationRate;
 
 
 /**
@@ -70,7 +70,7 @@ typedef struct {
  */
 typedef struct {
     double pitch, yaw, roll;
-} GCEulerAngles API_AVAILABLE(macos(10.10), ios(8.0), tvos(9.0));
+} GCEulerAngles;
 
 /**
  Represents a quaternion (one way of parameterizing attitude).
@@ -81,7 +81,7 @@ typedef struct {
  */
 typedef struct GCQuaternion {
     double x, y, z, w;
-} GCQuaternion API_AVAILABLE(macos(10.10), ios(8.0), tvos(9.0));
+} GCQuaternion;
 
 
 /**
@@ -94,7 +94,7 @@ typedef struct GCQuaternion {
  
  @see GCController.motion
  */
-API_AVAILABLE(macos(10.10), ios(8.0), tvos(9.0))
+API_AVAILABLE(macos(10.10), ios(8.0), tvos(8.0))
 @interface GCMotion : NSObject
 
 /**
@@ -102,12 +102,16 @@ API_AVAILABLE(macos(10.10), ios(8.0), tvos(9.0))
  
  @see GCController
  */
+#if !__has_feature(objc_arc)
 @property (nonatomic, readonly, weak) GCController *controller;
+#else
+@property (nonatomic, readonly, weak) GCController *controller;
+#endif
 
 /**
  Called whenever a motion value changed.
  */
-typedef void (^GCMotionValueChangedHandler)(GCMotion *motion) API_AVAILABLE(macos(10.10), ios(8.0), tvos(9.0));
+typedef void (^GCMotionValueChangedHandler)(GCMotion *motion);
 @property (nonatomic, copy, nullable) GCMotionValueChangedHandler valueChangedHandler;
 
 /**
@@ -172,7 +176,7 @@ typedef void (^GCMotionValueChangedHandler)(GCMotion *motion) API_AVAILABLE(maco
 /**
  The controller generating the motion data has sensors that can accurately determine the current attitude and rotation rate. If this is enabled the motion data for attitude and rotation rate are usable for inputs.
  */
-@property (nonatomic, readonly) BOOL hasAttitudeAndRotationRate API_DEPRECATED("Use -hasAttitude and -hasRotationRate methods instead", macos(10.13, 11.0), ios(11.0, 14.0), tvos(11.0, 14.0));
+@property (nonatomic, readonly) BOOL hasAttitudeAndRotationRate API_DEPRECATED("hasAttitudeAndRotationRate has been deprecated, use -hasAttitude and -hasRotationRate instead", macos(10.13, 11.0), ios(11.0, 14.0), tvos(11.0, 14.0));
 
 /**
  The controller generating the motion data has sensors that can accurately determine the current attitude. If this is enabled the motion data for attitude is usable for inputs.
@@ -191,7 +195,7 @@ typedef void (^GCMotionValueChangedHandler)(GCMotion *motion) API_AVAILABLE(maco
  @see hasAttitude
  @see GCMicroGamepad
  */
-@property (nonatomic, readonly) GCQuaternion attitude;
+@property (nonatomic, readonly) GCQuaternion attitude API_AVAILABLE(macos(10.13), ios(11.0), tvos(11.0));
 
 /**
  The current rotation rate of the controller.
@@ -200,7 +204,7 @@ typedef void (^GCMotionValueChangedHandler)(GCMotion *motion) API_AVAILABLE(maco
  @see hasRotationRate
  @see GCMicroGamepad
  */
-@property (nonatomic, readonly) GCRotationRate rotationRate;
+@property (nonatomic, readonly) GCRotationRate rotationRate API_AVAILABLE(macos(10.13), ios(11.0), tvos(11.0));
 
 /**
  Sets the gravity vector expressed in the controller's reference frame.

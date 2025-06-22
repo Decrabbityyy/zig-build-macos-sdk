@@ -5,11 +5,8 @@
 #define __ENDPOINT_SECURITY_INDIRECT__ 1
 #endif
 
-// Include types first
 #include <EndpointSecurity/ESTypes.h>
-
 #include <EndpointSecurity/ESMessage.h>
-
 #include <EndpointSecurity/ESClient.h>
 
 #undef __ENDPOINT_SECURITY_INDIRECT__

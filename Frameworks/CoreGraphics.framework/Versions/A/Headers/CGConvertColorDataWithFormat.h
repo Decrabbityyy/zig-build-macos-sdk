@@ -30,5 +30,4 @@ CG_EXTERN bool CGConvertColorDataWithFormat(size_t            width,
                                             CGColorDataFormat src_format,
                                             CFDictionaryRef   options);
 
-
 #endif /* CGCONVERTCOLORDATAWITHFORMAT_H */

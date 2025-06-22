@@ -119,7 +119,6 @@ struct ndrv_protocol_desc {
 };
 
 
-
 #define SOL_NDRVPROTO           NDRVPROTO_NDRV  /* Use this socket level */
 #define NDRV_DELDMXSPEC         0x02                    /* Delete the registered protocol */
 #define NDRV_SETDMXSPEC         0x04                    /* Set the protocol spec */

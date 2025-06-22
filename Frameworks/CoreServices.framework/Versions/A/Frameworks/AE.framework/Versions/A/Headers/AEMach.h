@@ -26,8 +26,12 @@
 
 
 #if TARGET_RT_MAC_MACHO
-#ifndef _MACH_MESSAGE_H_
+#ifdef __cplusplus
+extern "C" {
+#endif
 #include <mach/message.h>
+#ifdef __cplusplus
+}
 #endif
 #endif
 

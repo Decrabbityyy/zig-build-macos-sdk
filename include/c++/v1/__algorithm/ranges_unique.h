@@ -32,9 +32,6 @@
 #  pragma GCC system_header
 #endif
 
-_LIBCPP_PUSH_MACROS
-#include <__undef_macros>
-
 #if _LIBCPP_STD_VER >= 20
 
 _LIBCPP_BEGIN_NAMESPACE_STD
@@ -47,7 +44,7 @@ struct __fn {
             sentinel_for<_Iter> _Sent,
             class _Proj                                                  = identity,
             indirect_equivalence_relation<projected<_Iter, _Proj>> _Comp = ranges::equal_to>
-  [[nodiscard]] _LIBCPP_HIDE_FROM_ABI constexpr subrange<_Iter>
+  _LIBCPP_NODISCARD_EXT _LIBCPP_HIDE_FROM_ABI constexpr subrange<_Iter>
   operator()(_Iter __first, _Sent __last, _Comp __comp = {}, _Proj __proj = {}) const {
     auto __ret =
         std::__unique<_RangeAlgPolicy>(std::move(__first), std::move(__last), std::__make_projected(__comp, __proj));
@@ -58,7 +55,7 @@ struct __fn {
             class _Proj                                                               = identity,
             indirect_equivalence_relation<projected<iterator_t<_Range>, _Proj>> _Comp = ranges::equal_to>
     requires permutable<iterator_t<_Range>>
-  [[nodiscard]] _LIBCPP_HIDE_FROM_ABI constexpr borrowed_subrange_t<_Range>
+  _LIBCPP_NODISCARD_EXT _LIBCPP_HIDE_FROM_ABI constexpr borrowed_subrange_t<_Range>
   operator()(_Range&& __range, _Comp __comp = {}, _Proj __proj = {}) const {
     auto __ret = std::__unique<_RangeAlgPolicy>(
         ranges::begin(__range), ranges::end(__range), std::__make_projected(__comp, __proj));
@@ -76,7 +73,5 @@ inline constexpr auto unique = __unique::__fn{};
 _LIBCPP_END_NAMESPACE_STD
 
 #endif // _LIBCPP_STD_VER >= 20
-
-_LIBCPP_POP_MACROS
 
 #endif // _LIBCPP___ALGORITHM_RANGES_UNIQUE_H

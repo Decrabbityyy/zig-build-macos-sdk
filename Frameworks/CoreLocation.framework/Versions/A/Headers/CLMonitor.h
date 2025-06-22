@@ -24,10 +24,9 @@ NS_ASSUME_NONNULL_BEGIN
  */
 NS_REFINED_FOR_SWIFT NS_SWIFT_SENDABLE
 CL_EXTERN
-#if defined(TARGET_OS_VISION) && TARGET_OS_VISION
-API_AVAILABLE(macos(14.0), ios(17.0)) API_UNAVAILABLE(watchos, tvos, visionos)
-#else
 API_AVAILABLE(macos(14.0), ios(17.0)) API_UNAVAILABLE(watchos, tvos)
+#if defined(TARGET_OS_VISION) && TARGET_OS_VISION
+API_UNAVAILABLE(visionos)
 #endif
 @interface CLMonitor : NSObject
 
@@ -71,7 +70,10 @@ API_AVAILABLE(macos(14.0), ios(17.0)) API_UNAVAILABLE(watchos, tvos)
  *
  */
 + (void)requestMonitorWithConfiguration:(CLMonitorConfiguration *)config
-							 completion:(void(^)(CLMonitor *monitor))completionHandler
+							 completion:(void(^)(CLMonitor *monitor))completionHandler API_AVAILABLE(ios(17.0), macos(14.0)) API_UNAVAILABLE(watchos, tvos)
+#if defined(TARGET_OS_VISION) && TARGET_OS_VISION
+API_UNAVAILABLE(visionos)
+#endif
 NS_REFINED_FOR_SWIFT NS_SWIFT_ASYNC(2);
 
 /*

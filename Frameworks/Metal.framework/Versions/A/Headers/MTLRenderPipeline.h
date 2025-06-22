@@ -262,13 +262,6 @@ API_AVAILABLE(macos(12.0), ios(15.0));
  */
 - (void)reset;
 
-/*!
- @property shaderValidation
- @abstract Toggle that determines whether Metal Shader Validation should be enabled or disabled for the pipeline.
- @discussion The value can be overridden using `MTL_SHADER_VALIDATION_ENABLE_PIPELINES` or `MTL_SHADER_VALIDATION_DISABLE_PIPELINES` Environment Variables.
- */
-@property (readwrite, nonatomic) MTLShaderValidation shaderValidation API_AVAILABLE(macos(15.0), ios(18.0));
-
 @end
 
 MTL_EXPORT API_AVAILABLE(macos(12.0), ios(15.0))
@@ -400,12 +393,6 @@ API_AVAILABLE(macos(10.11), ios(8.0))
  */
 - (nullable id <MTLRenderPipelineState>)newRenderPipelineStateWithAdditionalBinaryFunctions:(nonnull MTLRenderPipelineFunctionsDescriptor *)additionalBinaryFunctions error:(__autoreleasing NSError **)error API_AVAILABLE(macos(12.0), ios(15.0));
 
-/*!
- @property shaderValidation
- @abstract Current state of Shader Validation for the pipeline.
- */
-@property (readonly, nonatomic) MTLShaderValidation shaderValidation API_AVAILABLE(macos(15.0), ios(18.0));
-
 @end
 
 MTL_EXPORT API_AVAILABLE(macos(10.11), ios(8.0))
@@ -519,13 +506,6 @@ API_AVAILABLE(macos(12.0), ios(15.0));
 
 
 - (void)reset;
-
-/*!
- @property shaderValidation
- @abstract Toggle that determines whether Metal Shader Validation should be enabled or disabled for the pipeline.
- @discussion The value can be overridden using `MTL_SHADER_VALIDATION_ENABLE_PIPELINES` or `MTL_SHADER_VALIDATION_DISABLE_PIPELINES` Environment Variables.
- */
-@property (readwrite, nonatomic) MTLShaderValidation shaderValidation API_AVAILABLE(macos(15.0), ios(18.0));
 
 @end
 
@@ -700,15 +680,7 @@ MTL_EXPORT API_AVAILABLE(macos(13.0), ios(16.0))
  @abstract Whether this pipeline will support being used by commands in an indirect command buffer.
  @discussion The default value is NO.
  */
-@property (readwrite, nonatomic) BOOL supportIndirectCommandBuffers API_AVAILABLE(macos(14.0), ios(17.0), tvos(18.1), visionos(2.1));
-
-/*!
- @property binaryArchives
- @abstract The set of MTLBinaryArchive to search for compiled code when creating the pipeline state.
- @discussion Accelerate pipeline state creation by providing archives of compiled code such that no compilation needs to happen on the fast path.
- @see MTLBinaryArchive
- */
-@property (readwrite, nullable, nonatomic, copy) NSArray<id<MTLBinaryArchive>> *binaryArchives API_AVAILABLE(macos(15.0), ios(18.0));
+@property (readwrite, nonatomic) BOOL supportIndirectCommandBuffers API_AVAILABLE(macos(14.0), ios(17.0));
 
 
 /*!
@@ -737,13 +709,6 @@ MTL_EXPORT API_AVAILABLE(macos(13.0), ios(16.0))
  @abstract Restore all mesh pipeline descriptor properties to their default values.
  */
 - (void)reset;
-
-/*!
- @property shaderValidation
- @abstract Toggle that determines whether Metal Shader Validation should be enabled or disabled for the pipeline.
- @discussion The value can be overridden using `MTL_SHADER_VALIDATION_ENABLE_PIPELINES` or `MTL_SHADER_VALIDATION_DISABLE_PIPELINES` Environment Variables.
- */
-@property (readwrite, nonatomic) MTLShaderValidation shaderValidation API_AVAILABLE(macos(15.0), ios(18.0));
 
 @end
 

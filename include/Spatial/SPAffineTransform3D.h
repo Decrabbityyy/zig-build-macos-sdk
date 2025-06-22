@@ -9,7 +9,7 @@
 // MARK: - Creating an affine transform
 
 /*!
- @abstract Returns a new affine transform structure from the specified 4 x 3 matrix.
+ @abstract Returns a new affine transform structure from the specified 4x3 matrix.
  
  @param matrix The source matrix.
  @returns A new affine transform structure.
@@ -30,22 +30,6 @@ SPATIAL_INLINE
 SPATIAL_OVERLOADABLE
 SPAffineTransform3D SPAffineTransform3DMakeWith4x4Matrix(simd_double4x4 matrix)
 __API_AVAILABLE(macos(13.0), ios(16.0), watchos(9.0), tvos(16.0));
-__API_DEPRECATED("Use `SPAffineTransform3DMakeWithTruncated4x4Matrix` instead.",
-                 macos(13.0, 15.0),
-                 ios(16.0, 18.0),
-                 watchos(9.0, 11.0),
-                 tvos(16.0, 18.0));
-
-/*!
- @abstract Returns a new affine transform structure from the specified 4 x 4 matrix truncated to a  4 x 3 matrix.
- 
- @param matrix The source matrix.
- @returns A new affine transform structure.
- */
-SPATIAL_INLINE
-SPATIAL_OVERLOADABLE
-SPAffineTransform3D SPAffineTransform3DMakeWithTruncated4x4Matrix(simd_double4x4 matrix)
-__API_AVAILABLE(macos(15.0), ios(18.0), watchos(11.0), tvos(18.0));
 
 /*!
  @abstract Returns a new affine transform structure from the specified projective transform.
@@ -58,11 +42,7 @@ __API_AVAILABLE(macos(15.0), ios(18.0), watchos(11.0), tvos(18.0));
 SPATIAL_INLINE
 SPATIAL_OVERLOADABLE
 SPAffineTransform3D SPAffineTransform3DMakeWithProjective(SPProjectiveTransform3D transform)
-__API_DEPRECATED("Use `SPAffineTransform3DMakeWithTruncatedProjective` instead.",
-                 macos(13.0, 15.0),
-                 ios(16.0, 18.0),
-                 watchos(9.0, 11.0),
-                 tvos(16.0, 18.0));
+__API_AVAILABLE(macos(13.0), ios(16.0), watchos(9.0), tvos(16.0));
 
 /*!
  @abstract Returns a new affine transform structure from the first three rows of the specified projective transform.
@@ -594,23 +574,6 @@ SPAffineTransform3D SPAffineTransform3DMakeWithTruncatedProjective(SPProjectiveT
     return affine;
 }
 
-SPATIAL_SWIFT_NAME(AffineTransform3D.init(truncating:))
-SPATIAL_OVERLOADABLE
-SPAffineTransform3D SPAffineTransform3DMakeWithTruncated4x4Matrix(simd_double4x4 matrix) {
-
-    simd_double3 column0 = matrix.columns[0].xyz;
-    simd_double3 column1 = matrix.columns[1].xyz;
-    simd_double3 column2 = matrix.columns[2].xyz;
-    simd_double3 column3 = matrix.columns[3].xyz;
-    
-    SPAffineTransform3D affine = { .matrix = simd_matrix(column0,
-                                                         column1,
-                                                         column2,
-                                                         column3) };
-    
-    return affine;
-}
-
 SPATIAL_REFINED_FOR_SWIFT
 SPATIAL_OVERLOADABLE
 SPAffineTransform3D SPAffineTransform3DMakeWith4x4Matrix(simd_double4x4 matrix) {
@@ -680,7 +643,7 @@ SPATIAL_REFINED_FOR_SWIFT
 SPATIAL_OVERLOADABLE
 SPAffineTransform3D SPAffineTransform3DMakeTranslation(SPSize3D translation) {
     
-    SPVector3D v = SPVector3DMakeWithVector(translation.vector);
+    SPVector3D v = (SPVector3D) { .vector = translation.vector };
     
     return SPAffineTransform3DMakeTranslation(v);
 }
@@ -707,7 +670,7 @@ SPAffineTransform3D SPAffineTransform3DMake(SPSize3D scale,
                                             SPRotation3D rotation,
                                             SPSize3D translation) {
     
-    SPVector3D v = SPVector3DMakeWithVector(translation.vector);
+    SPVector3D v = (SPVector3D){ .vector = translation.vector };
     
     return SPAffineTransform3DMake(scale, rotation, v);
 }
@@ -937,7 +900,7 @@ SPSize3D SPAffineTransform3DGetScale(SPAffineTransform3D transform) {
     
     simd_double3 signedScale = scale * sign;
     
-    return SPSize3DMakeWithVector(signedScale);
+    return (SPSize3D){ signedScale.x, signedScale.y, signedScale.z};
 }
 
 SPATIAL_REFINED_FOR_SWIFT
@@ -978,7 +941,7 @@ SPVector3D SPAffineTransform3DGetTranslation(SPAffineTransform3D transform) {
     
     simd_double3 translation = transform.matrix.columns[3];
     
-    return SPVector3DMakeWithVector(translation);
+    return (SPVector3D){ .vector = translation };
 }
 
 SPATIAL_REFINED_FOR_SWIFT
@@ -987,7 +950,7 @@ SPVector3D SPAffineTransform3DGetOffset(SPAffineTransform3D transform) {
     
     simd_double3 translation = transform.matrix.columns[3];
     
-    return SPVector3DMakeWithVector(translation.x);
+    return (SPVector3D){ .vector = translation };
 }
 
 SPATIAL_REFINED_FOR_SWIFT
@@ -1026,7 +989,7 @@ SPATIAL_OVERLOADABLE
 SPAffineTransform3D SPAffineTransform3DScaleBy(SPAffineTransform3D transform,
                                                double x, double y, double z) {
     
-    SPSize3D scale = SPSize3DMake(x, y, z);
+    SPSize3D scale = (SPSize3D){x, y, z};
     SPAffineTransform3D scaleTransform = SPAffineTransform3DMakeScale(scale);
     
     return SPAffineTransform3DConcatenation(transform, scaleTransform);
@@ -1046,7 +1009,7 @@ SPATIAL_OVERLOADABLE
 SPAffineTransform3D SPAffineTransform3DScaleUniform(SPAffineTransform3D transform,
                                                     double scale) {
     
-    SPSize3D scaleSize = SPSize3DMake(scale, scale, scale);
+    SPSize3D scaleSize = (SPSize3D){scale, scale, scale};
     SPAffineTransform3D scaleTransform = SPAffineTransform3DMakeScale(scaleSize);
     
     return SPAffineTransform3DConcatenation(transform, scaleTransform);
@@ -1189,72 +1152,11 @@ __API_AVAILABLE(macos(13.0), ios(16.0), watchos(9.0), tvos(16.0));
 SPATIAL_REFINED_FOR_SWIFT
 SPATIAL_OVERLOADABLE
 SPAffineTransform3D SPAffineTransform3DMakeWithPose(SPPose3D pose) {
-    
-    return SPAffineTransform3DMake(SPSize3DMake(1, 1, 1),
+
+    return SPAffineTransform3DMake((SPSize3D){ 1, 1, 1},
                                    pose.rotation,
-                                   SPVector3DMakeWithVector(pose.position.vector));
-    
-}
+                                   (SPVector3D){ .vector = pose.position.vector });
 
-/*!
- @abstract Returns a new affine transform structure from the specified scaled pose structure.
-
- @param pose The source scaled pose.
- @returns A new affine transform structure.
- */
-SPATIAL_INLINE
-SPATIAL_OVERLOADABLE
-SPAffineTransform3D SPAffineTransform3DMakeWithScaledPose(SPScaledPose3D pose)
-__API_AVAILABLE(macos(15.0), ios(18.0), watchos(11.0), tvos(18.0));
-
-SPATIAL_REFINED_FOR_SWIFT
-SPATIAL_OVERLOADABLE
-SPAffineTransform3D SPAffineTransform3DMakeWithScaledPose(SPScaledPose3D pose) {
-    
-    return SPAffineTransform3DMake(SPSize3DMake(pose.scale, pose.scale, pose.scale),
-                                   pose.rotation,
-                                   SPVector3DMakeWithVector(pose.position.vector));
-}
-
-// MARK: Change basis
-
-/*!
- @abstract Returns a new affine transform structure by applying a change-of-basis.
- @param transform The source transform.
- @param from The old basis.
- @param to The new basis.
- @returns A new affine transform structure or `SPAffineTransform3DInvalid`.
- */
-SPATIAL_INLINE
-SPATIAL_OVERLOADABLE
-SPAffineTransform3D SPAffineTransform3DChangeBasis(SPAffineTransform3D transform,
-                                                   SPAffineTransform3D from,
-                                                   SPAffineTransform3D to)
-__API_AVAILABLE(macos(15.0), ios(18.0), watchos(11.0), tvos(18.0));
-
-SPATIAL_REFINED_FOR_SWIFT
-SPATIAL_OVERLOADABLE
-SPAffineTransform3D SPAffineTransform3DChangeBasis(SPAffineTransform3D transform,
-                                                   SPAffineTransform3D from,
-                                                   SPAffineTransform3D to) {
-    
-    SPAffineTransform3D fromInverted = SPAffineTransform3DInverted(from);
-    if (!SPAffineTransform3DIsValid(fromInverted)) {
-        return SPAffineTransform3DInvalid;
-    }
-    
-    SPAffineTransform3D toInverted = SPAffineTransform3DInverted(to);
-    if (!SPAffineTransform3DIsValid(toInverted)) {
-        return SPAffineTransform3DInvalid;
-    }
-    
-    // from * to.inverse * self * to * from.inverse
-    SPAffineTransform3D tx = SPAffineTransform3DConcatenation(from, toInverted);
-    tx = SPAffineTransform3DConcatenation(tx, transform);
-    tx = SPAffineTransform3DConcatenation(tx, to);
-    tx = SPAffineTransform3DConcatenation(tx, fromInverted);
-    
-    return tx;
 }
 
 #endif /* Spatial_SPAffineTransform3D_h */

@@ -113,18 +113,31 @@
 #define T_PF_EXECUTE            0x10            /* instruction fetch when NX */
 
 #if !defined(ASSEMBLER)
+#if __OPTIMIZE__
+__attribute__((cold, always_inline))
+static inline void
+ml_recoverable_trap(unsigned int code)
+__attribute__((diagnose_if(!__builtin_constant_p(code), "code must be constant", "error")))
+{
+	__asm__ volatile ("ud1l %0(%%eax), %%eax" : : "p"((void *)((unsigned long long)code)));
+}
 
-#define ML_TRAP_REGISTER_1      "rax"
-#define ML_TRAP_REGISTER_2      "r10"
-#define ML_TRAP_REGISTER_3      "r11"
-
+__attribute__((cold, noreturn, always_inline))
+static inline void
+ml_fatal_trap(unsigned int code)
+__attribute__((diagnose_if(!__builtin_constant_p(code), "code must be constant", "error")))
+{
+	__asm__ volatile ("ud1l %0(%%eax), %%eax" : : "p"((void *)((unsigned long long)code)));
+	__builtin_unreachable();
+}
+#else
 #define ml_recoverable_trap(code) \
 	__asm__ volatile ("ud1l %0(%%eax), %%eax" : : "p"(code))
-
 #define ml_fatal_trap(code)  ({ \
-	ml_recoverable_trap(code); \
+	__asm__ volatile ("ud1l %0(%%eax), %%eax" : : "p"(code)); \
 	__builtin_unreachable(); \
 })
+#endif
 
 #endif /* !ASSEMBLER */
 

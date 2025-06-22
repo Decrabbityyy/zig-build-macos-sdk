@@ -10,8 +10,6 @@
 #ifndef __ENDIAN__
 #define __ENDIAN__
 
-#include <sys/cdefs.h>
-
 #ifndef __CONDITIONALMACROS__
 #include <ConditionalMacros.h>
 #endif
@@ -28,12 +26,14 @@
 #pragma once
 #endif
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #ifdef __GNUC__
 #include <libkern/OSByteOrder.h>
 #endif
-
-__BEGIN_DECLS
-
+	
 #pragma pack(push, 2)
 
 /*
@@ -489,7 +489,9 @@ CoreEndianFlipData(
 
 #pragma pack(pop)
 
-__END_DECLS
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __ENDIAN__ */
 

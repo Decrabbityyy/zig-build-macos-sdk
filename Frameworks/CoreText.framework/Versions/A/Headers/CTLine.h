@@ -110,7 +110,6 @@ typedef CF_ENUM(uint32_t, CTLineTruncationType) {
     @abstract   Returns the CFType of the line object
 */
 
-CT_EXPORT
 CFTypeID CTLineGetTypeID( void ) CT_AVAILABLE(macos(10.5), ios(3.2), watchos(2.0), tvos(9.0));
 
 
@@ -135,7 +134,6 @@ CFTypeID CTLineGetTypeID( void ) CT_AVAILABLE(macos(10.5), ios(3.2), watchos(2.0
     @result     This function will return a reference to a CTLine object.
 */
 
-CT_EXPORT
 CTLineRef CTLineCreateWithAttributedString(
     CFAttributedStringRef attrString ) CT_AVAILABLE(macos(10.5), ios(3.2), watchos(2.0), tvos(9.0));
 
@@ -169,7 +167,6 @@ CTLineRef CTLineCreateWithAttributedString(
                 NULL.
 */
 
-CT_EXPORT
 CTLineRef _Nullable CTLineCreateTruncatedLine(
     CTLineRef line,
     double width,
@@ -201,7 +198,6 @@ CTLineRef _Nullable CTLineCreateTruncatedLine(
                 NULL.
 */
 
-CT_EXPORT
 CTLineRef _Nullable CTLineCreateJustifiedLine(
     CTLineRef line,
     CGFloat justificationFactor,
@@ -225,7 +221,6 @@ CTLineRef _Nullable CTLineCreateJustifiedLine(
     @result     The total glyph count for the line passed in.
 */
 
-CT_EXPORT
 CFIndex CTLineGetGlyphCount(
     CTLineRef line ) CT_AVAILABLE(macos(10.5), ios(3.2), watchos(2.0), tvos(9.0));
 
@@ -240,7 +235,6 @@ CFIndex CTLineGetGlyphCount(
     @result     A CFArrayRef containing the CTRun objects that make up the line.
 */
 
-CT_EXPORT
 CFArrayRef CTLineGetGlyphRuns(
     CTLineRef line ) CT_AVAILABLE(macos(10.5), ios(3.2), watchos(2.0), tvos(9.0));
 
@@ -258,7 +252,6 @@ CFArrayRef CTLineGetGlyphRuns(
                 empty range will be returned.
 */
 
-CT_EXPORT
 CFRange CTLineGetStringRange(
     CTLineRef line ) CT_AVAILABLE(macos(10.5), ios(3.2), watchos(2.0), tvos(9.0));
 
@@ -284,7 +277,6 @@ CFRange CTLineGetStringRange(
                 the flush operation.
 */
 
-CT_EXPORT
 double CTLineGetPenOffsetForFlush(
     CTLineRef line,
     CGFloat flushFactor,
@@ -309,7 +301,6 @@ double CTLineGetPenOffsetForFlush(
                 The context to which the line will be drawn.
 */
 
-CT_EXPORT
 void CTLineDraw(
     CTLineRef line,
     CGContextRef context ) CT_AVAILABLE(macos(10.5), ios(3.2), watchos(2.0), tvos(9.0));
@@ -348,7 +339,6 @@ void CTLineDraw(
     @seealso    CTLineGetTrailingWhitespaceWidth
 */
 
-CT_EXPORT
 double CTLineGetTypographicBounds(
     CTLineRef line,
     CGFloat * _Nullable ascent,
@@ -372,7 +362,6 @@ double CTLineGetTypographicBounds(
                 is invalid this function will return CGRectNull.
 */
 
-CT_EXPORT
 CGRect CTLineGetBoundsWithOptions(
     CTLineRef line,
     CTLineBoundsOptions options ) CT_AVAILABLE(macos(10.8), ios(6.0), watchos(2.0), tvos(9.0));
@@ -394,7 +383,6 @@ CGRect CTLineGetBoundsWithOptions(
                 this function will always return zero.
 */
 
-CT_EXPORT
 double CTLineGetTrailingWhitespaceWidth(
     CTLineRef line ) CT_AVAILABLE(macos(10.5), ios(3.2), watchos(2.0), tvos(9.0));
 
@@ -426,7 +414,6 @@ double CTLineGetTrailingWhitespaceWidth(
     @seealso    CTLineGetPenOffsetForFlush
 */
 
-CT_EXPORT
 CGRect CTLineGetImageBounds(
     CTLineRef line,
     CGContextRef _Nullable context ) CT_AVAILABLE(macos(10.5), ios(3.2), watchos(2.0), tvos(9.0));
@@ -459,7 +446,6 @@ CGRect CTLineGetImageBounds(
                 failure, this function will return kCFNotFound.
 */
 
-CT_EXPORT
 CFIndex CTLineGetStringIndexForPosition(
     CTLineRef line,
     CGPoint position ) CT_AVAILABLE(macos(10.5), ios(3.2), watchos(2.0), tvos(9.0));
@@ -497,7 +483,6 @@ CFIndex CTLineGetStringIndexForPosition(
                 the event of failure.
 */
 
-CT_EXPORT
 CGFloat CTLineGetOffsetForStringIndex(
     CTLineRef line,
     CFIndex charIndex,
@@ -516,7 +501,6 @@ CGFloat CTLineGetOffsetForStringIndex(
                 The offset parameter is relative to the line origin. The leadingEdge parameter of this block refers to logical order.
 */
 
-CT_EXPORT
 void CTLineEnumerateCaretOffsets(
     CTLineRef line,
     void (^block)(double offset, CFIndex charIndex, bool leadingEdge, bool* stop) ) CT_AVAILABLE(macos(10.11), ios(9.0), watchos(2.0), tvos(9.0));

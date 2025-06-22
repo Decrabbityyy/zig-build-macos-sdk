@@ -622,8 +622,7 @@ public:
     
 protected:
 
-    UInt32 *				fQuads;
-    UInt32					fQuadsPad[kMaxWriteQuads - (sizeof(UInt32 *) >> 2)];
+    UInt32					fQuads[kMaxWriteQuads];
     UInt32 *				fQPtr;
     int						fPackSize;
 	
@@ -708,8 +707,7 @@ class IOFWCompareAndSwapCommand : public IOFWAsyncCommand
     OSDeclareDefaultStructors(IOFWCompareAndSwapCommand)
 
 protected:
-    UInt32 *				fInputVals;
-    UInt32 					fInputValsPad[2];
+    UInt32 					fInputVals[4];
     UInt32 					fOldVal[2];
 	
 	typedef struct 

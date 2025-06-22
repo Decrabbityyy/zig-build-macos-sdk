@@ -5,18 +5,16 @@
 
 #ifdef __OBJC__
 
-#if __has_include(<Metal/MTLDrawable.h>)
-
 #import <QuartzCore/CABase.h>
 #import <QuartzCore/CAFrameRateRange.h>
 #import <QuartzCore/CAMetalLayer.h>
 #import <Foundation/NSObject.h>
 
-NS_HEADER_AUDIT_BEGIN(nullability, sendability)
+NS_ASSUME_NONNULL_BEGIN
 
 @class CAMetalDisplayLink;
 
-API_AVAILABLE(macos(14.0), ios(17.0), tvos(17.0)) API_UNAVAILABLE(watchos)
+API_AVAILABLE(macos(14.0), ios(17.0), watchos(10.0), tvos(17.0))
 CF_SWIFT_NAME(CAMetalDisplayLink.Update)
 @interface CAMetalDisplayLinkUpdate : NSObject
 @property(readonly, nonatomic) id<CAMetalDrawable> drawable;
@@ -24,12 +22,12 @@ CF_SWIFT_NAME(CAMetalDisplayLink.Update)
 @property(readonly, nonatomic) CFTimeInterval targetPresentationTimestamp;
 @end
 
-API_AVAILABLE(macos(14.0), ios(17.0), tvos(17.0)) API_UNAVAILABLE(watchos)
+API_AVAILABLE(macos(14.0), ios(17.0), watchos(10.0), tvos(17.0))
 @protocol CAMetalDisplayLinkDelegate
 - (void)metalDisplayLink:(CAMetalDisplayLink *)link needsUpdate:(CAMetalDisplayLinkUpdate *)update;
 @end
 
-API_AVAILABLE(macos(14.0), ios(17.0), tvos(17.0)) API_UNAVAILABLE(watchos)
+API_AVAILABLE(macos(14.0), ios(17.0), watchos(10.0), tvos(17.0))
 @interface CAMetalDisplayLink : NSObject
 
 - (instancetype)initWithMetalLayer:(CAMetalLayer *)layer;
@@ -50,8 +48,6 @@ API_AVAILABLE(macos(14.0), ios(17.0), tvos(17.0)) API_UNAVAILABLE(watchos)
 
 @end
 
-NS_HEADER_AUDIT_END(nullability, sendability)
+NS_ASSUME_NONNULL_END
 
-#endif /* __has_include(<Metal/MTLDrawable.h>) */
-
-#endif /* __OBJC__ */
+#endif

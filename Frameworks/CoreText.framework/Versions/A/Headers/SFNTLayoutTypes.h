@@ -10,7 +10,7 @@
 #define __SFNTLAYOUTTYPES__
 
 #include <TargetConditionals.h>
-#include <os/availability.h>
+#include <Availability.h>
 
 #if !TARGET_OS_WIN32
 #include <MacTypes.h>

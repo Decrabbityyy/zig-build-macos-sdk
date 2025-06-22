@@ -20,7 +20,6 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol MTLCommandBuffer;
 @protocol MTLEvent;
 @protocol MTLLogContainer;
-@protocol MTLLogState;
 @protocol MTLResourceStateCommandEncoder;
 @protocol MTLAccelerationStructureCommandEncoder;
 @class MTLRenderPassDescriptor;
@@ -28,7 +27,6 @@ NS_ASSUME_NONNULL_BEGIN
 @class MTLBlitPassDescriptor;
 @class MTLResourceStatePassDescriptor;
 @class MTLAccelerationStructurePassDescriptor;
-@protocol MTLResidencySet;
 
 /*!
  @enum MTLCommandBufferStatus
@@ -184,13 +182,6 @@ MTL_EXPORT API_AVAILABLE(macos(11.0), ios(14.0))
  @abstract A set of options to influence the error reporting of the created command buffer. See MTLCommandBufferErrorOption.
 */
 @property (readwrite, nonatomic) MTLCommandBufferErrorOption errorOptions;
-
-/*!
- @property logState
- @abstract Contains information related to shader logging.
-*/
-@property (readwrite, nonatomic, nullable, retain) id<MTLLogState> logState
-        API_AVAILABLE(macos(15.0), ios(18.0));
 
 @end // MTLCommandBufferDescriptor
 
@@ -440,19 +431,6 @@ API_AVAILABLE(macos(10.11), ios(8.0))
  */
 - (void)popDebugGroup API_AVAILABLE(macos(10.13), ios(11.0));
 
-/*!
-  @method useResidencySet
-  @abstract Marks the residency set as part of the current command buffer execution. This ensures that the residency set is resident during execution of the command buffer.
- */
-- (void)useResidencySet:(id <MTLResidencySet>)residencySet
-                   API_AVAILABLE(macos(15.0), ios(18.0));
-/*!
-  @method useResidencySets
-  @abstract Marks the residency sets as part of the current command buffer execution. This ensures that the residency sets are resident during execution of the command buffer.
- */
-- (void)useResidencySets:(const id <MTLResidencySet> _Nonnull[_Nonnull])residencySets
-                   count:(NSUInteger)count
-                   API_AVAILABLE(macos(15.0), ios(18.0));
 
 @end
 NS_ASSUME_NONNULL_END

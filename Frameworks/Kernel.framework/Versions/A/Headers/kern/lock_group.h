@@ -28,7 +28,6 @@
 #ifndef _KERN_LOCK_GROUP_H
 #define _KERN_LOCK_GROUP_H
 
-#include <kern/assert.h>
 #include <kern/queue.h>
 #include <kern/lock_types.h>
 

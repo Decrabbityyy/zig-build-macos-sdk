@@ -715,14 +715,10 @@ CF_ENUM(AudioUnitParameterID) {
  @enum          AUSoundIsolation sound types
  @brief         Constants available as values for parameter kAUSoundIsolation_SoundToIsolate.
  
- @constant      kAUSoundIsolationSoundType_HighQualityVoice
- Isolate voice signal from the input signal using high quality voice isolation model
-
  @constant      kAUSoundIsolationSoundType_Voice
- Isolate voice signal from the input signal using standard voice isolation model (default)
+ Isolate voice signal from the input signal.
  */
 CF_ENUM(long) {
-    kAUSoundIsolationSoundType_HighQualityVoice API_AVAILABLE(macos(15.0), ios(18.0)) API_UNAVAILABLE(tvos) API_UNAVAILABLE(watchos) = 0,
     kAUSoundIsolationSoundType_Voice API_AVAILABLE(macos(13.0), ios(16.0)) API_UNAVAILABLE(tvos) API_UNAVAILABLE(watchos) = 1
 };
 

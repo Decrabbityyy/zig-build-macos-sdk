@@ -81,7 +81,7 @@ typedef uint64_t kpc_config_t;
 typedef void (*kpc_pm_handler_t)(boolean_t);
 
 struct cpu_data;
-extern void kpc_register_cpu(struct cpu_data *cpu_data);
+extern boolean_t kpc_register_cpu(struct cpu_data *cpu_data);
 extern void kpc_unregister_cpu(struct cpu_data *cpu_data);
 
 extern bool kpc_supported;
@@ -255,7 +255,7 @@ struct kpc_config_remote {
 	uint32_t classes;
 	kpc_config_t *configv;
 	uint64_t pmc_mask;
-	bool secure;
+	bool allow_list;
 };
 
 /* handler for mp operations */

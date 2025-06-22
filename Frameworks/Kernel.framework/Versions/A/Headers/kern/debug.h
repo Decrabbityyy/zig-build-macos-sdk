@@ -31,7 +31,6 @@
 
 #include <kern/kcdata.h>
 
-#include <sys/appleapiopts.h>
 #include <sys/cdefs.h>
 #include <stdint.h>
 #include <stdarg.h>
@@ -39,7 +38,6 @@
 #include <mach/boolean.h>
 #include <mach/kern_return.h>
 #include <mach/vm_types.h>
-#include <kern/panic_call.h>
 
 #include <TargetConditionals.h>
 
@@ -239,19 +237,12 @@ struct _aot_cache_header {
 #endif /* CONFIG_X86_64_COMPAT */
 
 enum micro_snapshot_flags {
-	/*
-	 * (Timer) interrupt records are no longer supported.
-	 */
-	kInterruptRecord        = 0x01,
-	/*
-	 * Timer arming records are no longer supported.
-	 */
-	kTimerArmingRecord      = 0x02,
-	kUserMode               = 0x04, /* interrupted usermode, or armed by usermode */
-	kIORecord               = 0x08,
+	kInterruptRecord        = 0x1,
+	kTimerArmingRecord      = 0x2,
+	kUserMode               = 0x4, /* interrupted usermode, or armed by usermode */
+	kIORecord               = 0x8,
 	kPMIRecord              = 0x10,
 	kMACFRecord             = 0x20, /* armed by MACF policy */
-	kKernelThread           = 0x40, /* sampled a kernel thread */
 };
 
 /*
@@ -311,34 +302,10 @@ __options_decl(stackshot_flags_t, uint64_t, {
 }); // Note: Add any new flags to kcdata.py (stackshot_in_flags)
 
 __options_decl(microstackshot_flags_t, uint32_t, {
-	/*
-	 * Collect and consume kernel thread microstackshots.
-	 */
-	STACKSHOT_GET_KERNEL_MICROSTACKSHOT        = 0x0008,
-	/*
-	 * Collect user thread microstackshots.
-	 */
-	STACKSHOT_GET_MICROSTACKSHOT               = 0x0010,
-	/*
-	 * Enable and disable are longer supported; use telemetry(2) instead.
-	 */
-	STACKSHOT_GLOBAL_MICROSTACKSHOT_ENABLE     = 0x0020,
-	STACKSHOT_GLOBAL_MICROSTACKSHOT_DISABLE    = 0x0040,
-	/*
-	 * For user thread microstackshots, set a mark to consume the entries.
-	 */
-	STACKSHOT_SET_MICROSTACKSHOT_MARK          = 0x0080,
-});
-
-__options_decl(telemetry_notice_t, uint32_t, {
-	/*
-	 * User space microstackshots should be read.
-	 */
-	TELEMETRY_NOTICE_BASE                 = 0x00,
-	/*
-	 * Kernel microstackshots should be read.
-	 */
-	TELEMETRY_NOTICE_KERNEL_MICROSTACKSHOT = 0x01,
+	STACKSHOT_GET_MICROSTACKSHOT               = 0x10,
+	STACKSHOT_GLOBAL_MICROSTACKSHOT_ENABLE     = 0x20,
+	STACKSHOT_GLOBAL_MICROSTACKSHOT_DISABLE    = 0x40,
+	STACKSHOT_SET_MICROSTACKSHOT_MARK          = 0x80,
 });
 
 #define STACKSHOT_THREAD_SNAPSHOT_MAGIC     0xfeedface
@@ -359,31 +326,13 @@ __options_closed_decl(kf_override_flag_t, uint32_t, {
 	KF_IOTRACE_OVRD                           = 0x100,
 	KF_INTERRUPT_MASKED_DEBUG_STACKSHOT_OVRD  = 0x200,
 	KF_SCHED_HYGIENE_DEBUG_PMC_OVRD           = 0x400,
-	KF_MACH_ASSERT_OVRD                       = 0x800,
+	KF_RW_LOCK_DEBUG_OVRD                     = 0x800,
 	KF_MADVISE_FREE_DEBUG_OVRD                = 0x1000,
 	KF_DISABLE_FP_POPC_ON_PGFLT               = 0x2000,
 	KF_DISABLE_PROD_TRC_VALIDATION            = 0x4000,
 	KF_IO_TIMEOUT_OVRD                        = 0x8000,
 	KF_PREEMPTION_DISABLED_DEBUG_OVRD         = 0x10000,
-	/*
-	 * Disable panics (with retaining backtraces) on leaked proc refs across syscall boundary.
-	 */
-	KF_DISABLE_PROCREF_TRACKING_OVRD          = 0x20000,
 });
-
-#define KF_SERVER_PERF_MODE_OVRD ( \
-	KF_SERIAL_OVRD | \
-	KF_PMAPV_OVRD | \
-	KF_MATV_OVRD | \
-	KF_COMPRSV_OVRD | \
-	KF_INTERRUPT_MASKED_DEBUG_OVRD | \
-	KF_TRAPTRACE_OVRD | \
-	KF_IOTRACE_OVRD  | \
-	KF_SCHED_HYGIENE_DEBUG_PMC_OVRD | \
-	KF_MACH_ASSERT_OVRD | \
-	KF_MADVISE_FREE_DEBUG_OVRD | \
-	KF_DISABLE_PROD_TRC_VALIDATION | \
-	0)
 
 boolean_t kern_feature_override(kf_override_flag_t fmask);
 
@@ -396,7 +345,7 @@ __options_decl(eph_panic_flags_t, uint64_t, {
 	EMBEDDED_PANIC_HEADER_FLAG_STACKSHOT_FAILED_NESTED        = 0x20,                               /* ERROR: stackshot caused a nested panic */
 	EMBEDDED_PANIC_HEADER_FLAG_NESTED_PANIC                   = 0x40,                               /* ERROR: panic handler encountered a panic */
 	EMBEDDED_PANIC_HEADER_FLAG_BUTTON_RESET_PANIC             = 0x80,                               /* INFO: force-reset panic: user held power button to force shutdown */
-	EMBEDDED_PANIC_HEADER_FLAG_COMPANION_PROC_INITIATED_PANIC = 0x100,                              /* INFO: panic was triggered by a companion processor (external to the SOC) */
+	EMBEDDED_PANIC_HEADER_FLAG_COPROC_INITIATED_PANIC         = 0x100,                              /* INFO: panic was triggered by a companion processor (not Xnu) */
 	EMBEDDED_PANIC_HEADER_FLAG_COREDUMP_FAILED                = 0x200,                              /* ERROR: coredump failed to complete */
 	EMBEDDED_PANIC_HEADER_FLAG_COMPRESS_FAILED                = 0x400,                              /* ERROR: stackshot failed to compress */
 	EMBEDDED_PANIC_HEADER_FLAG_STACKSHOT_DATA_COMPRESSED      = 0x800,                              /* INFO: stackshot data is compressed */
@@ -405,13 +354,9 @@ __options_decl(eph_panic_flags_t, uint64_t, {
 	EMBEDDED_PANIC_HEADER_FLAG_COREFILE_UNLINKED              = 0x4000,                             /* ERROR: coredump output file is not linked */
 	EMBEDDED_PANIC_HEADER_FLAG_INCOHERENT_PANICLOG            = 0x8000,                             /* ERROR: paniclog integrity check failed (a warning to consumer code i.e. DumpPanic) */
 	EMBEDDED_PANIC_HEADER_FLAG_EXCLAVE_PANIC                  = 0x10000,                            
-	EMBEDDED_PANIC_HEADER_FLAG_USERSPACE_INITIATED_PANIC      = 0x20000,                            /* INFO: panic was initiated by userspace */
-	EMBEDDED_PANIC_HEADER_FLAG_INTEGRATED_COPROC_INITIATED_PANIC = 0x40000,                         /* INFO: panic was initiated by an SOC-integrated coprocessor */
 });
 
-#define MAX_PANIC_INITIATOR_SIZE 256
-
-#define EMBEDDED_PANIC_HEADER_CURRENT_VERSION 6
+#define EMBEDDED_PANIC_HEADER_CURRENT_VERSION 5
 #define EMBEDDED_PANIC_MAGIC 0x46554E4B /* FUNK */
 #define EMBEDDED_PANIC_HEADER_OSVERSION_LEN 32
 
@@ -449,8 +394,6 @@ struct embedded_panic_header {
 	uint64_t eph_roots_installed;                                  /* bitmap indicating which roots are installed on this system */
 	uint32_t eph_ext_paniclog_offset;
 	uint32_t eph_ext_paniclog_len;
-	uint32_t eph_panic_initiator_offset;
-	uint32_t eph_panic_initiator_len;
 } __attribute__((packed));
 
 
@@ -459,7 +402,7 @@ struct embedded_panic_header {
 
 __options_decl(mph_panic_flags_t, uint64_t, {
 	MACOS_PANIC_HEADER_FLAG_NESTED_PANIC                   = 0x01,                                /* ERROR: panic handler encountered a panic */
-	MACOS_PANIC_HEADER_FLAG_COMPANION_PROC_INITIATED_PANIC = 0x02,                                /* INFO: panic was triggered by a companion processor (external to the SOC) */
+	MACOS_PANIC_HEADER_FLAG_COPROC_INITIATED_PANIC         = 0x02,                                /* INFO: panic was triggered by a companion processor (not Xnu) */
 	MACOS_PANIC_HEADER_FLAG_STACKSHOT_SUCCEEDED            = 0x04,                                /* INFO: stackshot completed */
 	MACOS_PANIC_HEADER_FLAG_STACKSHOT_DATA_COMPRESSED      = 0x08,                                /* INFO: stackshot data is compressed */
 	MACOS_PANIC_HEADER_FLAG_STACKSHOT_FAILED_DEBUGGERSYNC  = 0x10,                                /* ERROR: stackshot failed to sync with external debugger */
@@ -473,9 +416,7 @@ __options_decl(mph_panic_flags_t, uint64_t, {
 	MACOS_PANIC_HEADER_FLAG_ENCRYPTED_COREDUMP_SKIPPED     = 0x1000,                              /* ERROR: coredump policy requires encryption, but encryptions is not initialized or available */
 	MACOS_PANIC_HEADER_FLAG_KERNEL_COREDUMP_SKIPPED_EXCLUDE_REGIONS_UNAVAILABLE     = 0x2000,     /* ERROR: coredump region exclusion list is not available */
 	MACOS_PANIC_HEADER_FLAG_COREFILE_UNLINKED              = 0x4000,                              /* ERROR: coredump output file is not linked */
-	MACOS_PANIC_HEADER_FLAG_INCOHERENT_PANICLOG            = 0x8000,                              /* ERROR: paniclog integrity check failed (a warning to consumer code i.e. DumpPanic) */
-	MACOS_PANIC_HEADER_FLAG_USERSPACE_INITIATED_PANIC      = 0x10000,                             /* INFO: panic was initiated by userspace */
-	MACOS_PANIC_HEADER_FLAG_INTEGRATED_COPROC_INITIATED_PANIC = 0x20000,                          /* INFO: panic was initiated by an SOC-integrated coprocessor */
+	MACOS_PANIC_HEADER_FLAG_INCOHERENT_PANICLOG            = 0x8000                               /* ERROR: paniclog integrity check failed (a warning to consumer code i.e. DumpPanic) */
 });
 
 struct macos_panic_header {
@@ -530,6 +471,11 @@ struct efi_aurr_extended_panic_log {
  * If non-zero, this physical address had an ECC error that led to a panic.
  */
 extern uint64_t ecc_panic_physical_address;
+
+
+__abortlike __printflike(1, 2)
+extern void panic(const char *string, ...);
+
 
 
 

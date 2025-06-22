@@ -172,6 +172,7 @@ typedef CALLBACK_API_C( OSStatus , HIShapeEnumerateProcPtr )(int inMessage, HISh
  *  Discussion:
  *    Returns the CoreFoundation type ID for the HIShape class.
  *    
+ *    
  *    This API is thread safe only on Mac OS X 10.5 and later; see the
  *    Thread Safety Information section at the top of the header for
  *    other important details.
@@ -290,6 +291,7 @@ HIShapeCreateWithRect(const CGRect * inRect)                  AVAILABLE_MAC_OS_X
  *  Discussion:
  *    Creates an immutable copy of a mutable or immutable HIShape.
  *    
+ *    
  *    This API is thread safe only on Mac OS X 10.5 and later; see the
  *    Thread Safety Information section at the top of the header for
  *    other important details.
@@ -391,6 +393,7 @@ HIShapeCreateDifference(
  *  
  *  Discussion:
  *    Creates a new immutable shape which is the union of two others.
+ *    
  *    
  *    This API is thread safe only on Mac OS X 10.5 and later; see the
  *    Thread Safety Information section at the top of the header for
@@ -522,8 +525,9 @@ HIShapeIsRectangular(HIShapeRef inShape)                      AVAILABLE_MAC_OS_X
  *  HIShapeContainsPoint()
  *  
  *  Discussion:
- *    Returns true if the given HIShapeRef contains the point passed in.
- *
+ *    Returns true if the given HIShapeRef contains the point passed
+ *    in. 
+ *    
  *    This API is thread safe only on Mac OS X 10.5 and later; see the
  *    Thread Safety Information section at the top of the header for
  *    other important details.
@@ -557,8 +561,9 @@ HIShapeContainsPoint(
  *  HIShapeIntersectsRect()
  *  
  *  Discussion:
- *    Returns true if the given HIShapeRef intersects the rect passed in.
- *
+ *    Returns true if the given HIShapeRef intersects the rect passed
+ *    in. 
+ *    
  *    This API is thread safe only on Mac OS X 10.5 and later; see the
  *    Thread Safety Information section at the top of the header for
  *    other important details.
@@ -627,7 +632,7 @@ HIShapeGetBounds(
  *  HIShapeGetAsQDRgn()
  *  
  *  Discussion:
- *    Changes a given QuickDraw region handle to have the same shape as
+ *    Changes a given Quickdraw region handle to have the same shape as
  *    a given HIShapeRef. Essentially you are converting an HIShapeRef
  *    into a RgnHandle. This conversion may lose fidelity depending on
  *    how the shape was created originally. 
@@ -704,7 +709,7 @@ HIShapeReplacePathInCGContext(
  *  HIShapeSetQDClip()
  *  
  *  Discussion:
- *    Given an HIShapeRef and a QuickDraw port, set the current clip in
+ *    Given an HIShapeRef and a Quickdraw port, set the current clip in
  *    the port to the shape. 
  *    
  *    This API is thread safe only on Mac OS X 10.5 and later; see the
@@ -819,6 +824,7 @@ HIShapeCreateMutable(void)                                    AVAILABLE_MAC_OS_X
  *  Discussion:
  *    Given an existing HIShapeRef, creates a new mutable copy.
  *    
+ *    
  *    This API is thread safe only on Mac OS X 10.5 and later; see the
  *    Thread Safety Information section at the top of the header for
  *    other important details.
@@ -906,6 +912,7 @@ HIShapeSetEmpty(HIMutableShapeRef inShape)                    AVAILABLE_MAC_OS_X
  *  Discussion:
  *    Sets a mutable shape to have the same contents as another shape.
  *    
+ *    
  *    This API is thread safe only on Mac OS X 10.5 and later; see the
  *    Thread Safety Information section at the top of the header for
  *    other important details.
@@ -941,6 +948,7 @@ HIShapeSetWithShape(
  *  
  *  Discussion:
  *    Takes two shapes and sets a third to be their intersection.
+ *    
  *    
  *    This API is thread safe only on Mac OS X 10.5 and later; see the
  *    Thread Safety Information section at the top of the header for
@@ -999,7 +1007,7 @@ HIShapeIntersect(
  *      The second shape.
  *    
  *    outResult:
- *      The shape to receive the result of the subtraction. This can
+ *      The shape to receive the result of the intersection. This can
  *      be one of the source shapes. This shape must be mutable.
  *  
  *  Result:

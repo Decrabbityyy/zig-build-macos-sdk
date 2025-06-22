@@ -75,12 +75,6 @@ struct perfcontrol_state {
 extern unsigned int _MachineStateCount[];
 
 
-static inline long
-ml_make_pcpu_base_and_cpu_number(long base, uint16_t cpu)
-{
-	return (base << 16) | cpu;
-}
-
 extern struct arm_saved_state *    get_user_regs(thread_t);
 extern struct arm_saved_state *    find_user_regs(thread_t);
 extern struct arm_saved_state *    find_kern_regs(thread_t);
@@ -89,7 +83,10 @@ extern arm_debug_state32_t *       find_debug_state32(thread_t);
 extern arm_debug_state32_t *       find_or_allocate_debug_state32(thread_t);
 extern arm_debug_state64_t *       find_debug_state64(thread_t);
 extern arm_debug_state64_t *       find_or_allocate_debug_state64(thread_t);
-extern void                        set_user_neon_reg(thread_t, unsigned int, uint128_t);
+extern arm_neon_saved_state_t *    get_user_neon_regs(thread_t);
+#if __ARM_VHE__
+extern const arm_saved_state_t *   get_vcpu_user_regs(thread_t);
+#endif
 
 #define FIND_PERFCONTROL_STATE(th) (&th->machine.perfctrl_state)
 
@@ -98,18 +95,6 @@ extern void *act_thread_csave(void);
 extern void act_thread_catt(void *ctx);
 extern void act_thread_cfree(void *ctx);
 
-
-#if HAS_APPLE_GENERIC_TIMER
-extern void agt_thread_bootstrap(void);
-#endif /* HAS_MACHINE_GENERIC_TIMER */
-
-#if HAS_JITBOX
-extern void jitbox_cfg_set(
-	boolean_t jitbox_enabled,
-	uint64_t jitbox_version,
-	uint64_t jitbox_start,
-	uint64_t jitbox_size);
-#endif
 
 /*
  * Return address of the function that called current function, given

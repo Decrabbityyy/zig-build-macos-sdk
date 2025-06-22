@@ -45,9 +45,8 @@ CF_IMPLICIT_BRIDGING_ENABLED
 
 enum
 {
-    kDADiskMountOptionDefault  = 0x00000000,
-    kDADiskMountOptionWhole    = 0x00000001,
-    kDADiskMountOptionNoFollow = 0x00000002
+    kDADiskMountOptionDefault = 0x00000000,
+    kDADiskMountOptionWhole   = 0x00000001
 };
 
 typedef UInt32 DADiskMountOptions;

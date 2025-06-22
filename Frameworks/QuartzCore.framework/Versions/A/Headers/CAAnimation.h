@@ -12,16 +12,16 @@
 @class NSArray, NSString, CAMediaTimingFunction, CAValueFunction;
 @protocol CAAnimationDelegate;
 
-NS_HEADER_AUDIT_BEGIN(nullability, sendability)
+NS_ASSUME_NONNULL_BEGIN
 
-typedef NSString * CAAnimationCalculationMode NS_TYPED_ENUM API_AVAILABLE(macos(10.5), ios(2.0), tvos(9.0)) API_UNAVAILABLE(watchos);
-typedef NSString * CAAnimationRotationMode NS_TYPED_ENUM API_AVAILABLE(macos(10.5), ios(2.0), tvos(9.0)) API_UNAVAILABLE(watchos);
-typedef NSString * CATransitionType NS_TYPED_ENUM API_AVAILABLE(macos(10.5), ios(2.0), tvos(9.0)) API_UNAVAILABLE(watchos);
-typedef NSString * CATransitionSubtype NS_TYPED_ENUM API_AVAILABLE(macos(10.5), ios(2.0), tvos(9.0)) API_UNAVAILABLE(watchos);
+typedef NSString * CAAnimationCalculationMode NS_TYPED_ENUM;
+typedef NSString * CAAnimationRotationMode NS_TYPED_ENUM;
+typedef NSString * CATransitionType NS_TYPED_ENUM;
+typedef NSString * CATransitionSubtype NS_TYPED_ENUM;
 
 /** The base animation class. **/
 
-API_AVAILABLE(macos(10.5), ios(2.0), tvos(9.0)) API_UNAVAILABLE(watchos)
+API_AVAILABLE(macos(10.5), ios(2.0), watchos(2.0), tvos(9.0))
 @interface CAAnimation : NSObject
     <NSSecureCoding, NSCopying, CAMediaTiming, CAAction>
 {
@@ -61,13 +61,12 @@ API_AVAILABLE(macos(10.5), ios(2.0), tvos(9.0)) API_UNAVAILABLE(watchos)
    with other animation sources. */
 
 @property CAFrameRateRange preferredFrameRateRange
-    API_AVAILABLE(macos(12.0), ios(15.0), tvos(15.0)) API_UNAVAILABLE(watchos);
+    API_AVAILABLE(macos(12.0), ios(15.0), watchos(8.0), tvos(15.0));
 
 @end
 
 /* Delegate methods for CAAnimation. */
 
-API_AVAILABLE(macos(10.12), ios(10.0), tvos(10.0)) API_UNAVAILABLE(watchos)
 @protocol CAAnimationDelegate <NSObject>
 @optional
 
@@ -87,7 +86,7 @@ API_AVAILABLE(macos(10.12), ios(10.0), tvos(10.0)) API_UNAVAILABLE(watchos)
 
 /** Subclass for property-based animations. **/
 
-API_AVAILABLE(macos(10.5), ios(2.0), tvos(9.0)) API_UNAVAILABLE(watchos)
+API_AVAILABLE(macos(10.5), ios(2.0), watchos(2.0), tvos(9.0))
 @interface CAPropertyAnimation : CAAnimation
 
 /* Creates a new animation object with its `keyPath' property set to
@@ -126,7 +125,7 @@ API_AVAILABLE(macos(10.5), ios(2.0), tvos(9.0)) API_UNAVAILABLE(watchos)
 
 /** Subclass for basic (single-keyframe) animations. **/
 
-API_AVAILABLE(macos(10.5), ios(2.0), tvos(9.0)) API_UNAVAILABLE(watchos)
+API_AVAILABLE(macos(10.5), ios(2.0), watchos(2.0), tvos(9.0))
 @interface CABasicAnimation : CAPropertyAnimation
 
 /* The objects defining the property values being interpolated between.
@@ -162,7 +161,7 @@ API_AVAILABLE(macos(10.5), ios(2.0), tvos(9.0)) API_UNAVAILABLE(watchos)
 
 /** General keyframe animation class. **/
 
-API_AVAILABLE(macos(10.5), ios(2.0), tvos(9.0)) API_UNAVAILABLE(watchos)
+API_AVAILABLE(macos(10.5), ios(2.0), watchos(2.0), tvos(9.0))
 @interface CAKeyframeAnimation : CAPropertyAnimation
 
 /* An array of objects providing the value of the animation function for
@@ -236,26 +235,26 @@ API_AVAILABLE(macos(10.5), ios(2.0), tvos(9.0)) API_UNAVAILABLE(watchos)
 /* `calculationMode' strings. */
 
 CA_EXTERN CAAnimationCalculationMode const kCAAnimationLinear
-    API_AVAILABLE(macos(10.5), ios(2.0), tvos(9.0)) API_UNAVAILABLE(watchos);
+    API_AVAILABLE(macos(10.5), ios(2.0), watchos(2.0), tvos(9.0));
 CA_EXTERN CAAnimationCalculationMode const kCAAnimationDiscrete
-    API_AVAILABLE(macos(10.5), ios(2.0), tvos(9.0)) API_UNAVAILABLE(watchos);
+    API_AVAILABLE(macos(10.5), ios(2.0), watchos(2.0), tvos(9.0));
 CA_EXTERN CAAnimationCalculationMode const kCAAnimationPaced
-    API_AVAILABLE(macos(10.5), ios(2.0), tvos(9.0)) API_UNAVAILABLE(watchos);
+    API_AVAILABLE(macos(10.5), ios(2.0), watchos(2.0), tvos(9.0));
 CA_EXTERN CAAnimationCalculationMode const kCAAnimationCubic
-    API_AVAILABLE(macos(10.7), ios(4.0), tvos(9.0)) API_UNAVAILABLE(watchos);
+    API_AVAILABLE(macos(10.7), ios(4.0), watchos(2.0), tvos(9.0));
 CA_EXTERN CAAnimationCalculationMode const kCAAnimationCubicPaced
-    API_AVAILABLE(macos(10.7), ios(4.0), tvos(9.0)) API_UNAVAILABLE(watchos);
+    API_AVAILABLE(macos(10.7), ios(4.0), watchos(2.0), tvos(9.0));
 
 /* `rotationMode' strings. */
 
 CA_EXTERN CAAnimationRotationMode const kCAAnimationRotateAuto
-    API_AVAILABLE(macos(10.5), ios(2.0), tvos(9.0)) API_UNAVAILABLE(watchos);
+    API_AVAILABLE(macos(10.5), ios(2.0), watchos(2.0), tvos(9.0));
 CA_EXTERN CAAnimationRotationMode const kCAAnimationRotateAutoReverse
-    API_AVAILABLE(macos(10.5), ios(2.0), tvos(9.0)) API_UNAVAILABLE(watchos);
+    API_AVAILABLE(macos(10.5), ios(2.0), watchos(2.0), tvos(9.0));
 
 /** Subclass for mass-spring animations. */
 
-API_AVAILABLE(macos(10.11), ios(9.0), tvos(9.0)) API_UNAVAILABLE(watchos)
+API_AVAILABLE(macos(10.11), ios(9.0), watchos(2.0), tvos(9.0))
 @interface CASpringAnimation : CABasicAnimation
 
 /* The mass of the object attached to the end of the spring. Must be greater
@@ -285,7 +284,7 @@ API_AVAILABLE(macos(10.11), ios(9.0), tvos(9.0)) API_UNAVAILABLE(watchos)
  * damped). Defaults to false. */
 
 @property BOOL allowsOverdamping
-    API_AVAILABLE(macos(14.0), ios(17.0), tvos(17.0)) API_UNAVAILABLE(watchos);
+    API_AVAILABLE(macos(14.0), ios(17.0), watchos(10.0), tvos(17.0));
 
 /* Returns the estimated duration required for the spring system to be
  * considered at rest. The duration is evaluated for the current animation
@@ -300,12 +299,12 @@ API_AVAILABLE(macos(10.11), ios(9.0), tvos(9.0)) API_UNAVAILABLE(watchos)
 
 - (instancetype)initWithPerceptualDuration:(CFTimeInterval)perceptualDuration
                     bounce:(CGFloat)bounce
-    API_AVAILABLE(macos(14.0), ios(17.0), tvos(17.0)) API_UNAVAILABLE(watchos);
+    API_AVAILABLE(macos(14.0), ios(17.0), watchos(10.0), tvos(17.0));
 
 /* The perceptual duration, which defines the pace of the spring. */
 
 @property(readonly) CFTimeInterval perceptualDuration
-    API_AVAILABLE(macos(14.0), ios(17.0), tvos(17.0)) API_UNAVAILABLE(watchos);
+    API_AVAILABLE(macos(14.0), ios(17.0), watchos(10.0), tvos(17.0));
 
 /* How bouncy the spring is. A value of 0 indicates no bounces (a critically
  * damped spring), positive values indicate increasing amounts of bounce (with
@@ -313,13 +312,13 @@ API_AVAILABLE(macos(10.11), ios(9.0), tvos(9.0)) API_UNAVAILABLE(watchos)
  * overdamped springs (with typical values being between 0.0 and -1.0). */
 
 @property(readonly) CGFloat bounce
-    API_AVAILABLE(macos(14.0), ios(17.0), tvos(17.0)) API_UNAVAILABLE(watchos);
+    API_AVAILABLE(macos(14.0), ios(17.0), watchos(10.0), tvos(17.0));
 
 @end
 
 /** Transition animation subclass. **/
 
-API_AVAILABLE(macos(10.5), ios(2.0), tvos(9.0)) API_UNAVAILABLE(watchos)
+API_AVAILABLE(macos(10.5), ios(2.0), watchos(2.0), tvos(9.0))
 @interface CATransition : CAAnimation
 
 /* The name of the transition. Current legal transition types include
@@ -342,7 +341,6 @@ API_AVAILABLE(macos(10.5), ios(2.0), tvos(9.0)) API_UNAVAILABLE(watchos)
 @property float startProgress;
 @property float endProgress;
 
-
 /* An optional filter object implementing the transition. When set the
  * `type' and `subtype' properties are ignored. The filter must
  * implement `inputImage', `inputTargetImage' and `inputTime' input
@@ -352,35 +350,34 @@ API_AVAILABLE(macos(10.5), ios(2.0), tvos(9.0)) API_UNAVAILABLE(watchos)
 
 @property(nullable, strong) id filter;
 
-
 @end
 
 /* Common transition types. */
 
 CA_EXTERN CATransitionType const kCATransitionFade
-    API_AVAILABLE(macos(10.5), ios(2.0), tvos(9.0)) API_UNAVAILABLE(watchos);
+    API_AVAILABLE(macos(10.5), ios(2.0), watchos(2.0), tvos(9.0));
 CA_EXTERN CATransitionType const kCATransitionMoveIn
-    API_AVAILABLE(macos(10.5), ios(2.0), tvos(9.0)) API_UNAVAILABLE(watchos);
+    API_AVAILABLE(macos(10.5), ios(2.0), watchos(2.0), tvos(9.0));
 CA_EXTERN CATransitionType const kCATransitionPush
-    API_AVAILABLE(macos(10.5), ios(2.0), tvos(9.0)) API_UNAVAILABLE(watchos);
+    API_AVAILABLE(macos(10.5), ios(2.0), watchos(2.0), tvos(9.0));
 CA_EXTERN CATransitionType const kCATransitionReveal
-    API_AVAILABLE(macos(10.5), ios(2.0), tvos(9.0)) API_UNAVAILABLE(watchos);
+    API_AVAILABLE(macos(10.5), ios(2.0), watchos(2.0), tvos(9.0));
 
 /* Common transition subtypes. */
 
 CA_EXTERN CATransitionSubtype const kCATransitionFromRight
-    API_AVAILABLE(macos(10.5), ios(2.0), tvos(9.0)) API_UNAVAILABLE(watchos);
+    API_AVAILABLE(macos(10.5), ios(2.0), watchos(2.0), tvos(9.0));
 CA_EXTERN CATransitionSubtype const kCATransitionFromLeft
-    API_AVAILABLE(macos(10.5), ios(2.0), tvos(9.0)) API_UNAVAILABLE(watchos);
+    API_AVAILABLE(macos(10.5), ios(2.0), watchos(2.0), tvos(9.0));
 CA_EXTERN CATransitionSubtype const kCATransitionFromTop
-    API_AVAILABLE(macos(10.5), ios(2.0), tvos(9.0)) API_UNAVAILABLE(watchos);
+    API_AVAILABLE(macos(10.5), ios(2.0), watchos(2.0), tvos(9.0));
 CA_EXTERN CATransitionSubtype const kCATransitionFromBottom
-    API_AVAILABLE(macos(10.5), ios(2.0), tvos(9.0)) API_UNAVAILABLE(watchos);
+    API_AVAILABLE(macos(10.5), ios(2.0), watchos(2.0), tvos(9.0));
 
 
 /** Animation subclass for grouped animations. **/
 
-API_AVAILABLE(macos(10.5), ios(2.0), tvos(9.0)) API_UNAVAILABLE(watchos)
+API_AVAILABLE(macos(10.5), ios(2.0), watchos(2.0), tvos(9.0))
 @interface CAAnimationGroup : CAAnimation
 
 /* An array of CAAnimation objects. Each member of the array will run
@@ -391,6 +388,6 @@ API_AVAILABLE(macos(10.5), ios(2.0), tvos(9.0)) API_UNAVAILABLE(watchos)
 
 @end
 
-NS_HEADER_AUDIT_END(nullability, sendability)
+NS_ASSUME_NONNULL_END
 
 #endif

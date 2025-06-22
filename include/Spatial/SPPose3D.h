@@ -16,14 +16,7 @@
 __API_AVAILABLE(macos(13.0), ios(16.0), watchos(9.0), tvos(16.0))
 SPATIAL_REFINED_FOR_SWIFT
 static const SPPose3D SPPose3DIdentity = {
-    .position = (SPPoint3D){ 
-        0,
-        0,
-        0,
-#if !defined __swift__
-        1.0
-#endif
-    },
+    .position = (SPPoint3D){ 0, 0, 0 },
     .rotation = (SPRotation3D) {
         .quaternion = (simd_quatd){ .vector = {0, 0, 0, 1}
         }
@@ -75,7 +68,7 @@ SPPose3D SPPose3DMakeWithVector(simd_double3 position,
                                 simd_quatd rotation) {
     
     return (SPPose3D) {
-        .position = SPPoint3DMakeWithVector(position),
+        .position.vector = position,
         .rotation.quaternion = rotation
     };
 }
@@ -105,7 +98,7 @@ simd_double4x4 SPPose3DGet4x4Matrix(SPPose3D pose) {
 
 // MARK: - Comparing poses
 
-/// Returns @p true if both poses are equal.
+/// Returns @p true if both rays are equal.
 SPATIAL_INLINE
 SPATIAL_OVERLOADABLE
 bool SPPose3DEqualToPose(SPPose3D pose1, SPPose3D pose2)
@@ -119,39 +112,6 @@ bool SPPose3DEqualToPose(SPPose3D pose1, SPPose3D pose2) {
             SPPoint3DEqualToPoint(pose1.position, pose2.position) &&
             SPRotation3DEqualToRotation(pose1.rotation, pose2.rotation)
             );
-}
-
-/*!
- @abstract Returns a Boolean value that indicates whether the two poses's matrices are equal within the specified absolute tolerance.
- 
- @param p1 The first pose.
- @param p2 The first pose.
- @returns A Boolean value that indicates whether the two pose's matrices are equal within the specified default absolute tolerance.
- @note The Spatial default tolerance is @p sqrt(__DBL_EPSILON__) .
- */
-SPATIAL_INLINE
-SPATIAL_OVERLOADABLE
-bool SPPose3DAlmostEqualToPose(SPPose3D p1,
-                               SPPose3D p2,
-                               double tolerance)
-__API_AVAILABLE(macos(13.0), ios(16.0), watchos(9.0), tvos(16.0));
-
-SPATIAL_OVERLOADABLE
-SPATIAL_REFINED_FOR_SWIFT
-bool SPPose3DAlmostEqualToPose(SPPose3D p1,
-                               SPPose3D p2,
-                               double tolerance) {
-    
-    bool rotationIsEqual = _sp_almost_equal_tolerance(p1.rotation.quaternion.vector.x, p2.rotation.quaternion.vector.x, tolerance) &&
-                            _sp_almost_equal_tolerance(p1.rotation.quaternion.vector.y, p2.rotation.quaternion.vector.y, tolerance) &&
-                            _sp_almost_equal_tolerance(p1.rotation.quaternion.vector.z, p2.rotation.quaternion.vector.z, tolerance) &&
-                            _sp_almost_equal_tolerance(p1.rotation.quaternion.vector.w, p2.rotation.quaternion.vector.w, tolerance);
-    
-    bool positionIsEqual = _sp_almost_equal_tolerance(p1.position.x, p2.position.x, tolerance) &&
-                            _sp_almost_equal_tolerance(p1.position.y, p2.position.y, tolerance) &&
-                            _sp_almost_equal_tolerance(p1.position.z, p2.position.z, tolerance);
-    
-    return rotationIsEqual && positionIsEqual;
 }
 
 /*!
@@ -173,7 +133,34 @@ SPATIAL_REFINED_FOR_SWIFT
 bool SPPose3DAlmostEqualToPose(SPPose3D p1,
                                SPPose3D p2) {
     
-    return SPPose3DAlmostEqualToPose(p1, p2, SPDefaultTolerance);
+    return simd_almost_equal_elements(SPPose3DGet4x4Matrix(p1),
+                                      SPPose3DGet4x4Matrix(p2), SPDefaultTolerance);
+}
+
+/*!
+ @abstract Returns a Boolean value that indicates whether the two poses's matrices are equal within the specfied default absolute tolerance.
+ 
+ @param p1 The first pose.
+ @param p2 The first pose.
+ @returns A Boolean value that indicates whether the two pose's matrices are equal within the specified default absolute tolerance.
+ @note The Spatial default tolerance is @p sqrt(__DBL_EPSILON__) .
+ */
+SPATIAL_INLINE
+SPATIAL_OVERLOADABLE
+bool SPPose3DAlmostEqualToPose(SPPose3D p1,
+                               SPPose3D p2,
+                               double tolerance)
+__API_AVAILABLE(macos(13.0), ios(16.0), watchos(9.0), tvos(16.0));
+
+SPATIAL_OVERLOADABLE
+SPATIAL_REFINED_FOR_SWIFT
+bool SPPose3DAlmostEqualToPose(SPPose3D p1,
+                               SPPose3D p2,
+                               double tolerance) {
+    
+    return simd_almost_equal_elements(SPPose3DGet4x4Matrix(p1),
+                                      SPPose3DGet4x4Matrix(p2),
+                                      tolerance);
 }
 
 // MARK: - Comparing against identity
@@ -244,7 +231,7 @@ SPATIAL_OVERLOADABLE
 SPPose3D SPPose3DMakeLookAt(SPPoint3D target,
                            SPVector3D up) {
     
-    SPPoint3D position = SPPoint3DZero;
+    SPPoint3D position = (SPPoint3D){ .x = 0, .y = 0, .z = 0 };
     
     return SPPose3DMakeLookAt(position, target, up);
 }
@@ -266,9 +253,9 @@ SPATIAL_REFINED_FOR_SWIFT
 SPATIAL_OVERLOADABLE
 SPPose3D SPPose3DMakeLookAt(SPVector3D forward, SPVector3D up) {
  
-    SPPoint3D position = SPPoint3DZero;
+    SPPoint3D position = (SPPoint3D){ .x = 0, .y = 0, .z = 0 };
     
-    SPPoint3D target = SPPoint3DMakeWithVector(forward.vector);
+    SPPoint3D target = (SPPoint3D) { .vector = forward.vector };
     
     return SPPose3DMakeLookAt(position, target, up);
 }
@@ -344,11 +331,11 @@ __API_AVAILABLE(macos(13.0), ios(16.0), watchos(9.0), tvos(16.0));
 SPATIAL_REFINED_FOR_SWIFT
 SPATIAL_OVERLOADABLE
 SPPose3D SPPose3DGetInverse(SPPose3D pose) {
-  
-    simd_quatd q = simd_inverse(pose.rotation.quaternion);
-    simd_double3 p = simd_act(q, -pose.position.vector);
     
-    return SPPose3DMakeWithVector(p, q);
+    simd_double4x4 m = SPPose3DGet4x4Matrix(pose);
+    m = simd_inverse(m);
+    
+    return SPPose3DMakeWith4x4Matrix(m);
 }
 
 // MARK: - Returning the product of two poses
@@ -369,13 +356,10 @@ SPATIAL_REFINED_FOR_SWIFT
 SPATIAL_OVERLOADABLE
 SPPose3D SPPose3DConcatenation(SPPose3D lhs, SPPose3D rhs) {
     
-    simd_quatd q = simd_mul(lhs.rotation.quaternion, rhs.rotation.quaternion);
-    q = simd_normalize(q);
+    simd_double4x4 m = simd_mul(SPPose3DGet4x4Matrix(lhs),
+                                SPPose3DGet4x4Matrix(rhs));
     
-    simd_double3 p = simd_act(rhs.rotation.quaternion, lhs.position.vector);
-    p += rhs.position.vector;
-    
-    return SPPose3DMakeWithVector(p, q);
+    return SPPose3DMakeWith4x4Matrix(m);
 }
 
 // MARK: - Rotation
@@ -459,7 +443,7 @@ SPATIAL_REFINED_FOR_SWIFT
 SPATIAL_OVERLOADABLE
 SPPose3D SPPose3DTranslate(SPPose3D pose, SPSize3D offset) {
     return SPPose3DTranslate(pose,
-                             SPVector3DMakeWithVector(offset.vector)
+                             (SPVector3D){ .vector = offset.vector }
                              );
 }
 

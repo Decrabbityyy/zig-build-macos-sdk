@@ -38,7 +38,6 @@ typedef const struct CF_BRIDGED_TYPE(NSGlyphInfo) CT_SWIFT_SENDABLE __CTGlyphInf
     @abstract   Returns the CFType of the glyph info object
 */
 
-CT_EXPORT
 CFTypeID CTGlyphInfoGetTypeID( void ) CT_AVAILABLE(macos(10.5), ios(3.2), watchos(2.0), tvos(9.0));
 
 
@@ -117,7 +116,6 @@ typedef CF_ENUM(uint16_t, CTCharacterCollection) {
     @result     This function will return a reference to a CTGlyphInfo object.
 */
 
-CT_EXPORT
 CTGlyphInfoRef _Nullable CTGlyphInfoCreateWithGlyphName(
     CFStringRef glyphName,
     CTFontRef font,
@@ -144,7 +142,6 @@ CTGlyphInfoRef _Nullable CTGlyphInfoCreateWithGlyphName(
     @result     This function will return a reference to a CTGlyphInfo object.
 */
 
-CT_EXPORT
 CTGlyphInfoRef _Nullable CTGlyphInfoCreateWithGlyph(
     CGGlyph glyph,
     CTFontRef font,
@@ -171,7 +168,6 @@ CTGlyphInfoRef _Nullable CTGlyphInfoCreateWithGlyph(
     @result     This function will return a reference to a CTGlyphInfo object.
 */
 
-CT_EXPORT
 CTGlyphInfoRef _Nullable CTGlyphInfoCreateWithCharacterIdentifier(
     CGFontIndex cid,
     CTCharacterCollection collection,
@@ -195,7 +191,6 @@ CTGlyphInfoRef _Nullable CTGlyphInfoCreateWithCharacterIdentifier(
                 be returned. Otherwise, this function will return NULL.
 */
 
-CT_EXPORT
 CFStringRef _Nullable CTGlyphInfoGetGlyphName(
     CTGlyphInfoRef glyphInfo ) CT_AVAILABLE(macos(10.5), ios(3.2), watchos(2.0), tvos(9.0));
 
@@ -213,7 +208,6 @@ CFStringRef _Nullable CTGlyphInfoGetGlyphName(
                 returned. Otherwise, this function will return 0.
 */
 
-CT_EXPORT
 CGGlyph CTGlyphInfoGetGlyph(
     CTGlyphInfoRef glyphInfo ) CT_AVAILABLE(macos(10.15), ios(13.0), watchos(6.0), tvos(13.0));
 
@@ -231,7 +225,6 @@ CGGlyph CTGlyphInfoGetGlyph(
                 it will be returned. Otherwise, this function will return 0.
 */
 
-CT_EXPORT
 CGFontIndex CTGlyphInfoGetCharacterIdentifier(
     CTGlyphInfoRef glyphInfo ) CT_AVAILABLE(macos(10.5), ios(3.2), watchos(2.0), tvos(9.0));
 
@@ -252,7 +245,6 @@ CGFontIndex CTGlyphInfoGetCharacterIdentifier(
                 glyph info.
 */
 
-CT_EXPORT
 CTCharacterCollection CTGlyphInfoGetCharacterCollection(
     CTGlyphInfoRef glyphInfo ) CT_AVAILABLE(macos(10.5), ios(3.2), watchos(2.0), tvos(9.0));
 

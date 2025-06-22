@@ -40,7 +40,7 @@ typedef NS_ENUM (int, CAConstraintAttribute)
 
 @class CAConstraint;
 
-NS_HEADER_AUDIT_BEGIN(nullability, sendability)
+NS_ASSUME_NONNULL_BEGIN
 
 /** The additions to CALayer for constraint layout. **/
 
@@ -111,6 +111,6 @@ API_AVAILABLE(macos(10.5))
 
 @end
 
-NS_HEADER_AUDIT_END(nullability, sendability)
+NS_ASSUME_NONNULL_END
 
 #endif

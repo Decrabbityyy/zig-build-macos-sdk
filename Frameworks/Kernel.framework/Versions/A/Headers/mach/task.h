@@ -52,7 +52,7 @@ typedef function_table_entry   *function_table_t;
 #endif /* AUTOTEST */
 
 #ifndef	task_MSG_COUNT
-#define	task_MSG_COUNT	66
+#define	task_MSG_COUNT	65
 #endif	/* task_MSG_COUNT */
 
 #include <Availability.h>
@@ -109,32 +109,30 @@ kern_return_t task_threads
 	mach_msg_type_number_t *act_listCnt
 );
 
-/* Routine _kernelrpc_mach_ports_register3 */
+/* Routine mach_ports_register */
 #ifdef	mig_external
 mig_external
 #else
 extern
 #endif	/* mig_external */
-kern_return_t _kernelrpc_mach_ports_register3
+kern_return_t mach_ports_register
 (
 	task_t target_task,
-	mach_port_t port1,
-	mach_port_t port2,
-	mach_port_t port3
+	mach_port_array_t init_port_set,
+	mach_msg_type_number_t init_port_setCnt
 );
 
-/* Routine _kernelrpc_mach_ports_lookup3 */
+/* Routine mach_ports_lookup */
 #ifdef	mig_external
 mig_external
 #else
 extern
 #endif	/* mig_external */
-kern_return_t _kernelrpc_mach_ports_lookup3
+kern_return_t mach_ports_lookup
 (
 	task_t target_task,
-	mach_port_t *port1,
-	mach_port_t *port2,
-	mach_port_t *port3
+	mach_port_array_t *init_port_set,
+	mach_msg_type_number_t *init_port_setCnt
 );
 
 /* Routine task_info */
@@ -924,22 +922,6 @@ kern_return_t task_map_kcdata_object_64
 	mach_vm_size_t *kcd_size
 );
 
-/* Routine task_register_hardened_exception_handler */
-#ifdef	mig_external
-mig_external
-#else
-extern
-#endif	/* mig_external */
-kern_return_t task_register_hardened_exception_handler
-(
-	task_t task,
-	uint32_t signed_pc_key,
-	exception_mask_t exceptions_allowed,
-	exception_behavior_t behaviors_allowed,
-	thread_state_flavor_t flavors_allowed,
-	mach_port_t new_exception_port
-);
-
 __END_DECLS
 
 /********************** Caution **************************/
@@ -1002,11 +984,11 @@ __END_DECLS
 		mach_msg_header_t Head;
 		/* start of the kernel processed data */
 		mach_msg_body_t msgh_body;
-		mach_msg_port_descriptor_t port1;
-		mach_msg_port_descriptor_t port2;
-		mach_msg_port_descriptor_t port3;
+		mach_msg_ool_ports_descriptor_t init_port_set;
 		/* end of the kernel processed data */
-	} __Request___kernelrpc_mach_ports_register3_t __attribute__((unused));
+		NDR_record_t NDR;
+		mach_msg_type_number_t init_port_setCnt;
+	} __Request__mach_ports_register_t __attribute__((unused));
 #ifdef  __MigPackStructs
 #pragma pack(pop)
 #endif
@@ -1016,7 +998,7 @@ __END_DECLS
 #endif
 	typedef struct {
 		mach_msg_header_t Head;
-	} __Request___kernelrpc_mach_ports_lookup3_t __attribute__((unused));
+	} __Request__mach_ports_lookup_t __attribute__((unused));
 #ifdef  __MigPackStructs
 #pragma pack(pop)
 #endif
@@ -1042,7 +1024,7 @@ __END_DECLS
 		NDR_record_t NDR;
 		task_flavor_t flavor;
 		mach_msg_type_number_t task_info_inCnt;
-		integer_t task_info_in[94];
+		integer_t task_info_in[90];
 	} __Request__task_set_info_t __attribute__((unused));
 #ifdef  __MigPackStructs
 #pragma pack(pop)
@@ -1790,25 +1772,6 @@ __END_DECLS
 #ifdef  __MigPackStructs
 #pragma pack(pop)
 #endif
-
-#ifdef  __MigPackStructs
-#pragma pack(push, 4)
-#endif
-	typedef struct {
-		mach_msg_header_t Head;
-		/* start of the kernel processed data */
-		mach_msg_body_t msgh_body;
-		mach_msg_port_descriptor_t new_exception_port;
-		/* end of the kernel processed data */
-		NDR_record_t NDR;
-		uint32_t signed_pc_key;
-		exception_mask_t exceptions_allowed;
-		exception_behavior_t behaviors_allowed;
-		thread_state_flavor_t flavors_allowed;
-	} __Request__task_register_hardened_exception_handler_t __attribute__((unused));
-#ifdef  __MigPackStructs
-#pragma pack(pop)
-#endif
 #endif /* !__Request__task_subsystem__defined */
 
 /* union of all requests */
@@ -1819,8 +1782,8 @@ union __RequestUnion__task_subsystem {
 	__Request__task_create_t Request_task_create;
 	__Request__task_terminate_t Request_task_terminate;
 	__Request__task_threads_t Request_task_threads;
-	__Request___kernelrpc_mach_ports_register3_t Request__kernelrpc_mach_ports_register3;
-	__Request___kernelrpc_mach_ports_lookup3_t Request__kernelrpc_mach_ports_lookup3;
+	__Request__mach_ports_register_t Request_mach_ports_register;
+	__Request__mach_ports_lookup_t Request_mach_ports_lookup;
 	__Request__task_info_t Request_task_info;
 	__Request__task_set_info_t Request_task_set_info;
 	__Request__task_suspend_t Request_task_suspend;
@@ -1880,7 +1843,6 @@ union __RequestUnion__task_subsystem {
 	__Request__task_set_corpse_forking_behavior_t Request_task_set_corpse_forking_behavior;
 	__Request__task_test_async_upcall_propagation_t Request_task_test_async_upcall_propagation;
 	__Request__task_map_kcdata_object_64_t Request_task_map_kcdata_object_64;
-	__Request__task_register_hardened_exception_handler_t Request_task_register_hardened_exception_handler;
 };
 #endif /* !__RequestUnion__task_subsystem__defined */
 /* typedefs for all replies */
@@ -1937,7 +1899,7 @@ union __RequestUnion__task_subsystem {
 		mach_msg_header_t Head;
 		NDR_record_t NDR;
 		kern_return_t RetCode;
-	} __Reply___kernelrpc_mach_ports_register3_t __attribute__((unused));
+	} __Reply__mach_ports_register_t __attribute__((unused));
 #ifdef  __MigPackStructs
 #pragma pack(pop)
 #endif
@@ -1949,11 +1911,11 @@ union __RequestUnion__task_subsystem {
 		mach_msg_header_t Head;
 		/* start of the kernel processed data */
 		mach_msg_body_t msgh_body;
-		mach_msg_port_descriptor_t port1;
-		mach_msg_port_descriptor_t port2;
-		mach_msg_port_descriptor_t port3;
+		mach_msg_ool_ports_descriptor_t init_port_set;
 		/* end of the kernel processed data */
-	} __Reply___kernelrpc_mach_ports_lookup3_t __attribute__((unused));
+		NDR_record_t NDR;
+		mach_msg_type_number_t init_port_setCnt;
+	} __Reply__mach_ports_lookup_t __attribute__((unused));
 #ifdef  __MigPackStructs
 #pragma pack(pop)
 #endif
@@ -1966,7 +1928,7 @@ union __RequestUnion__task_subsystem {
 		NDR_record_t NDR;
 		kern_return_t RetCode;
 		mach_msg_type_number_t task_info_outCnt;
-		integer_t task_info_out[94];
+		integer_t task_info_out[90];
 	} __Reply__task_info_t __attribute__((unused));
 #ifdef  __MigPackStructs
 #pragma pack(pop)
@@ -2743,18 +2705,6 @@ union __RequestUnion__task_subsystem {
 #ifdef  __MigPackStructs
 #pragma pack(pop)
 #endif
-
-#ifdef  __MigPackStructs
-#pragma pack(push, 4)
-#endif
-	typedef struct {
-		mach_msg_header_t Head;
-		NDR_record_t NDR;
-		kern_return_t RetCode;
-	} __Reply__task_register_hardened_exception_handler_t __attribute__((unused));
-#ifdef  __MigPackStructs
-#pragma pack(pop)
-#endif
 #endif /* !__Reply__task_subsystem__defined */
 
 /* union of all replies */
@@ -2765,8 +2715,8 @@ union __ReplyUnion__task_subsystem {
 	__Reply__task_create_t Reply_task_create;
 	__Reply__task_terminate_t Reply_task_terminate;
 	__Reply__task_threads_t Reply_task_threads;
-	__Reply___kernelrpc_mach_ports_register3_t Reply__kernelrpc_mach_ports_register3;
-	__Reply___kernelrpc_mach_ports_lookup3_t Reply__kernelrpc_mach_ports_lookup3;
+	__Reply__mach_ports_register_t Reply_mach_ports_register;
+	__Reply__mach_ports_lookup_t Reply_mach_ports_lookup;
 	__Reply__task_info_t Reply_task_info;
 	__Reply__task_set_info_t Reply_task_set_info;
 	__Reply__task_suspend_t Reply_task_suspend;
@@ -2826,7 +2776,6 @@ union __ReplyUnion__task_subsystem {
 	__Reply__task_set_corpse_forking_behavior_t Reply_task_set_corpse_forking_behavior;
 	__Reply__task_test_async_upcall_propagation_t Reply_task_test_async_upcall_propagation;
 	__Reply__task_map_kcdata_object_64_t Reply_task_map_kcdata_object_64;
-	__Reply__task_register_hardened_exception_handler_t Reply_task_register_hardened_exception_handler;
 };
 #endif /* !__RequestUnion__task_subsystem__defined */
 
@@ -2835,8 +2784,8 @@ union __ReplyUnion__task_subsystem {
     { "task_create", 3400 },\
     { "task_terminate", 3401 },\
     { "task_threads", 3402 },\
-    { "_kernelrpc_mach_ports_register3", 3403 },\
-    { "_kernelrpc_mach_ports_lookup3", 3404 },\
+    { "mach_ports_register", 3403 },\
+    { "mach_ports_lookup", 3404 },\
     { "task_info", 3405 },\
     { "task_set_info", 3406 },\
     { "task_suspend", 3407 },\
@@ -2895,8 +2844,7 @@ union __ReplyUnion__task_subsystem {
     { "task_test_sync_upcall", 3461 },\
     { "task_set_corpse_forking_behavior", 3462 },\
     { "task_test_async_upcall_propagation", 3463 },\
-    { "task_map_kcdata_object_64", 3464 },\
-    { "task_register_hardened_exception_handler", 3465 }
+    { "task_map_kcdata_object_64", 3464 }
 #endif
 
 #ifdef __AfterMigUserHeader

@@ -12,11 +12,11 @@
 #import <QuartzCore/CAMediaTimingFunction.h>
 #import <Foundation/NSArray.h>
 
-NS_HEADER_AUDIT_BEGIN(nullability, sendability)
+NS_ASSUME_NONNULL_BEGIN
 
-typedef NSString * CAGradientLayerType NS_TYPED_ENUM API_AVAILABLE(macos(10.6), ios(3.0), tvos(9.0)) API_UNAVAILABLE(watchos);
+typedef NSString * CAGradientLayerType NS_TYPED_ENUM;
 
-API_AVAILABLE(macos(10.6), ios(3.0), tvos(9.0)) API_UNAVAILABLE(watchos)
+API_AVAILABLE(macos(10.6), ios(3.0), watchos(2.0), tvos(9.0))
 @interface CAGradientLayer : CALayer
 
 /* The array of CGColorRef objects defining the color of each gradient
@@ -54,7 +54,7 @@ API_AVAILABLE(macos(10.6), ios(3.0), tvos(9.0)) API_UNAVAILABLE(watchos)
 /** `type' values. **/
 
 CA_EXTERN CAGradientLayerType const kCAGradientLayerAxial
-    API_AVAILABLE(macos(10.6), ios(3.0), tvos(9.0)) API_UNAVAILABLE(watchos);
+    API_AVAILABLE(macos(10.6), ios(3.0), watchos(2.0), tvos(9.0));
 
 /* Radial gradient. The gradient is defined as an ellipse with its
  * center at 'startPoint' and its width and height defined by
@@ -62,7 +62,7 @@ CA_EXTERN CAGradientLayerType const kCAGradientLayerAxial
  * 2' respectively. */
 
 CA_EXTERN CAGradientLayerType const kCAGradientLayerRadial
-    API_AVAILABLE(macos(10.6), ios(3.2), tvos(9.0)) API_UNAVAILABLE(watchos);
+    API_AVAILABLE(macos(10.6), ios(3.2), watchos(2.0), tvos(9.0));
 
 /* Conic gradient. The gradient is centered at 'startPoint' and its 0-degrees
  * direction is defined by a vector spanned between 'startPoint' and
@@ -71,8 +71,8 @@ CA_EXTERN CAGradientLayerType const kCAGradientLayerRadial
  * positive x-axis towards positive y-axis. */
 
 CA_EXTERN CAGradientLayerType const kCAGradientLayerConic
-    API_AVAILABLE(macos(10.14), ios(12.0), tvos(12.0)) API_UNAVAILABLE(watchos);
+    API_AVAILABLE(macos(10.14), ios(12.0), watchos(5.0), tvos(12.0));
 
-NS_HEADER_AUDIT_END(nullability, sendability)
+NS_ASSUME_NONNULL_END
 
 #endif

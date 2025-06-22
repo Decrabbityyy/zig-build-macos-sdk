@@ -9,7 +9,7 @@
 #import <CoreVideo/CVBase.h>
 #import <OpenGL/OpenGL.h>
 
-NS_HEADER_AUDIT_BEGIN(nullability, sendability)
+NS_ASSUME_NONNULL_BEGIN
 
 #ifndef GL_SILENCE_DEPRECATION
 API_DEPRECATED("OpenGL is deprecated", macos(10.5, 10.14))
@@ -81,16 +81,14 @@ API_AVAILABLE(macos(10.5))
 
 @property (nullable) CGColorSpaceRef colorspace;
 
-
 /* If any rendering context on the screen has this enabled, all content will be
  * clamped to its NSScreen’s maximumExtendedDynamicRangeColorComponentValue
  * rather than 1.0. The default is NO.  */
 
 @property BOOL wantsExtendedDynamicRangeContent;
 
-
 @end
 
-NS_HEADER_AUDIT_END(nullability, sendability)
+NS_ASSUME_NONNULL_END
 
 #endif

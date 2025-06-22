@@ -54,7 +54,6 @@ typedef struct CF_BRIDGED_MUTABLE_TYPE(NSMutableFontCollection) __CTFontCollecti
     @abstract   Returns the type identifier for Core Text font collection references.
     @result     The identifier for the opaque types CTFontCollectionRef or CTMutableFontCollectionRef.
 */
-CT_EXPORT
 CFTypeID CTFontCollectionGetTypeID( void ) CT_AVAILABLE(macos(10.5), ios(3.2), watchos(2.0), tvos(9.0));
 
 /*!
@@ -105,7 +104,6 @@ CT_EXPORT const CFStringRef kCTFontCollectionDisallowAutoActivationOption CT_AVA
 
     @result     This function creates a new collection containing all fonts available to the current application.
 */
-CT_EXPORT
 CTFontCollectionRef CTFontCollectionCreateFromAvailableFonts(
     CFDictionaryRef _Nullable options ) CT_AVAILABLE(macos(10.5), ios(3.2), watchos(2.0), tvos(9.0));
 
@@ -121,7 +119,6 @@ CTFontCollectionRef CTFontCollectionCreateFromAvailableFonts(
 
     @result     This function creates a new collection based on the provided font descriptors. The contents of this collection is defined by matching the provided descriptors against all available font descriptors.
 */
-CT_EXPORT
 CTFontCollectionRef CTFontCollectionCreateWithFontDescriptors(
     CFArrayRef _Nullable queryDescriptors,
     CFDictionaryRef _Nullable options ) CT_AVAILABLE(macos(10.5), ios(3.2), watchos(2.0), tvos(9.0));
@@ -141,7 +138,6 @@ CTFontCollectionRef CTFontCollectionCreateWithFontDescriptors(
 
     @result     This function creates a copy of the original font collection augmented by the new font descriptors and options. The new font descriptors are merged with the existing descriptors to create a single set.
 */
-CT_EXPORT
 CTFontCollectionRef CTFontCollectionCreateCopyWithFontDescriptors(
     CTFontCollectionRef original,
     CFArrayRef _Nullable queryDescriptors,
@@ -156,7 +152,6 @@ CTFontCollectionRef CTFontCollectionCreateCopyWithFontDescriptors(
 
     @result     This function creates a mutable copy of the original font collection.
 */
-CT_EXPORT
 CTMutableFontCollectionRef CTFontCollectionCreateMutableCopy(
     CTFontCollectionRef original ) CT_AVAILABLE(macos(10.7)) CT_UNAVAILABLE(ios, watchos, tvos);
 
@@ -173,7 +168,6 @@ CTMutableFontCollectionRef CTFontCollectionCreateMutableCopy(
 
     @result     This function returns a retained reference to the array of descriptors to be used to query (match) the system font database. The return value is undefined if CTFontCollectionCreateFromAvailableFonts was used to create the collection.
 */
-CT_EXPORT
 CFArrayRef _Nullable CTFontCollectionCopyQueryDescriptors(
     CTFontCollectionRef collection ) CT_AVAILABLE(macos(10.7)) CT_UNAVAILABLE(ios, watchos, tvos);
 
@@ -187,7 +181,6 @@ CFArrayRef _Nullable CTFontCollectionCopyQueryDescriptors(
     @param      descriptors
                 An array of CTFontDescriptorRef. May be NULL to represent an empty collection, in which case the matching descriptors will also be NULL.
 */
-CT_EXPORT
 void CTFontCollectionSetQueryDescriptors(
     CTMutableFontCollectionRef  collection,
     CFArrayRef _Nullable        descriptors ) CT_AVAILABLE(macos(10.7)) CT_UNAVAILABLE(ios, watchos, tvos);
@@ -201,7 +194,6 @@ void CTFontCollectionSetQueryDescriptors(
 
     @result     This function returns a retained reference to the array of descriptors to be used to query (match) the system font database.
 */
-CT_EXPORT
 CFArrayRef _Nullable CTFontCollectionCopyExclusionDescriptors( CTFontCollectionRef collection ) CT_AVAILABLE(macos(10.7)) CT_UNAVAILABLE(ios, watchos, tvos);
 
 /*!
@@ -214,7 +206,6 @@ CFArrayRef _Nullable CTFontCollectionCopyExclusionDescriptors( CTFontCollectionR
     @param      descriptors
                 An array of CTFontDescriptorRef. May be NULL.
 */
-CT_EXPORT
 void CTFontCollectionSetExclusionDescriptors(
     CTMutableFontCollectionRef  collection,
     CFArrayRef _Nullable        descriptors ) CT_AVAILABLE(macos(10.7)) CT_UNAVAILABLE(ios, watchos, tvos);
@@ -232,7 +223,6 @@ void CTFontCollectionSetExclusionDescriptors(
 
     @result     An array of CTFontDescriptors matching the collection definition or NULL if there are none.
 */
-CT_EXPORT
 CFArrayRef _Nullable CTFontCollectionCreateMatchingFontDescriptors(
     CTFontCollectionRef collection ) CT_AVAILABLE(macos(10.5), ios(3.2), watchos(2.0), tvos(9.0));
 
@@ -251,7 +241,6 @@ CFArrayRef _Nullable CTFontCollectionCreateMatchingFontDescriptors(
 
     @result     An array of CTFontDescriptors matching the criteria of the collection, sorted by the results of the sorting callback function, or NULL if there are none.
 */
-CT_EXPORT
 CFArrayRef _Nullable CTFontCollectionCreateMatchingFontDescriptorsSortedWithCallback(
     CTFontCollectionRef                     collection,
     CTFontCollectionSortDescriptorsCallback _Nullable sortCallback,
@@ -269,7 +258,6 @@ CFArrayRef _Nullable CTFontCollectionCreateMatchingFontDescriptorsSortedWithCall
 
     @result     An array of CTFontDescriptors matching the collection definition or NULL if there are none.
 */
-CT_EXPORT
 CFArrayRef _Nullable CTFontCollectionCreateMatchingFontDescriptorsWithOptions(
     CTFontCollectionRef collection,
     CFDictionaryRef _Nullable options ) CT_AVAILABLE(macos(10.7), ios(12.0), watchos(5.0), tvos(12.0));
@@ -286,7 +274,6 @@ CFArrayRef _Nullable CTFontCollectionCreateMatchingFontDescriptorsWithOptions(
 
     @result     An array of CTFontDescriptors matching the specified family in the collection or NULL if there are none.
 */
-CT_EXPORT
 CFArrayRef _Nullable CTFontCollectionCreateMatchingFontDescriptorsForFamily(
     CTFontCollectionRef collection,
     CFStringRef         familyName,
@@ -326,7 +313,6 @@ typedef CF_OPTIONS(uint32_t, CTFontCollectionCopyOptions) {
 
     @result     An array containing one value for each descriptor. With kCTFontCollectionCopyDefaultOptions, the values will be in the same order as the results from CTFontCollectionCreateMatchingFontDescriptors and NULL values will be transformed to kCFNull. When the kCTFontCollectionCopyUnique is set, duplicate values will be removed. When kCTFontCollectionCopyStandardSort is set, the values will be sorted in standard UI order.
  */
-CT_EXPORT
 CFArrayRef CTFontCollectionCopyFontAttribute(
     CTFontCollectionRef         collection,
     CFStringRef                 attributeName,
@@ -347,7 +333,6 @@ CFArrayRef CTFontCollectionCopyFontAttribute(
 
     @result     An array containing one CFDictionary value for each descriptor mapping the requested attribute names. With kCTFontCollectionCopyDefaultOptions, the values will be in the same order as the results from CTFontCollectionCreateMatchingFontDescriptors. When the kCTFontCollectionCopyUnique is set, duplicate values will be removed. When kCTFontCollectionCopyStandardSort is set, the values will be sorted in standard UI order.
  */
-CT_EXPORT
 CFArrayRef CTFontCollectionCopyFontAttributes(
     CTFontCollectionRef         collection,
     CFSetRef                    attributeNames,

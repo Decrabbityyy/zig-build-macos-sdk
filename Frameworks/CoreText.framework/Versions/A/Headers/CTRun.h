@@ -69,7 +69,6 @@ typedef CF_OPTIONS(uint32_t, CTRunStatus)
     @abstract   Returns the CFType of the run object
 */
 
-CT_EXPORT
 CFTypeID CTRunGetTypeID( void ) CT_AVAILABLE(macos(10.5), ios(3.2), watchos(2.0), tvos(9.0));
 
 
@@ -89,7 +88,6 @@ CFTypeID CTRunGetTypeID( void ) CT_AVAILABLE(macos(10.5), ios(3.2), watchos(2.0)
                 indicating that there are no glyphs in this run.
 */
 
-CT_EXPORT
 CFIndex CTRunGetGlyphCount(
     CTRunRef run ) CT_AVAILABLE(macos(10.5), ios(3.2), watchos(2.0), tvos(9.0));
 
@@ -111,7 +109,6 @@ CFIndex CTRunGetGlyphCount(
     @result     The attribute dictionary.
 */
 
-CT_EXPORT
 CFDictionaryRef CTRunGetAttributes(
     CTRunRef run ) CT_AVAILABLE(macos(10.5), ios(3.2), watchos(2.0), tvos(9.0));
 
@@ -134,7 +131,6 @@ CFDictionaryRef CTRunGetAttributes(
     @result     The run's status.
 */
 
-CT_EXPORT
 CTRunStatus CTRunGetStatus(
     CTRunRef run ) CT_AVAILABLE(macos(10.5), ios(3.2), watchos(2.0), tvos(9.0));
 
@@ -156,7 +152,6 @@ CTRunStatus CTRunGetStatus(
     @result     A valid pointer to an array of CGGlyph structures or NULL.
 */
 
-CT_EXPORT
 const CGGlyph * _Nullable CTRunGetGlyphsPtr(
     CTRunRef run ) CT_AVAILABLE(macos(10.5), ios(3.2), watchos(2.0), tvos(9.0));
 
@@ -179,7 +174,6 @@ const CGGlyph * _Nullable CTRunGetGlyphsPtr(
                 allocated to at least the value specified by the range's length.
 */
 
-CT_EXPORT
 void CTRunGetGlyphs(
     CTRunRef run,
     CFRange range,
@@ -205,7 +199,6 @@ void CTRunGetGlyphs(
     @result     A valid pointer to an array of CGPoint structures or NULL.
 */
 
-CT_EXPORT
 const CGPoint * _Nullable CTRunGetPositionsPtr(
     CTRunRef run ) CT_AVAILABLE(macos(10.5), ios(3.2), watchos(2.0), tvos(9.0));
 
@@ -232,7 +225,6 @@ const CGPoint * _Nullable CTRunGetPositionsPtr(
                 length.
 */
 
-CT_EXPORT
 void CTRunGetPositions(
     CTRunRef run,
     CFRange range,
@@ -260,7 +252,6 @@ void CTRunGetPositions(
     @result     A valid pointer to an array of CGSize structures or NULL.
 */
 
-CT_EXPORT
 const CGSize * _Nullable CTRunGetAdvancesPtr(
     CTRunRef run ) CT_AVAILABLE(macos(10.5), ios(3.2), watchos(2.0), tvos(9.0));
 
@@ -284,7 +275,6 @@ const CGSize * _Nullable CTRunGetAdvancesPtr(
                 length.
 */
 
-CT_EXPORT
 void CTRunGetAdvances(
     CTRunRef run,
     CFRange range,
@@ -311,7 +301,6 @@ void CTRunGetAdvances(
     @result     A valid pointer to an array of CFIndex structures or NULL.
 */
 
-CT_EXPORT
 const CFIndex * _Nullable CTRunGetStringIndicesPtr(
     CTRunRef run ) CT_AVAILABLE(macos(10.5), ios(3.2), watchos(2.0), tvos(9.0));
 
@@ -339,7 +328,6 @@ const CFIndex * _Nullable CTRunGetStringIndicesPtr(
                 length.
 */
 
-CT_EXPORT
 void CTRunGetStringIndices(
     CTRunRef run,
     CFRange range,
@@ -358,7 +346,6 @@ void CTRunGetStringIndices(
                 glyphs. If run is invalid, this will return an empty range.
 */
 
-CT_EXPORT
 CFRange CTRunGetStringRange(
     CTRunRef run ) CT_AVAILABLE(macos(10.5), ios(3.2), watchos(2.0), tvos(9.0));
 
@@ -392,7 +379,6 @@ CFRange CTRunGetStringRange(
                 invalid, then this function will always return zero.
 */
 
-CT_EXPORT
 double CTRunGetTypographicBounds(
     CTRunRef run,
     CFRange range,
@@ -436,7 +422,6 @@ double CTRunGetTypographicBounds(
     @seealso    CTRunGetTypographicBounds
 */
 
-CT_EXPORT
 CGRect CTRunGetImageBounds(
     CTRunRef run,
     CGContextRef _Nullable context,
@@ -457,7 +442,6 @@ CGRect CTRunGetImageBounds(
     @result     A CGAffineTransform.
 */
 
-CT_EXPORT
 CGAffineTransform CTRunGetTextMatrix(
     CTRunRef run ) CT_AVAILABLE(macos(10.5), ios(3.2), watchos(2.0), tvos(9.0));
 
@@ -498,7 +482,6 @@ CGAffineTransform CTRunGetTextMatrix(
                 specified by the range's length.
 */
 
-CT_EXPORT
 void CTRunGetBaseAdvancesAndOrigins(
     CTRunRef runRef,
     CFRange range,
@@ -533,7 +516,6 @@ void CTRunGetBaseAdvancesAndOrigins(
                 the range's start index to the end of the run.
 */
 
-CT_EXPORT
 void CTRunDraw(
     CTRunRef run,
     CGContextRef context,

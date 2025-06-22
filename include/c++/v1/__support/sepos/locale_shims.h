@@ -43,7 +43,7 @@ struct lconv {
     char    int_n_sign_posn;
 };
 
-inline struct lconv* localeconv() { return NULL; }
+struct lconv* localeconv();
 
 #define	LC_ALL		0
 #define	LC_COLLATE	1

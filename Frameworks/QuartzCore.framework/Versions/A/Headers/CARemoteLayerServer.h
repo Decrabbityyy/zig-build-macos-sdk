@@ -9,7 +9,7 @@
 #import <Foundation/NSObject.h>
 #import <mach/mach.h>
 
-NS_HEADER_AUDIT_BEGIN(nullability, sendability)
+NS_ASSUME_NONNULL_BEGIN
 
 API_AVAILABLE(macos(10.7))
 @interface CARemoteLayerServer : NSObject
@@ -38,6 +38,6 @@ API_AVAILABLE(macos(10.7))
 
 @end
 
-NS_HEADER_AUDIT_END(nullability, sendability)
+NS_ASSUME_NONNULL_END
 
 #endif

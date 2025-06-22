@@ -40,6 +40,5 @@
 #import <CoreLocation/CLMonitorConfiguration.h>
 #import <CoreLocation/CLMonitor.h>
 #import <CoreLocation/CLBackgroundActivitySession.h>
-#import <CoreLocation/CLServiceSession.h>
 
 #endif /* __CORELOCATION__ */

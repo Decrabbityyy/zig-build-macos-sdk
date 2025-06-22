@@ -397,50 +397,42 @@ protected:
     
     // resources
     
-    FWSBP2LoginORB *		fLoginORB;
-    uint8_t					fLoginORBPadding[sizeof(FWSBP2LoginORB) - sizeof(FWSBP2LoginORB *)];
+    FWSBP2LoginORB			fLoginORB;
     IOFWAddressSpace *		fLoginORBAddressSpace;
-    
-    						// Note: This was changed from FWAddress to FWAddress * (ie is now a pointer)
-    						// FWAddress is 64 bits so this should not change the size of this vtable and 
-    						// should be binary compatible
-    FWAddress *				fLoginORBAddress;
+    FWAddress				fLoginORBAddress;
 
-    FWSBP2LoginResponse *	fLoginResponse;
-	uint8_t					fLoginResponsePadding[sizeof(FWSBP2LoginResponse) - sizeof(FWSBP2LoginResponse *)];
+    FWSBP2LoginResponse		fLoginResponse;
     IOFWAddressSpace *		fLoginResponseAddressSpace;
     FWAddress				fLoginResponseAddress;
 
-    FWSBP2ReconnectORB *	fReconnectORB;
-	uint8_t					fReconnectORBPadding[sizeof(FWSBP2ReconnectORB) - sizeof(FWSBP2ReconnectORB *)];
+    FWSBP2ReconnectORB		fReconnectORB;
     IOFWAddressSpace *		fReconnectORBAddressSpace;
-    FWAddress *				fReconnectORBAddress;
+    FWAddress				fReconnectORBAddress;
     
     FWSBP2StatusBlock		fStatusBlock;
     IOFWAddressSpace *		fStatusBlockAddressSpace;
-    FWAddress *				fStatusBlockAddress;
+    FWAddress				fStatusBlockAddress;
 
     FWSBP2StatusBlock		fReconnectStatusBlock;
     IOFWAddressSpace *		fReconnectStatusBlockAddressSpace;
-    FWAddress				* fReconnectStatusBlockAddress;
+    FWAddress				fReconnectStatusBlockAddress;
 
-    FWSBP2LogoutORB	*		fLogoutORB;
-	uint8_t					fLogoutORBPadding[sizeof(FWSBP2LogoutORB) - sizeof(FWSBP2LogoutORB *)];
+    FWSBP2LogoutORB			fLogoutORB;
     IOFWAddressSpace *		fLogoutORBAddressSpace;
-    FWAddress *				fLogoutORBAddress;
+    FWAddress				fLogoutORBAddress;
     bool					fLogoutPending;
 	
     IOFWWriteCommand *		fLoginWriteCommand;
-    IOBufferMemoryDescriptor *	fLoginWriteCommandMemory;
+    IOMemoryDescriptor *	fLoginWriteCommandMemory;
     bool					fLoginWriteInProgress;
      
     IOFWWriteCommand *		fReconnectWriteCommand;
-    IOBufferMemoryDescriptor *	fReconnectWriteCommandMemory;
+    IOMemoryDescriptor *	fReconnectWriteCommandMemory;
     bool					fReconnectWriteInProgress;
     bool					fReconnectWriteInterrupted;
     
     IOFWWriteCommand *		fLogoutWriteCommand;
-    IOBufferMemoryDescriptor *	fLogoutWriteCommandMemory;
+    IOMemoryDescriptor *	fLogoutWriteCommandMemory;
     bool					fLogoutWriteInProgress;
     
     IOFWCommand *			fLoginTimeoutCommand;
@@ -453,8 +445,8 @@ protected:
     bool					fLogoutTimeoutTimerSet;
 
     FWAddress 				fFetchAgentAddress;
-    IOBufferMemoryDescriptor *	fFetchAgentWriteCommandMemory;
-    FWAddress *				fLastORBAddress;
+    IOMemoryDescriptor *	fFetchAgentWriteCommandMemory;
+    FWAddress 				fLastORBAddress;
     IOFireWireSBP2ORB *		fLastORB;
     IOFWWriteCommand *		fFetchAgentWriteCommand;
     bool					fFetchAgentWriteCommandInUse;

@@ -28,16 +28,17 @@
 
 @class CAMediaTimingFunction;
 
-NS_HEADER_AUDIT_BEGIN(nullability, sendability)
+NS_ASSUME_NONNULL_BEGIN
 
-API_AVAILABLE(macos(10.5), ios(2.0), tvos(9.0)) API_UNAVAILABLE(watchos)
+API_AVAILABLE(macos(10.5), ios(2.0), watchos(2.0), tvos(9.0))
 @interface CATransaction : NSObject
 
 /* Begin a new transaction for the current thread; nests. */
 
 + (void)begin;
 
-/* Commit all changes made during the current transaction. */
+/* Commit all changes made during the current transaction. Raises an
+ * exception if no current transaction exists. */
 
 + (void)commit;
 
@@ -85,8 +86,10 @@ API_AVAILABLE(macos(10.5), ios(2.0), tvos(9.0)) API_UNAVAILABLE(watchos)
  * committed (or the completion block is set to a different value), the
  * block will be invoked immediately. Added in Mac OS X 10.6. */
 
+#if __BLOCKS__
 + (nullable void (^)(void))completionBlock;
 + (void)setCompletionBlock:(nullable void (^)(void))block;
+#endif
 
 /* Associate arbitrary keyed-data with the current transaction (i.e.
  * with the current thread).
@@ -111,14 +114,14 @@ API_AVAILABLE(macos(10.5), ios(2.0), tvos(9.0)) API_UNAVAILABLE(watchos)
 /** Transaction property ids. **/
 
 CA_EXTERN NSString * const kCATransactionAnimationDuration
-    API_AVAILABLE(macos(10.5), ios(2.0), tvos(9.0)) API_UNAVAILABLE(watchos);
+    API_AVAILABLE(macos(10.5), ios(2.0), watchos(2.0), tvos(9.0));
 CA_EXTERN NSString * const kCATransactionDisableActions
-    API_AVAILABLE(macos(10.5), ios(2.0), tvos(9.0)) API_UNAVAILABLE(watchos);
+    API_AVAILABLE(macos(10.5), ios(2.0), watchos(2.0), tvos(9.0));
 CA_EXTERN NSString * const kCATransactionAnimationTimingFunction
-    API_AVAILABLE(macos(10.6), ios(3.0), tvos(9.0)) API_UNAVAILABLE(watchos);
+    API_AVAILABLE(macos(10.6), ios(3.0), watchos(2.0), tvos(9.0));
 CA_EXTERN NSString * const kCATransactionCompletionBlock
-    API_AVAILABLE(macos(10.6), ios(4.0), tvos(9.0)) API_UNAVAILABLE(watchos);
+    API_AVAILABLE(macos(10.6), ios(4.0), watchos(2.0), tvos(9.0));
 
-NS_HEADER_AUDIT_END(nullability, sendability)
+NS_ASSUME_NONNULL_END
 
 #endif

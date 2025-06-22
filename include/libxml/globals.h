@@ -129,12 +129,9 @@ struct _xmlGlobalState
 	xmlSAXHandlerV1 htmlDefaultSAXHandler;
 
 	xmlFreeFunc xmlFree;
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 	xmlMallocFunc xmlMalloc;
 	xmlStrdupFunc xmlMemStrdup;
 	xmlReallocFunc xmlRealloc;
-#pragma clang diagnostic pop
 
 	xmlGenericErrorFunc xmlGenericError;
 	xmlStructuredErrorFunc xmlStructuredError;
@@ -161,10 +158,7 @@ struct _xmlGlobalState
 	xmlRegisterNodeFunc xmlRegisterNodeDefaultValue;
 	xmlDeregisterNodeFunc xmlDeregisterNodeDefaultValue;
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 	xmlMallocFunc xmlMallocAtomic;
-#pragma clang diagnostic pop
 	xmlError xmlLastError;
 
 	xmlParserInputBufferCreateFilenameFunc xmlParserInputBufferCreateFilenameValue;
@@ -211,27 +205,27 @@ XMLPUBFUN xmlParserInputBufferCreateFilenameFunc XMLCALL
 
 #ifdef LIBXML_THREAD_ALLOC_ENABLED
 #ifdef LIBXML_THREAD_ENABLED
-XMLPUBFUN  xmlMallocFunc * XMLCALL __xmlMalloc(void) LIBXML_API_DEPRECATED_MEMORY_ALLOCATION_FUNCTIONS;
+XMLPUBFUN  xmlMallocFunc * XMLCALL __xmlMalloc(void);
 #define xmlMalloc \
 (*(__xmlMalloc()))
 #else
-XMLPUBVAR xmlMallocFunc xmlMalloc LIBXML_API_DEPRECATED_MEMORY_ALLOCATION_FUNCTIONS;
+XMLPUBVAR xmlMallocFunc xmlMalloc;
 #endif
 
 #ifdef LIBXML_THREAD_ENABLED
-XMLPUBFUN  xmlMallocFunc * XMLCALL __xmlMallocAtomic(void) LIBXML_API_DEPRECATED_MEMORY_ALLOCATION_FUNCTIONS;
+XMLPUBFUN  xmlMallocFunc * XMLCALL __xmlMallocAtomic(void);
 #define xmlMallocAtomic \
 (*(__xmlMallocAtomic()))
 #else
-XMLPUBVAR xmlMallocFunc xmlMallocAtomic LIBXML_API_DEPRECATED_MEMORY_ALLOCATION_FUNCTIONS;
+XMLPUBVAR xmlMallocFunc xmlMallocAtomic;
 #endif
 
 #ifdef LIBXML_THREAD_ENABLED
-XMLPUBFUN  xmlReallocFunc * XMLCALL __xmlRealloc(void) LIBXML_API_DEPRECATED_MEMORY_ALLOCATION_FUNCTIONS;
+XMLPUBFUN  xmlReallocFunc * XMLCALL __xmlRealloc(void);
 #define xmlRealloc \
 (*(__xmlRealloc()))
 #else
-XMLPUBVAR xmlReallocFunc xmlRealloc LIBXML_API_DEPRECATED_MEMORY_ALLOCATION_FUNCTIONS;
+XMLPUBVAR xmlReallocFunc xmlRealloc;
 #endif
 
 #ifdef LIBXML_THREAD_ENABLED
@@ -243,27 +237,20 @@ XMLPUBVAR xmlFreeFunc xmlFree;
 #endif
 
 #ifdef LIBXML_THREAD_ENABLED
-XMLPUBFUN  xmlStrdupFunc * XMLCALL __xmlMemStrdup(void) LIBXML_API_DEPRECATED_MEMORY_ALLOCATION_FUNCTIONS;
+XMLPUBFUN  xmlStrdupFunc * XMLCALL __xmlMemStrdup(void);
 #define xmlMemStrdup \
 (*(__xmlMemStrdup()))
 #else
-XMLPUBVAR xmlStrdupFunc xmlMemStrdup LIBXML_API_DEPRECATED_MEMORY_ALLOCATION_FUNCTIONS;
+XMLPUBVAR xmlStrdupFunc xmlMemStrdup;
 #endif
 
 #else /* !LIBXML_THREAD_ALLOC_ENABLED */
-XMLPUBVAR xmlMallocFunc xmlMalloc LIBXML_API_DEPRECATED_MEMORY_ALLOCATION_FUNCTIONS;
-XMLPUBVAR xmlMallocFunc xmlMallocAtomic LIBXML_API_DEPRECATED_MEMORY_ALLOCATION_FUNCTIONS;
-XMLPUBVAR xmlReallocFunc xmlRealloc LIBXML_API_DEPRECATED_MEMORY_ALLOCATION_FUNCTIONS;
+XMLPUBVAR xmlMallocFunc xmlMalloc;
+XMLPUBVAR xmlMallocFunc xmlMallocAtomic;
+XMLPUBVAR xmlReallocFunc xmlRealloc;
 XMLPUBVAR xmlFreeFunc xmlFree;
-XMLPUBVAR xmlStrdupFunc xmlMemStrdup LIBXML_API_DEPRECATED_MEMORY_ALLOCATION_FUNCTIONS;
+XMLPUBVAR xmlStrdupFunc xmlMemStrdup;
 #endif /* LIBXML_THREAD_ALLOC_ENABLED */
-
-#if defined(LIBXML_HAS_DEPRECATED_MEMORY_ALLOCATION_FUNCTIONS)
-#define xmlMalloc(size) malloc(size)
-#define xmlMallocAtomic(size) malloc(size)
-#define xmlRealloc(ptr, size) realloc((ptr), (size))
-#define xmlMemStrdup(str) strdup(str)
-#endif
 
 #ifdef LIBXML_DOCB_ENABLED
 XMLPUBFUN  xmlSAXHandlerV1 * XMLCALL __docbDefaultSAXHandler(void);

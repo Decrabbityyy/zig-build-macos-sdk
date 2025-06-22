@@ -36,9 +36,6 @@
 # if defined(__linux__)
 #  define _LIBUNWIND_TARGET_LINUX 1
 # endif
-# if defined(__HAIKU__)
-#  define _LIBUNWIND_TARGET_HAIKU 1
-# endif
 # if defined(__i386__)
 #  define _LIBUNWIND_TARGET_I386
 #  define _LIBUNWIND_CONTEXT_SIZE 8
@@ -180,10 +177,6 @@
 #endif
 #define _LIBUNWIND_HIGHEST_DWARF_REGISTER                                      \
   _LIBUNWIND_HIGHEST_DWARF_REGISTER_LOONGARCH
-#elif defined(__wasm__)
-// Unused
-#define _LIBUNWIND_CONTEXT_SIZE 0
-#define _LIBUNWIND_CURSOR_SIZE 0
 # else
 #  error "Unsupported architecture."
 # endif
@@ -203,7 +196,7 @@
 # define _LIBUNWIND_TARGET_RISCV 1
 # define _LIBUNWIND_TARGET_VE 1
 # define _LIBUNWIND_TARGET_S390X 1
-# define _LIBUNWIND_TARGET_LOONGARCH 1
+ #define _LIBUNWIND_TARGET_LOONGARCH 1
 # define _LIBUNWIND_CONTEXT_SIZE 167
 # define _LIBUNWIND_CURSOR_SIZE 204
 # define _LIBUNWIND_HIGHEST_DWARF_REGISTER 287
