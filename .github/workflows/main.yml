@@ -1,0 +1,38 @@
+name: Update macOS SDKs
+
+# 仅当在 GitHub Actions 页面手动点击时才运行
+on:
+  workflow_dispatch:
+
+# 定义工作流所需的权限
+permissions:
+  contents: write
+
+jobs:
+  update-and-commit:
+    # 指定运行环境为最新的 macOS
+    runs-on: macos-latest
+
+    # 设置一个较长的超时时间，因为下载和处理 SDK 可能需要一些时间
+
+    steps:
+      # 第一步：检出（checkout）你的仓库代码
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # 第二步：运行 SDK 构建脚本
+      - name: Run SDK build script
+        run: |
+          chmod +x ./verify.sh
+          chmod +x ./update.sh
+          ./verify.sh
+          
+      # 第三步：使用社区 Action 自动提交变更
+      - name: Commit and Push new SDKs
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          # 提交信息
+          commit_message: "CI: Add new macOS SDK(s) [Manual Trigger]"
+          # 提交作者
+          commit_user_name: "github-actions[bot]"
+          commit_user_email: "github-actions[bot]@users.noreply.github.com"
